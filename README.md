@@ -1,6 +1,6 @@
 # Ice Acceleration Model on Airplane Wing
 
-This project reproduces the CNN-based approach from the AMSC Project paper for predicting aerodynamic coefficients on airfoil profiles. The core idea is to replace traditional CFD simulations with a data-driven surrogate model: given the airfoil geometry (encoded as a Signed Distance Function) and flight conditions (Reynolds number and Angle of Attack), the model predicts the resulting aerodynamic forces.
+This project reproduces the CNN-based approach from the AMSC and NAML Project paper for predicting aerodynamic coefficients on airfoil profiles. The core idea is to replace traditional CFD simulations with a data-driven surrogate model: given the airfoil geometry (encoded as a Signed Distance Function) and flight conditions (Reynolds number and Angle of Attack), the model predicts the resulting aerodynamic forces.
 
 Unlike a standard purely data-driven neural network, this implementation adopts a **physics-informed cost function** (SIMM loss). The loss combines a standard MSE term on the predicted coefficients with a physics-based regularization term that enforces the known linear relationship between the lift coefficient and the angle of attack in the small-angle regime. This physical prior acts as a soft constraint, guiding the model toward physically consistent predictions and improving generalization.
 
@@ -14,58 +14,84 @@ The pipeline is composed of two main modules:
 
 ## Repository Structure
 
+The repository is organized into two main computational components. The `SDF` module converts airfoil geometries into signed-distance-function representations, while the `CNN` module uses these representations and the flight conditions to predict aerodynamic coefficients. Additional directories contain datasets, experiments, analysis tools, documentation and the project report.
+
 ```text
 .
-├── README.md
-├── assets/
+├── README.md                         # Project overview and usage instructions
+├── Makefile                          # Common build and execution commands
+├── build_dataset.py                  # Dataset preparation script
+├── download_notebook.py              # Notebook/data download utility
+├── training.sh                       # Training helper script
+├── PR_HISTORY.md                     # Project development history
+├── assets/                           # Figures used in the documentation
 │   ├── SDF.png
 │   ├── cnn_architecture.png
 │   └── training trend.png
-├── SDF/                          # SDF Generator subproject
+├── SDF/                              # Signed Distance Function generator
 │   ├── main.cpp
 │   ├── SDFGenerator.cpp
 │   ├── SDFGenerator.hpp
-│   ├── visualization.ipynb
-│   └── data/
-├── CNN/                          # CNN Model subproject
-│   ├── CMakeLists.txt
-│   ├── main.cpp
-│   ├── tests/
+│   ├── visualization.ipynb          # SDF visualization notebook
+│   └── data/                         # Input airfoil geometries
+├── CNN/                              # Convolutional Neural Network model
+│   ├── CMakeLists.txt                # CMake build configuration
+│   ├── main.cpp                      # Program entry point
+│   ├── analysis/                     # Training-analysis scripts
+│   │   ├── plot_training_diagnostics.py
+│   │   └── plot_training_physical_mse.py
+│   ├── experiments/                  # Hyperparameter-tuning experiments
+│   │   ├── activation-function-tuning/
+│   │   ├── dropout_tuning/
+│   │   ├── layer_tuning/
+│   │   ├── learning_rate_tuning/
+│   │   ├── optimizer_comparison/
+│   │   ├── physics_weight_tuning/
+│   │   └── regularization_tuning/
+│   ├── tests/                        # Automated tests
 │   │   └── test_cross_validation.cpp
 │   └── src/
-│       ├── core/
+│       ├── core/                     # Tensor and loss operations
 │       │   ├── Loss.cpp / Loss.hpp
 │       │   └── Tensor.cpp / Tensor.hpp
-│       ├── data/
+│       ├── data/                     # Dataset loading and preprocessing
 │       │   └── Dataset.cpp / Dataset.hpp
-│       ├── layers/
-│       │   ├── ActivationLayer.cpp / .hpp
-│       │   ├── ConcatenateLayer.cpp / .hpp
-│       │   ├── Conv2DLayer.cpp / .hpp
-│       │   ├── DenseLayer.cpp / .hpp
-│       │   ├── FlattenLayer.cpp / .hpp
+│       ├── layers/                   # Neural-network layers and activations
 │       │   ├── Layer.hpp
-│       │   ├── LeakyReLULayer.cpp / .hpp
-│       │   ├── ReLULayer.cpp / .hpp
-│       │   ├── SigmoidLayer.cpp / .hpp
-│       │   └── TanhLayer.cpp / .hpp
-│       ├── model/
+│       │   ├── ActivationLayer.cpp / ActivationLayer.hpp
+│       │   ├── ConcatenateLayer.cpp / ConcatenateLayer.hpp
+│       │   ├── Conv2DLayer.cpp / Conv2DLayer.hpp
+│       │   ├── DenseLayer.cpp / DenseLayer.hpp
+│       │   ├── FlattenLayer.cpp / FlattenLayer.hpp
+│       │   ├── LeakyReLULayer.cpp / LeakyReLULayer.hpp
+│       │   ├── ReLULayer.cpp / ReLULayer.hpp
+│       │   ├── SigmoidLayer.cpp / SigmoidLayer.hpp
+│       │   └── TanhLayer.cpp / TanhLayer.hpp
+│       ├── model/                    # Model definitions and construction
 │       │   ├── CNNModel.cpp / CNNModel.hpp
 │       │   └── ModelFactory.cpp / ModelFactory.hpp
-│       ├── optimizers/
-│       │   ├── AdamOptimizer.cpp / .hpp
+│       ├── optimizers/               # Parameter-optimization algorithms
+│       │   ├── AdamOptimizer.cpp / AdamOptimizer.hpp
 │       │   └── Optimizer.hpp
-│       ├── training/
+│       ├── training/                 # Training and evaluation procedures
 │       │   └── Trainer.cpp / Trainer.hpp
-│       └── tuning/
-│           ├── CrossValidator.cpp / .hpp
+│       └── tuning/                   # Cross-validation and search spaces
+│           ├── CrossValidator.cpp / CrossValidator.hpp
 │           ├── SearchSpace.hpp
-│           └── TrialConfig.cpp / .hpp
-├── docs/
-│   ├── cross_validation.md         # Tuning architecture and extension guide
-│   └── training_diagnostics_plots.md # Meaning of generated diagnostic plots
-└── dataset/                      # Dataset directory (created at setup)
+│           └── TrialConfig.cpp / TrialConfig.hpp
+├── dataset/                          # Training and testing datasets
+├── docs/                             # Technical documentation
+│   ├── cross_validation.md
+│   └── training_diagnostics_plots.md
+└── report/                           # LaTeX source files for the project report
+  ├── main.tex
+  ├── bibliography.bib
+  ├── Chapters/
+  ├── Configuration_files/
+  └── Images/
 ```
+
+The `SDF` directory contains the preprocessing pipeline. It reads airfoil boundary coordinates and generates fixed-size signed-distance-function matrices. The `CNN` directory contains the custom C++/MPI neural-network framework, including the model layers, training procedure, optimizer, cross-validation utilities and automated tests. The `experiments` and `analysis` directories support hyperparameter tuning and the generation of training diagnostics, while `docs` provides additional technical documentation. The `report` directory contains the LaTeX source and figures used to compile the final project report.
 
 ---
 
