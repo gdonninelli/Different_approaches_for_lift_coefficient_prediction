@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  13 SEP 2026 14:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  13 SEP 2026 19:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1373,6 +1373,11 @@ nput line 9.
 i/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./Images/raggier
 a_polimi-eps-converted-to.pdf> <./Images/logo_polimi_ing_indinf-eps-converted-t
 o.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 12--13
 
  []
@@ -1583,20 +1588,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 522--523
 
  []
 
-<Images/Chapter02/Cp_field.png, id=395, 857.604pt x 487.5816pt>
+<Images/Chapter02/Cp_field.png, id=397, 857.604pt x 487.5816pt>
 File: Images/Chapter02/Cp_field.png Graphic file (type png)
 <use Images/Chapter02/Cp_field.png>
 Package pdftex.def Info: Images/Chapter02/Cp_field.png  used on input line 528.
 
 (pdftex.def)             Requested size: 314.40001pt x 178.74327pt.
-<Images/Chapter02/velocity_streamlines.jpeg, id=396, 1644.1425pt x 1040.88875pt
+<Images/Chapter02/velocity_streamlines.jpeg, id=398, 1644.1425pt x 1040.88875pt
 >
 File: Images/Chapter02/velocity_streamlines.jpeg Graphic file (type jpg)
 <use Images/Chapter02/velocity_streamlines.jpeg>
 Package pdftex.def Info: Images/Chapter02/velocity_streamlines.jpeg  used on in
 put line 536.
 (pdftex.def)             Requested size: 217.66211pt x 137.79797pt.
-<Images/Chapter02/vorticity_wake.png, id=397, 921.2016pt x 358.4592pt>
+<Images/Chapter02/vorticity_wake.png, id=399, 921.2016pt x 358.4592pt>
 File: Images/Chapter02/vorticity_wake.png Graphic file (type png)
 <use Images/Chapter02/vorticity_wake.png>
 Package pdftex.def Info: Images/Chapter02/vorticity_wake.png  used on input lin
@@ -1644,13 +1649,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--31
 
  []
 
-[13]
-<Images//Chapter03/SDF.png, id=467, 818.0964pt x 339.669pt>
+<Images//Chapter03/SDF.png, id=452, 818.0964pt x 339.669pt>
 File: Images//Chapter03/SDF.png Graphic file (type png)
 <use Images//Chapter03/SDF.png>
 Package pdftex.def Info: Images//Chapter03/SDF.png  used on input line 34.
 (pdftex.def)             Requested size: 314.40001pt x 130.53714pt.
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[13]
 Underfull \hbox (badness 10000) in paragraph at lines 55--57
 
  []
@@ -1665,18 +1672,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 116--117
 
  []
 
-<Images/Chapter03/cnn_architecture.png, id=494, 1331.97626pt x 594.22pt>
+<Images/Chapter03/cnn_architecture.png, id=495, 1331.97626pt x 594.22pt>
 File: Images/Chapter03/cnn_architecture.png Graphic file (type png)
 <use Images/Chapter03/cnn_architecture.png>
 Package pdftex.def Info: Images/Chapter03/cnn_architecture.png  used on input l
 ine 120.
 (pdftex.def)             Requested size: 386.95897pt x 172.62767pt.
-[15]
+
 Underfull \hbox (badness 10000) in paragraph at lines 125--126
 
  []
 
-
+[15 <./Images/Chapter03/cnn_architecture.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 134--135
 
  []
@@ -1701,7 +1708,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 147--148
 
  []
 
-[16 <./Images/Chapter03/cnn_architecture.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 149--150
 
  []
@@ -1711,7 +1718,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
-
+[16]
 Underfull \hbox (badness 10000) in paragraph at lines 166--167
 
  []
@@ -1726,7 +1733,7 @@ File: Images/Chapter03/relu.png Graphic file (type png)
 <use Images/Chapter03/relu.png>
 Package pdftex.def Info: Images/Chapter03/relu.png  used on input line 172.
 (pdftex.def)             Requested size: 193.47578pt x 155.8088pt.
-[17 <./Images/Chapter03/relu.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 184--186
 
  []
@@ -1741,7 +1748,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 189--190
 
  []
 
-
+[17 <./Images/Chapter03/relu.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 210--211
 
  []
@@ -1771,7 +1778,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 225--226
 
  []
 
-[18]
+
 Underfull \hbox (badness 10000) in paragraph at lines 227--228
 
  []
@@ -1781,12 +1788,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 240--241
 
  []
 
-
+[18]
 Underfull \hbox (badness 10000) in paragraph at lines 245--247
 
  []
 
-[19]
+
 Underfull \hbox (badness 10000) in paragraph at lines 274--275
 
  []
@@ -1801,7 +1808,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 285--287
 
  []
 
-
+[19]
 Underfull \hbox (badness 10000) in paragraph at lines 288--289
 
  []
@@ -1821,7 +1828,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 316--317
 
  []
 
-[20]
+
 Underfull \hbox (badness 10000) in paragraph at lines 329--330
 
  []
@@ -1831,7 +1838,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 339--341
 
  []
 
-<Images/Chapter03/uml_diagram.png, id=590, 4948.4875pt x 1682.285pt>
+[20]
+<Images/Chapter03/uml_diagram.png, id=597, 4948.4875pt x 1682.285pt>
 File: Images/Chapter03/uml_diagram.png Graphic file (type png)
 <use Images/Chapter03/uml_diagram.png>
 Package pdftex.def Info: Images/Chapter03/uml_diagram.png  used on input line 3
@@ -1847,14 +1855,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 365--366
 
  []
 
-[21 <./Images/Chapter03/uml_diagram.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 367--368
 
  []
 
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 373.
-
+[21 <./Images/Chapter03/uml_diagram.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 377--378
 
  []
@@ -1874,7 +1882,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 391--392
 
  []
 
-[22]
+
 Underfull \hbox (badness 10000) in paragraph at lines 393--394
 
  []
@@ -1894,7 +1902,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 403--404
 
  []
 
-
+[22]
 Underfull \hbox (badness 10000) in paragraph at lines 405--406
 
  []
@@ -1909,7 +1917,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 424--425
 
  []
 
-[23]
+
 Overfull \hbox (13.38187pt too wide) in paragraph at lines 426--427
 \T1/lmr/bx/n/10 scheme\T1/lmr/m/n/10 , draw-ing from a uni-form dis-tri-bu-tion
  bounded by $\OMS/lmsy/m/n/10 ^^F[]$ \T1/lmr/m/n/10 us-ing \T1/lmtt/m/n/10 std:
@@ -1931,7 +1939,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 436--437
 
  []
 
-
+[23]
 Underfull \hbox (badness 10000) in paragraph at lines 447--448
 
  []
@@ -1951,12 +1959,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 463--464
 
  []
 
-[24]
+
 Underfull \hbox (badness 10000) in paragraph at lines 468--470
 
  []
 
-
+[24]
 Underfull \hbox (badness 10000) in paragraph at lines 493--494
 
  []
@@ -1971,7 +1979,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 501--502
 
  []
 
-[25]
+
 Underfull \hbox (badness 10000) in paragraph at lines 517--518
 
  []
@@ -1981,7 +1989,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 519--520
 
  []
 
-
+[25]
 Underfull \hbox (badness 10000) in paragraph at lines 525--526
 
  []
@@ -2001,7 +2009,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 536--537
 
  []
 
-[26]
+
 Underfull \hbox (badness 10000) in paragraph at lines 538--539
 
  []
@@ -2025,7 +2033,7 @@ port meth-ods us-ing \T1/lmtt/m/n/10 std::ofstream \T1/lmr/m/n/10 and \T1/lmtt/
 m/n/10 std::ifstream\T1/lmr/m/n/10 ,
  []
 
-
+[26]
 Underfull \hbox (badness 10000) in paragraph at lines 571--572
 
  []
@@ -2040,7 +2048,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 582--583
 
  []
 
-[27]
+
 Underfull \hbox (badness 10000) in paragraph at lines 588--589
 
  []
@@ -2057,12 +2065,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 590--591
 
  []
 
-
+[27]
 Underfull \hbox (badness 10000) in paragraph at lines 612--613
 
  []
 
-[28]
+
 Underfull \hbox (badness 10000) in paragraph at lines 617--619
 
  []
@@ -2077,7 +2085,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 626--627
 
  []
 
-
+[28]
 Underfull \hbox (badness 10000) in paragraph at lines 628--629
 
  []
@@ -2088,16 +2096,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 643--644
  []
 
 [29]
-<Images/Chapter03/Incorrect_training.png, id=709, 1003.75pt x 602.25pt>
+<Images/Chapter03/Incorrect_training.png, id=725, 1003.75pt x 602.25pt>
 File: Images/Chapter03/Incorrect_training.png Graphic file (type png)
 <use Images/Chapter03/Incorrect_training.png>
 Package pdftex.def Info: Images/Chapter03/Incorrect_training.png  used on input
  line 679.
 (pdftex.def)             Requested size: 338.58632pt x 203.15411pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
 
 Underfull \hbox (badness 10000) in paragraph at lines 692--693
 
@@ -2108,146 +2112,157 @@ Underfull \hbox (badness 10000) in paragraph at lines 694--695
 
  []
 
-<Images/Chapter03/Correct_training.png, id=712, 1405.25pt x 501.875pt>
+[30 <./Images/Chapter03/Incorrect_training.png>]
+<Images/Chapter03/Correct_training.png, id=741, 1405.25pt x 501.875pt>
 File: Images/Chapter03/Correct_training.png Graphic file (type png)
 <use Images/Chapter03/Correct_training.png>
 Package pdftex.def Info: Images/Chapter03/Correct_training.png  used on input l
 ine 700.
 (pdftex.def)             Requested size: 411.14528pt x 146.83421pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) (Chapters/04_Tuning.tex [30]
+) (Chapters/04_Tuning.tex
 Underfull \hbox (badness 10000) in paragraph at lines 5--6
 
  []
 
-[31 <./Images/Chapter03/Incorrect_training.png> <./Images/Chapter03/Correct_tra
-ining.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 21--23
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 24--28
+[31 <./Images/Chapter03/Correct_training.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 21--22
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 37--41
+Underfull \hbox (badness 10000) in paragraph at lines 25--26
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--28
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--37
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
 
  []
 
 [32]
-Underfull \hbox (badness 10000) in paragraph at lines 67--68
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--70
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--72
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 79--81
+Underfull \hbox (badness 10000) in paragraph at lines 80--82
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 91--92
 
  []
 
 [33]
-Underfull \hbox (badness 10000) in paragraph at lines 90--91
+Underfull \hbox (badness 10000) in paragraph at lines 100--101
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--102
+Underfull \hbox (badness 10000) in paragraph at lines 104--105
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--104
-
- []
-
-<Images/Chapter04/topology/topology_ranking.png, id=778, 860.013pt x 368.21565p
+<Images/Chapter04/topology/topology_ranking.png, id=777, 860.013pt x 368.21565p
 t>
 File: Images/Chapter04/topology/topology_ranking.png Graphic file (type png)
 <use Images/Chapter04/topology/topology_ranking.png>
 Package pdftex.def Info: Images/Chapter04/topology/topology_ranking.png  used o
-n input line 130.
+n input line 131.
 (pdftex.def)             Requested size: 459.51054pt x 196.73778pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--141
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
 
  []
 
-[34]
-Underfull \hbox (badness 10000) in paragraph at lines 142--145
+[34 <./Images/Chapter04/topology/topology_ranking.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
  []
 
-<Images/Chapter04/topology/topology_kernel_paired.png, id=787, 607.068pt x 353.
+
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
+
+ []
+
+<Images/Chapter04/topology/topology_kernel_paired.png, id=786, 607.068pt x 353.
 03896pt>
 File: Images/Chapter04/topology/topology_kernel_paired.png Graphic file (type p
 ng)
 <use Images/Chapter04/topology/topology_kernel_paired.png>
 Package pdftex.def Info: Images/Chapter04/topology/topology_kernel_paired.png  
 used on input line 148.
-(pdftex.def)             Requested size: 377.28296pt x 219.40442pt.
+(pdftex.def)             Requested size: 314.40001pt x 182.8379pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Underfull \hbox (badness 10000) in paragraph at lines 153--154
 
-<Images/Chapter04/topology/topology_history.png, id=788, 607.068pt x 353.03896p
+ []
+
+<Images/Chapter04/topology/topology_history.png, id=790, 607.068pt x 353.03896p
 t>
 File: Images/Chapter04/topology/topology_history.png Graphic file (type png)
 <use Images/Chapter04/topology/topology_history.png>
 Package pdftex.def Info: Images/Chapter04/topology/topology_history.png  used o
-n input line 155.
-(pdftex.def)             Requested size: 377.28296pt x 219.40442pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[35 <./Images/Chapter04/topology/topology_ranking.png>] [36 <./Images/Chapter04
-/topology/topology_kernel_paired.png> <./Images/Chapter04/topology/topology_his
-tory.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 174--175
+n input line 166.
+(pdftex.def)             Requested size: 314.40001pt x 182.8379pt.
+[35 <./Images/Chapter04/topology/topology_kernel_paired.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 187--189
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 190--191
+Underfull \hbox (badness 10000) in paragraph at lines 189--191
 
  []
 
@@ -2257,279 +2272,291 @@ Underfull \hbox (badness 10000) in paragraph at lines 192--193
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 194--196
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
 
  []
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[37]
-Underfull \hbox (badness 10000) in paragraph at lines 216--217
+Underfull \hbox (badness 10000) in paragraph at lines 196--197
 
  []
 
-<Images/Chapter04/dropout/dropout_ranking.png, id=821, 498.2615pt x 294.2995pt>
+[36 <./Images/Chapter04/topology/topology_history.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 198--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 218--219
+
+ []
+
+<Images/Chapter04/dropout/dropout_ranking.png, id=814, 498.2615pt x 294.2995pt>
 
 File: Images/Chapter04/dropout/dropout_ranking.png Graphic file (type png)
 <use Images/Chapter04/dropout/dropout_ranking.png>
 Package pdftex.def Info: Images/Chapter04/dropout/dropout_ranking.png  used on 
-input line 220.
+input line 222.
 (pdftex.def)             Requested size: 377.28296pt x 222.84366pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--226
+Underfull \hbox (badness 10000) in paragraph at lines 227--228
 
  []
 
-<Images/Chapter04/dropout/dropout_paired_differences.png, id=823, 498.2615pt x 
+<Images/Chapter04/dropout/dropout_paired_differences.png, id=816, 498.2615pt x 
 294.2995pt>
 File: Images/Chapter04/dropout/dropout_paired_differences.png Graphic file (typ
 e png)
 <use Images/Chapter04/dropout/dropout_paired_differences.png>
 Package pdftex.def Info: Images/Chapter04/dropout/dropout_paired_differences.pn
-g  used on input line 229.
+g  used on input line 231.
 (pdftex.def)             Requested size: 377.28296pt x 222.84366pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 234--235
+Underfull \hbox (badness 10000) in paragraph at lines 236--237
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--240
+Underfull \hbox (badness 10000) in paragraph at lines 238--239
 
  []
 
-[38 <./Images/Chapter04/dropout/dropout_ranking.png>]
-<Images/Chapter04/dropout/dropout_history.png, id=833, 642.8015pt x 271.414pt>
+[37 <./Images/Chapter04/dropout/dropout_ranking.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 240--241
+
+ []
+
+<Images/Chapter04/dropout/dropout_history.png, id=827, 642.8015pt x 271.414pt>
 File: Images/Chapter04/dropout/dropout_history.png Graphic file (type png)
 <use Images/Chapter04/dropout/dropout_history.png>
 Package pdftex.def Info: Images/Chapter04/dropout/dropout_history.png  used on 
-input line 243.
+input line 244.
 (pdftex.def)             Requested size: 459.51054pt x 194.0264pt.
-<Images/Chapter04/dropout/dropout_stability.png, id=835, 642.4pt x 498.2615pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 249--250
+
+ []
+
+[38 <./Images/Chapter04/dropout/dropout_paired_differences.png> <./Images/Chapt
+er04/dropout/dropout_history.png>]
+<Images/Chapter04/dropout/dropout_stability.png, id=836, 642.4pt x 498.2615pt>
 File: Images/Chapter04/dropout/dropout_stability.png Graphic file (type png)
 <use Images/Chapter04/dropout/dropout_stability.png>
 Package pdftex.def Info: Images/Chapter04/dropout/dropout_stability.png  used o
-n input line 252.
+n input line 257.
 (pdftex.def)             Requested size: 459.51054pt x 356.41393pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 257--258
-
- []
-
-[39 <./Images/Chapter04/dropout/dropout_paired_differences.png> <./Images/Chapt
-er04/dropout/dropout_history.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 259--260
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 261--262
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 272--273
+Underfull \hbox (badness 10000) in paragraph at lines 266--267
 
  []
 
-[40 <./Images/Chapter04/dropout/dropout_stability.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 278--280
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 320--321
+[39 <./Images/Chapter04/dropout/dropout_stability.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 277--278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 322--323
+Underfull \hbox (badness 10000) in paragraph at lines 283--285
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 324--325
+Underfull \hbox (badness 10000) in paragraph at lines 325--326
 
  []
 
 
-Overfull \hbox (38.34535pt too wide) in paragraph at lines 330--341
- [][] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 327--328
 
  []
 
-[41]
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+
+Underfull \hbox (badness 10000) in paragraph at lines 329--330
 
  []
 
-<Images/Chapter04/optimizer/optimizer_ranking.png, id=868, 534.798pt x 339.669p
+[40]
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 363--364
+
+ []
+
+<Images/Chapter04/optimizer/optimizer_ranking.png, id=864, 534.798pt x 339.669p
 t>
 File: Images/Chapter04/optimizer/optimizer_ranking.png Graphic file (type png)
 <use Images/Chapter04/optimizer/optimizer_ranking.png>
 Package pdftex.def Info: Images/Chapter04/optimizer/optimizer_ranking.png  used
- on input line 350.
-(pdftex.def)             Requested size: 396.63496pt x 251.92123pt.
+ on input line 367.
+(pdftex.def)             Requested size: 386.95897pt x 245.77429pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 355--358
+Underfull \hbox (badness 10000) in paragraph at lines 372--373
 
  []
 
-[42 <./Images/Chapter04/optimizer/optimizer_ranking.png>]
-<Images/Chapter04/optimizer/optimizer_history.png, id=879, 578.16pt x 354.123pt
+[41 <./Images/Chapter04/optimizer/optimizer_ranking.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 374--375
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 376--377
+
+ []
+
+<Images/Chapter04/optimizer/optimizer_history.png, id=873, 578.16pt x 354.123pt
 >
 File: Images/Chapter04/optimizer/optimizer_history.png Graphic file (type png)
 <use Images/Chapter04/optimizer/optimizer_history.png>
 Package pdftex.def Info: Images/Chapter04/optimizer/optimizer_history.png  used
- on input line 361.
-(pdftex.def)             Requested size: 459.51054pt x 281.45078pt.
+ on input line 380.
+(pdftex.def)             Requested size: 435.32422pt x 266.63445pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 366--367
+Underfull \hbox (badness 10000) in paragraph at lines 385--386
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 387--388
 
  []
 
 
-LaTeX Warning: Reference `fig:04_optimizer_gradient_magnitudes' on page 43 unde
-fined on input line 368.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 368--369
+Underfull \hbox (badness 10000) in paragraph at lines 389--390
 
  []
 
-<Images/Chapter04/optimizer/optimizer_gradient.png, id=880, 569.12625pt x 336.0
+<Images/Chapter04/optimizer/optimizer_gradient.png, id=875, 569.12625pt x 336.0
 555pt>
 File: Images/Chapter04/optimizer/optimizer_gradient.png Graphic file (type png)
 
 <use Images/Chapter04/optimizer/optimizer_gradient.png>
 Package pdftex.def Info: Images/Chapter04/optimizer/optimizer_gradient.png  use
-d on input line 372.
+d on input line 393.
 (pdftex.def)             Requested size: 386.95897pt x 228.49933pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[43 <./Images/Chapter04/optimizer/optimizer_history.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 385--386
-
- []
-
-[44 <./Images/Chapter04/optimizer/optimizer_gradient.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 413--415
+[42 <./Images/Chapter04/optimizer/optimizer_history.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 403--404
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
+Underfull \hbox (badness 10000) in paragraph at lines 431--433
+
+ []
+
+[43 <./Images/Chapter04/optimizer/optimizer_gradient.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 434--435
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 418--419
+Underfull \hbox (badness 10000) in paragraph at lines 436--437
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 441--442
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
 
  []
 
-<Images/Chapter04/physics/physics_performance.png, id=902, 1076.4215pt x 348.10
+<Images/Chapter04/physics/physics_performance.png, id=900, 1076.4215pt x 348.10
 05pt>
 File: Images/Chapter04/physics/physics_performance.png Graphic file (type png)
 <use Images/Chapter04/physics/physics_performance.png>
 Package pdftex.def Info: Images/Chapter04/physics/physics_performance.png  used
- on input line 445.
+ on input line 463.
 (pdftex.def)             Requested size: 474.02086pt x 153.29216pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 450--452
+Underfull \hbox (badness 10000) in paragraph at lines 468--469
 
  []
 
-[45 <./Images/Chapter04/physics/physics_performance.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 453--454
+[44 <./Images/Chapter04/physics/physics_performance.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 457--458
+Underfull \hbox (badness 10000) in paragraph at lines 474--475
 
  []
 
-<Images/Chapter04/physics/physics_aggregate_diagnostics.png, id=914, 1074.414pt
+<Images/Chapter04/physics/physics_aggregate_diagnostics.png, id=910, 1074.414pt
  x 348.9035pt>
 File: Images/Chapter04/physics/physics_aggregate_diagnostics.png Graphic file (
 type png)
 <use Images/Chapter04/physics/physics_aggregate_diagnostics.png>
 Package pdftex.def Info: Images/Chapter04/physics/physics_aggregate_diagnostics
-.png  used on input line 469.
+.png  used on input line 486.
 (pdftex.def)             Requested size: 474.02086pt x 153.93326pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 475--476
-
- []
-
-[46 <./Images/Chapter04/physics/physics_aggregate_diagnostics.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 484--485
+Underfull \hbox (badness 10000) in paragraph at lines 492--493
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 492--494
+Underfull \hbox (badness 10000) in paragraph at lines 501--502
+
+ []
+
+[45 <./Images/Chapter04/physics/physics_aggregate_diagnostics.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 509--511
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 500--501
-
- []
-
-[47]
-Underfull \hbox (badness 10000) in paragraph at lines 549--550
+Underfull \hbox (badness 10000) in paragraph at lines 517--518
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 556--557
+Underfull \hbox (badness 10000) in paragraph at lines 566--567
+
+ []
+
+[46]
+Underfull \hbox (badness 10000) in paragraph at lines 575--576
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 558--559
+Underfull \hbox (badness 10000) in paragraph at lines 577--578
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 581--583
+Underfull \hbox (badness 10000) in paragraph at lines 600--602
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 593--595
+Underfull \hbox (badness 10000) in paragraph at lines 612--614
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 596--597
+Underfull \hbox (badness 10000) in paragraph at lines 615--616
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 598--599
+Underfull \hbox (badness 10000) in paragraph at lines 617--618
 
  []
 
@@ -2537,175 +2564,160 @@ Underfull \hbox (badness 10000) in paragraph at lines 598--599
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 618--619
+Underfull \hbox (badness 10000) in paragraph at lines 637--638
 
  []
 
-[48]
-Underfull \hbox (badness 10000) in paragraph at lines 620--621
+
+Underfull \hbox (badness 10000) in paragraph at lines 639--640
 
  []
 
-<Images/Chapter04/activation/activation_ranking.png, id=956, 613.8935pt x 338.4
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 641--642
+
+ []
+
+<Images/Chapter04/activation/activation_ranking.png, id=959, 613.8935pt x 338.4
 645pt>
 File: Images/Chapter04/activation/activation_ranking.png Graphic file (type png
 )
 <use Images/Chapter04/activation/activation_ranking.png>
 Package pdftex.def Info: Images/Chapter04/activation/activation_ranking.png  us
-ed on input line 627.
-(pdftex.def)             Requested size: 396.63496pt x 218.68236pt.
-[49 <./Images/Chapter04/activation/activation_ranking.png>]
-<Images/Chapter04/activation/activation_history.png, id=966, 627.5445pt x 345.6
+ed on input line 645.
+(pdftex.def)             Requested size: 386.95897pt x 213.34738pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 655--656
+
+ []
+
+<Images/Chapter04/activation/activation_history.png, id=961, 627.5445pt x 345.6
 915pt>
 File: Images/Chapter04/activation/activation_history.png Graphic file (type png
 )
 <use Images/Chapter04/activation/activation_history.png>
 Package pdftex.def Info: Images/Chapter04/activation/activation_history.png  us
-ed on input line 643.
-(pdftex.def)             Requested size: 459.51054pt x 253.12808pt.
+ed on input line 661.
+(pdftex.def)             Requested size: 362.77264pt x 199.84184pt.
+[48 <./Images/Chapter04/activation/activation_ranking.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 666--667
 
-Underfull \hbox (badness 10000) in paragraph at lines 648--649
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 668--669
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 651--652
+Underfull \hbox (badness 10000) in paragraph at lines 672--673
 
  []
 
-<Images/Chapter04/activation/activation_diagnostics.png, id=968, 743.1765pt x 5
+<Images/Chapter04/activation/activation_diagnostics.png, id=969, 743.1765pt x 5
 05.4885pt>
 File: Images/Chapter04/activation/activation_diagnostics.png Graphic file (type
  png)
 <use Images/Chapter04/activation/activation_diagnostics.png>
 Package pdftex.def Info: Images/Chapter04/activation/activation_diagnostics.png
-  used on input line 657.
-(pdftex.def)             Requested size: 474.02086pt x 322.42398pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[50 <./Images/Chapter04/activation/activation_history.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 663--664
+  used on input line 676.
+(pdftex.def)             Requested size: 459.51054pt x 312.55118pt.
+[49 <./Images/Chapter04/activation/activation_history.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 691--693
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 675--677
+Underfull \hbox (badness 10000) in paragraph at lines 694--695
+
+ []
+
+[50 <./Images/Chapter04/activation/activation_diagnostics.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 705--707
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 678--679
-
- []
-
-[51 <./Images/Chapter04/activation/activation_diagnostics.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 689--691
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 692--693
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 696--697
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 698--699
-
- []
-
-<Images/Chapter04/activation/activation_input_distributions.png, id=983, 800.59
-1pt x 520.7455pt>
-File: Images/Chapter04/activation/activation_input_distributions.png Graphic fi
-le (type png)
-<use Images/Chapter04/activation/activation_input_distributions.png>
-Package pdftex.def Info: Images/Chapter04/activation/activation_input_distribut
-ions.png  used on input line 702.
-(pdftex.def)             Requested size: 474.02086pt x 308.33371pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[52]
 Underfull \hbox (badness 10000) in paragraph at lines 708--709
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 713--714
+Underfull \hbox (badness 10000) in paragraph at lines 712--713
 
  []
 
 
-LaTeX Warning: Reference `eq:04_adam_update' on page 53 undefined on input line
- 720.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 720--721
+Underfull \hbox (badness 10000) in paragraph at lines 714--715
 
  []
 
-[53 <./Images/Chapter04/activation/activation_input_distributions.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 722--723
+<Images/Chapter04/activation/activation_input_distributions.png, id=985, 800.59
+1pt x 520.7455pt>
+File: Images/Chapter04/activation/activation_input_distributions.png Graphic fi
+le (type png)
+<use Images/Chapter04/activation/activation_input_distributions.png>
+Package pdftex.def Info: Images/Chapter04/activation/activation_input_distribut
+ions.png  used on input line 718.
+(pdftex.def)             Requested size: 474.02086pt x 308.33371pt.
+[51]
+Underfull \hbox (badness 10000) in paragraph at lines 723--724
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 724--725
+Underfull \hbox (badness 10000) in paragraph at lines 725--726
 
  []
 
 
-Underfull \hbox (badness 2334) in paragraph at lines 776--776
-\OT1/lmr/m/n/10.95 10[]$\T1/lmr/m/n/10.95 , $\OML/lmm/m/it/10.95 ^^Q[] \OT1/lmr
-/m/n/10.95 =
+Underfull \hbox (badness 10000) in paragraph at lines 730--731
+
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 776--776
-[]|\T1/lmr/m/n/10.95 Warm-up
+Underfull \hbox (badness 10000) in paragraph at lines 737--738
+
+ []
+
+[52 <./Images/Chapter04/activation/activation_input_distributions.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 739--740
+
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 776--776
-\T1/lmr/m/n/10.95 and co-sine,
+Underfull \hbox (badness 10000) in paragraph at lines 741--742
+
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 782--783
+Underfull \hbox (badness 10000) in paragraph at lines 806--807
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 784--785
+Underfull \hbox (badness 10000) in paragraph at lines 808--809
 
  []
 
-[54]
-Underfull \hbox (badness 10000) in paragraph at lines 786--787
+[53]
+Underfull \hbox (badness 10000) in paragraph at lines 810--811
 
  []
 
-<Images/Chapter04/learning_rate/learning_rate_ranking.png, id=1013, 628.749pt x
+<Images/Chapter04/learning_rate/learning_rate_ranking.png, id=1015, 628.749pt x
  379.016pt>
 File: Images/Chapter04/learning_rate/learning_rate_ranking.png Graphic file (ty
 pe png)
 <use Images/Chapter04/learning_rate/learning_rate_ranking.png>
 Package pdftex.def Info: Images/Chapter04/learning_rate/learning_rate_ranking.p
-ng  used on input line 790.
-(pdftex.def)             Requested size: 474.02086pt x 285.75339pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[55]
-Underfull \hbox (badness 10000) in paragraph at lines 802--803
+ng  used on input line 814.
+(pdftex.def)             Requested size: 435.32422pt x 262.4293pt.
+[54]
+Underfull \hbox (badness 10000) in paragraph at lines 825--826
 
  []
 
@@ -2715,72 +2727,23 @@ File: Images/Chapter04/learning_rate/learning_rate_history.png Graphic file (ty
 pe png)
 <use Images/Chapter04/learning_rate/learning_rate_history.png>
 Package pdftex.def Info: Images/Chapter04/learning_rate/learning_rate_history.p
-ng  used on input line 806.
-(pdftex.def)             Requested size: 445.00023pt x 353.32716pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 811--812
+ng  used on input line 829.
+(pdftex.def)             Requested size: 435.32422pt x 345.64069pt.
+[55 <./Images/Chapter04/learning_rate/learning_rate_ranking.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 834--835
 
  []
 
-<Images/Chapter04/learning_rate/learning_rate_schedules.png, id=1024, 627.5445p
+<Images/Chapter04/learning_rate/learning_rate_schedules.png, id=1031, 627.5445p
 t x 352.1155pt>
 File: Images/Chapter04/learning_rate/learning_rate_schedules.png Graphic file (
 type png)
 <use Images/Chapter04/learning_rate/learning_rate_schedules.png>
 Package pdftex.def Info: Images/Chapter04/learning_rate/learning_rate_schedules
-.png  used on input line 815.
-(pdftex.def)             Requested size: 445.00023pt x 249.69211pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 820--821
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 827--828
-
- []
-
-[56 <./Images/Chapter04/learning_rate/learning_rate_ranking.png>]
-<Images/Chapter04/learning_rate/learning_rate_diagnostics.png, id=1034, 750.403
-5pt x 512.314pt>
-File: Images/Chapter04/learning_rate/learning_rate_diagnostics.png Graphic file
- (type png)
-<use Images/Chapter04/learning_rate/learning_rate_diagnostics.png>
-Package pdftex.def Info: Images/Chapter04/learning_rate/learning_rate_diagnosti
-cs.png  used on input line 831.
-(pdftex.def)             Requested size: 474.02086pt x 323.62724pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 836--837
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 838--839
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 840--842
-
- []
-
-[57 <./Images/Chapter04/learning_rate/learning_rate_history.png>]
+.png  used on input line 838.
+(pdftex.def)             Requested size: 435.32422pt x 244.26018pt.
+[56 <./Images/Chapter04/learning_rate/learning_rate_history.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 843--844
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 848--849
 
  []
 
@@ -2789,23 +2752,61 @@ Underfull \hbox (badness 10000) in paragraph at lines 850--851
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 864--866
-
- []
-
-[58 <./Images/Chapter04/learning_rate/learning_rate_schedules.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 867--868
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 869--870
+<Images/Chapter04/learning_rate/learning_rate_diagnostics.png, id=1040, 750.403
+5pt x 512.314pt>
+File: Images/Chapter04/learning_rate/learning_rate_diagnostics.png Graphic file
+ (type png)
+<use Images/Chapter04/learning_rate/learning_rate_diagnostics.png>
+Package pdftex.def Info: Images/Chapter04/learning_rate/learning_rate_diagnosti
+cs.png  used on input line 854.
+(pdftex.def)             Requested size: 459.51054pt x 313.72276pt.
+[57 <./Images/Chapter04/learning_rate/learning_rate_schedules.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 859--860
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 888--888
+Underfull \hbox (badness 10000) in paragraph at lines 861--862
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 863--865
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 866--867
+
+ []
+
+[58 <./Images/Chapter04/learning_rate/learning_rate_diagnostics.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 871--872
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 873--874
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 887--889
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 890--891
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 892--893
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 911--911
 []|\T1/lmr/m/n/10.95 Final pro-duc-tion
  []
 
@@ -2813,158 +2814,142 @@ Underfull \hbox (badness 10000) in paragraph at lines 888--888
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 895--896
+Underfull \hbox (badness 10000) in paragraph at lines 918--919
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 897--898
-
- []
-
-[59 <./Images/Chapter04/learning_rate/learning_rate_diagnostics.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 899--900
+Underfull \hbox (badness 10000) in paragraph at lines 920--921
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 901--902
+Underfull \hbox (badness 10000) in paragraph at lines 922--923
 
  []
 
-<Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png, id=105
-8, 750.951pt x 512.1315pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 924--925
+
+ []
+
+[59]
+<Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png, id=106
+5, 750.951pt x 512.1315pt>
 File: Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png Gr
 aphic file (type png)
 <use Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png>
 Package pdftex.def Info: Images/Chapter04/final_training/final_trial1_trial2_ms
-e_comparison.png  used on input line 905.
+e_comparison.png  used on input line 928.
 (pdftex.def)             Requested size: 333.75201pt x 227.61256pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 910--911
+Underfull \hbox (badness 10000) in paragraph at lines 933--934
 
  []
 
+[60 <./Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png>]
 <Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png, id=10
-61, 887.2785pt x 370.548pt>
+74, 887.2785pt x 370.548pt>
 File: Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png G
 raphic file (type png)
 <use Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png>
 Package pdftex.def Info: Images/Chapter04/final_training/final_trial1_trial2_gr
-adient_update.png  used on input line 914.
+adient_update.png  used on input line 937.
 (pdftex.def)             Requested size: 474.02086pt x 197.967pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 919--920
-
- []
-
-[60]
-Underfull \hbox (badness 10000) in paragraph at lines 921--922
-
- []
-
-[61 <./Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png> 
-<./Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 929--931
+Underfull \hbox (badness 10000) in paragraph at lines 942--943
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 932--933
+Underfull \hbox (badness 10000) in paragraph at lines 944--945
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 934--935
+Underfull \hbox (badness 10000) in paragraph at lines 952--954
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 936--937
+Underfull \hbox (badness 10000) in paragraph at lines 955--956
+
+ []
+
+[61 <./Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png>
+]
+Underfull \hbox (badness 10000) in paragraph at lines 957--958
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 938--939
+Underfull \hbox (badness 10000) in paragraph at lines 959--960
 
  []
 
-<Images/Chapter04/final_training/final_training_history.png, id=1077, 917.172pt
+
+Underfull \hbox (badness 10000) in paragraph at lines 961--962
+
+ []
+
+<Images/Chapter04/final_training/final_training_history.png, id=1085, 917.172pt
  x 384.6735pt>
 File: Images/Chapter04/final_training/final_training_history.png Graphic file (
 type png)
 <use Images/Chapter04/final_training/final_training_history.png>
 Package pdftex.def Info: Images/Chapter04/final_training/final_training_history
-.png  used on input line 942.
+.png  used on input line 965.
 (pdftex.def)             Requested size: 459.51054pt x 192.72365pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 943--943
-[][]\T1/lmr/m/n/10.95 Figure 34[][]: []|Phys-i-cal train-ing and val-i-da-tion 
-MSE for the fi-nal pro-duc-tion run,
+Underfull \hbox (badness 10000) in paragraph at lines 970--971
+
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 947--948
+[62 <./Images/Chapter04/final_training/final_training_history.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 972--973
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 949--950
+Underfull \hbox (badness 10000) in paragraph at lines 991--992
 
  []
 
-[62]
-Underfull \hbox (badness 10000) in paragraph at lines 968--969
-
- []
-
-<Images/Chapter04/final_training/test_mse_by_angle.png, id=1087, 526.914pt x 35
+<Images/Chapter04/final_training/test_mse_by_angle.png, id=1094, 526.914pt x 35
 1.495pt>
 File: Images/Chapter04/final_training/test_mse_by_angle.png Graphic file (type 
 png)
 <use Images/Chapter04/final_training/test_mse_by_angle.png>
 Package pdftex.def Info: Images/Chapter04/final_training/test_mse_by_angle.png 
- used on input line 972.
+ used on input line 995.
 (pdftex.def)             Requested size: 377.28296pt x 251.68172pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Underfull \hbox (badness 10000) in paragraph at lines 1000--1001
 
+ []
 
-Underfull \hbox (badness 10000) in paragraph at lines 977--978
+[63 <./Images/Chapter04/final_training/test_mse_by_angle.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1006
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 982--983
-
- []
-
-[63 <./Images/Chapter04/final_training/final_training_history.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 984--985
+Underfull \hbox (badness 10000) in paragraph at lines 1007--1008
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 986--987
+Underfull \hbox (badness 10000) in paragraph at lines 1009--1010
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 990--991
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1014
 
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 992--225
+Underfull \hbox (badness 10000) in paragraph at lines 1015--225
 
  []
 
@@ -2973,12 +2958,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 4--5
 
  []
 
-[64 <./Images/Chapter04/final_training/test_mse_by_angle.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
 
-
+[64]
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
@@ -2998,12 +2983,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-) [65] (main.bbl [66])
+) (main.bbl [65])
 
 Package caption Warning: Unused \captionsetup[algorithm] on input line 16.
 See the caption package documentation for explanation.
 
-[67] (main.aux)
+[66] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -3013,19 +2998,16 @@ L3 programming layer <2025-12-24>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D9998D3B721FE7FD50F6714B0F1EF635;8555.
  ) 
 Here is how much of TeX's memory you used:
- 35401 strings out of 467871
- 685991 string characters out of 5418377
- 1470540 words of memory out of 5000000
- 63163 multiletter control sequences out of 15000+600000
+ 35398 strings out of 467871
+ 685933 string characters out of 5418377
+ 1467502 words of memory out of 5000000
+ 63161 multiletter control sequences out of 15000+600000
  740003 words of font info for 125 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,24n,104p,1684b,2090s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -3061,9 +3043,9 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/aleri/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/User
 s/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on main.pdf (67 pages, 6839864 bytes).
+Output written on main.pdf (66 pages, 6838365 bytes).
 PDF statistics:
- 1386 PDF objects out of 1440 (max. 8388607)
- 478 named destinations out of 1000 (max. 500000)
+ 1387 PDF objects out of 1440 (max. 8388607)
+ 477 named destinations out of 1000 (max. 500000)
  547 words of extra memory for PDF output out of 10000 (max. 10000000)
 
