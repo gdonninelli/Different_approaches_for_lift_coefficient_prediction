@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  12 SEP 2026 12:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  13 SEP 2026 09:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -103,6 +103,41 @@ Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language73). Reported on input line 108.
 )) (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
+)
+(C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
 )
 (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
@@ -269,7 +304,7 @@ Package: bm 2025/10/21 v1.2g Bold Symbol Support (DPC/FMi)
 \symboldoperators=\mathgroup4
 \symboldletters=\mathgroup5
 \symboldsymbols=\mathgroup6
-Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+Package bm Info: No bold for \OMX/lmex/m/n, using \pmb.
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
 )
 (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/mathtools\empheq.sty
@@ -1080,7 +1115,13 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \c@theorem=\count385
 \c@proposition=\count386
 \c@algsubstate=\count387
-) (main.aux
+)
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 18
+9.
+ (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+(main.aux
 
 LaTeX Warning: Label `lst:job_run' multiply defined.
 
@@ -1090,24 +1131,24 @@ LaTeX Warning: Label `lst:job_run@cref' multiply defined.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 188.
-LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 189.
+LaTeX Font Info:    ... okay on input line 189.
 
 (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -1145,9 +1186,9 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \[ on input line 188.
-LaTeX Info: Redefining \] on input line 188.
-Package hyperref Info: Link coloring ON on input line 188.
+LaTeX Info: Redefining \[ on input line 189.
+LaTeX Info: Redefining \] on input line 189.
+Package hyperref Info: Link coloring ON on input line 189.
 
 (main.out) (main.out)
 \@outlinefile=\write5
@@ -1215,16 +1256,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 8--9
  []
 
 
-LaTeX Font Warning: Font shape `T1/cmr/m/n' in size <11.38092> not available
-(Font)              size <10.95> substituted on input line 11.
-
-
-LaTeX Font Warning: Font shape `T1/cmr/bx/n' in size <11.38092> not available
-(Font)              size <10.95> substituted on input line 11.
-
-
-LaTeX Font Warning: Font shape `T1/cmr/bx/sc' in size <11.38092> not available
-(Font)              size <10.95> substituted on input line 11.
+LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
+(Font)              using `T1/lmr/bx/n' instead on input line 11.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 11--12
@@ -1251,7 +1284,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 25--36
 
  []
 
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 3
+6.
+(C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 3
+6.
+
+(C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+36.
+
+(C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+36.
+
+(C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 36.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 36.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 36.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 36.
+
 
 (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1262,8 +1325,14 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 36.
 (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 39.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+9.
+
+(C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 39.
 )
 (Chapters/01_Introduction.tex
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
@@ -1290,32 +1359,35 @@ f>
 (epstopdf)                    size: 40134 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=Images/raggiera_poli
 mi-eps-converted-to.pdf Images/raggiera_polimi.eps>
-(epstopdf)             \includegraphics on input line 206.
+(epstopdf)             \includegraphics on input line 207.
 Package epstopdf Info: Output file is already uptodate.
 <Images/raggiera_polimi-eps-converted-to.pdf, id=183, 502.87875pt x 502.87875pt
 >
 File: Images/raggiera_polimi-eps-converted-to.pdf Graphic file (type pdf)
 <use Images/raggiera_polimi-eps-converted-to.pdf>
 Package pdftex.def Info: Images/raggiera_polimi-eps-converted-to.pdf  used on i
-nput line 206.
+nput line 207.
 (pdftex.def)             Requested size: 262.90492pt x 262.90266pt.
  [1
 
-{C:/Users/aleri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./Images/rag
-giera_polimi-eps-converted-to.pdf> <./Images/logo_polimi_ing_indinf-eps-convert
-ed-to.pdf>] (Chapters/02_Navier-Stokes_Simulation.tex
-LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 6.
+{C:/Users/aleri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/aler
+i/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/aleri/Ap
+pData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc} <./Images/raggier
+a_polimi-eps-converted-to.pdf> <./Images/logo_polimi_ing_indinf-eps-converted-t
+o.pdf>] (Chapters/02_Navier-Stokes_Simulation.tex
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 6.
 
 Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
  []
 
 
-Overfull \hbox (4.8494pt too wide) in paragraph at lines 26--27
-\T1/cmr/m/n/10 While the \T1/cmtt/m/n/10 LifeX FluidDynamics \T1/cmr/m/n/10 sol
-ver is tem-plated on the spa-tial di-men-sion \T1/cmtt/m/n/10 dim \T1/cmr/m/n/1
-0 through the \T1/cmtt/m/n/10 deal.II\T1/cmr/m/n/10 convention,
+Overfull \hbox (5.04076pt too wide) in paragraph at lines 26--27
+\T1/lmr/m/n/10 While the \T1/lmtt/b/n/10 LifeX \T1/lmtt/m/n/10 FluidDynamics \T
+1/lmr/m/n/10 solver is tem-plated on the spa-tial di-men-sion \T1/lmtt/m/n/10 d
+im \T1/lmr/m/n/10 through the \T1/lmtt/m/n/10 deal.II\T1/lmr/m/n/10 convention,
+
  []
 
 
@@ -1323,7 +1395,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 40--42
 
  []
 
-[2]
+[2{C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.en
+c}{C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C
+:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
 Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
  []
@@ -1333,6 +1407,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 58--60
 
  []
 
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 94.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 94.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 94.
 [3]
 Underfull \hbox (badness 10000) in paragraph at lines 135--136
 
@@ -1359,7 +1439,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 210--211
  []
 
 [5]
-<Images/Chapter02/image.png, id=288, 640.3925pt x 482.80376pt>
+<Images/Chapter02/image.png, id=285, 640.3925pt x 482.80376pt>
 File: Images/Chapter02/image.png Graphic file (type png)
 <use Images/Chapter02/image.png>
 Package pdftex.def Info: Images/Chapter02/image.png  used on input line 291.
@@ -1401,30 +1481,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 344--345
 
  []
 
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 372.
 
 Underfull \hbox (badness 10000) in paragraph at lines 372--373
 
  []
 
 [7]
-Underfull \hbox (badness 1490) in paragraph at lines 392--392
-[]|\T1/cmtt/m/n/9 dealii/dealii \T1/cmr/m/n/9 Docker im-ages
+Underfull \hbox (badness 1472) in paragraph at lines 392--392
+[]|\T1/lmtt/m/n/9 dealii/dealii \T1/lmr/m/n/9 Docker im-ages
  []
 
 
-Underfull \hbox (badness 2213) in paragraph at lines 392--392
-\T1/cmr/m/n/9 (\T1/cmtt/m/n/9 v9.7.1-jammy\T1/cmr/m/n/9 , \T1/cmtt/m/n/9 master
--jammy\T1/cmr/m/n/9 ,
+Underfull \hbox (badness 2173) in paragraph at lines 392--392
+\T1/lmr/m/n/9 (\T1/lmtt/m/n/9 v9.7.1-jammy\T1/lmr/m/n/9 , \T1/lmtt/m/n/9 master
+-jammy\T1/lmr/m/n/9 ,
  []
 
 
-Underfull \hbox (badness 2865) in paragraph at lines 393--393
-[]|\T1/cmr/m/n/9 deal.II 9.7.1 with Trili-nos, PETSc,
+Underfull \hbox (badness 2856) in paragraph at lines 393--393
+[]|\T1/lmr/m/n/9 deal.II 9.7.1 with Trili-nos, PETSc,
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 394--395
-[]|\T1/cmtt/m/n/9 boost_filesystemConfig.cmake
+[]|\T1/lmtt/m/n/9 boost_filesystemConfig.cmake
  []
 
 (C:\Users\aleri\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
@@ -1448,13 +1530,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 456--457
 
  []
 
-<Images/Chapter02/mesh_overview.png, id=361, 624.8946pt x 644.1666pt>
+<Images/Chapter02/mesh_overview.png, id=356, 624.8946pt x 644.1666pt>
 File: Images/Chapter02/mesh_overview.png Graphic file (type png)
 <use Images/Chapter02/mesh_overview.png>
 Package pdftex.def Info: Images/Chapter02/mesh_overview.png  used on input line
  469.
 (pdftex.def)             Requested size: 217.66211pt x 224.37064pt.
-<Images/Chapter02/mesh_LE_zoom.png, id=362, 715.473pt x 527.20966pt>
+<Images/Chapter02/mesh_LE_zoom.png, id=357, 715.473pt x 527.20966pt>
 File: Images/Chapter02/mesh_LE_zoom.png Graphic file (type png)
 <use Images/Chapter02/mesh_LE_zoom.png>
 Package pdftex.def Info: Images/Chapter02/mesh_LE_zoom.png  used on input line 
@@ -1477,9 +1559,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 483--484
 
 [10 <./Images/Chapter02/mesh_overview.png> <./Images/Chapter02/mesh_LE_zoom.png
 >]
-Overfull \hbox (5.07266pt too wide) in paragraph at lines 522--523
-[]\T1/cmr/m/n/10 The field out-put is in-spected in Par-aView, while the co-ef-
-fi-cient time his-to-ries are plot-ted with the \T1/cmtt/m/n/10 plot_forces.py
+Overfull \hbox (5.19118pt too wide) in paragraph at lines 522--523
+[]\T1/lmr/m/n/10 The field out-put is in-spected in Par-aView, while the co-ef-
+fi-cient time his-to-ries are plot-ted with the \T1/lmtt/m/n/10 plot_forces.py
  []
 
 
@@ -1487,20 +1569,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 522--523
 
  []
 
-<Images/Chapter02/Cp_field.png, id=422, 857.604pt x 487.5816pt>
+<Images/Chapter02/Cp_field.png, id=417, 857.604pt x 487.5816pt>
 File: Images/Chapter02/Cp_field.png Graphic file (type png)
 <use Images/Chapter02/Cp_field.png>
 Package pdftex.def Info: Images/Chapter02/Cp_field.png  used on input line 528.
 
 (pdftex.def)             Requested size: 314.40001pt x 178.74327pt.
-<Images/Chapter02/velocity_streamlines.jpeg, id=423, 1644.1425pt x 1040.88875pt
+<Images/Chapter02/velocity_streamlines.jpeg, id=418, 1644.1425pt x 1040.88875pt
 >
 File: Images/Chapter02/velocity_streamlines.jpeg Graphic file (type jpg)
 <use Images/Chapter02/velocity_streamlines.jpeg>
 Package pdftex.def Info: Images/Chapter02/velocity_streamlines.jpeg  used on in
 put line 536.
 (pdftex.def)             Requested size: 217.66211pt x 137.79797pt.
-<Images/Chapter02/vorticity_wake.png, id=424, 921.2016pt x 358.4592pt>
+<Images/Chapter02/vorticity_wake.png, id=419, 921.2016pt x 358.4592pt>
 File: Images/Chapter02/vorticity_wake.png Graphic file (type png)
 <use Images/Chapter02/vorticity_wake.png>
 Package pdftex.def Info: Images/Chapter02/vorticity_wake.png  used on input lin
@@ -1547,7 +1629,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--31
 
  []
 
-<Images//Chapter03/SDF.png, id=464, 818.0964pt x 339.669pt>
+<Images//Chapter03/SDF.png, id=459, 818.0964pt x 339.669pt>
 File: Images//Chapter03/SDF.png Graphic file (type png)
 <use Images//Chapter03/SDF.png>
 Package pdftex.def Info: Images//Chapter03/SDF.png  used on input line 34.
@@ -1567,7 +1649,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 116--117
 
  []
 
-<Images/Chapter03/cnn_architecture.png, id=487, 1331.97626pt x 594.22pt>
+<Images/Chapter03/cnn_architecture.png, id=482, 1331.97626pt x 594.22pt>
 File: Images/Chapter03/cnn_architecture.png Graphic file (type png)
 <use Images/Chapter03/cnn_architecture.png>
 Package pdftex.def Info: Images/Chapter03/cnn_architecture.png  used on input l
@@ -1623,7 +1705,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 168--169
 
  []
 
-<Images/Chapter03/relu.png, id=528, 408.3255pt x 328.8285pt>
+<Images/Chapter03/relu.png, id=523, 408.3255pt x 328.8285pt>
 File: Images/Chapter03/relu.png Graphic file (type png)
 <use Images/Chapter03/relu.png>
 Package pdftex.def Info: Images/Chapter03/relu.png  used on input line 172.
@@ -1736,7 +1818,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 339--341
 
  []
 
-<Images/Chapter03/uml_diagram.png, id=588, 4948.4875pt x 1682.285pt>
+<Images/Chapter03/uml_diagram.png, id=583, 4948.4875pt x 1682.285pt>
 File: Images/Chapter03/uml_diagram.png Graphic file (type png)
 <use Images/Chapter03/uml_diagram.png>
 Package pdftex.def Info: Images/Chapter03/uml_diagram.png  used on input line 3
@@ -1757,8 +1839,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 367--368
 
  []
 
-LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 373.
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 373.
 
 Underfull \hbox (badness 10000) in paragraph at lines 377--378
 
@@ -1815,9 +1897,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 424--425
  []
 
 
-Overfull \hbox (13.28926pt too wide) in paragraph at lines 426--427
-\T1/cmr/bx/n/10 scheme\T1/cmr/m/n/10 , draw-ing from a uni-form dis-tri-bu-tion
- bounded by $\OMS/cmsy/m/n/10 ^^F[]$ \T1/cmr/m/n/10 us-ing \T1/cmtt/m/n/10 std:
+Overfull \hbox (13.38187pt too wide) in paragraph at lines 426--427
+\T1/lmr/bx/n/10 scheme\T1/lmr/m/n/10 , draw-ing from a uni-form dis-tri-bu-tion
+ bounded by $\OMS/lmsy/m/n/10 ^^F[]$ \T1/lmr/m/n/10 us-ing \T1/lmtt/m/n/10 std:
 :default_random_engine
  []
 
@@ -1912,10 +1994,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 538--539
  []
 
 
-Overfull \hbox (11.62662pt too wide) in paragraph at lines 540--541
-\T1/cmtt/m/n/10 std::dynamic_pointer_cast \T1/cmr/m/n/10 (e.g., cast-ing from \
-T1/cmtt/m/n/10 std::shared_ptr<Layer> \T1/cmr/m/n/10 to \T1/cmtt/m/n/10 std::sh
-ared_ptr<Conv2DLayer>\T1/cmr/m/n/10 ). 
+Overfull \hbox (11.82089pt too wide) in paragraph at lines 540--541
+\T1/lmtt/m/n/10 std::dynamic_pointer_cast \T1/lmr/m/n/10 (e.g., cast-ing from \
+T1/lmtt/m/n/10 std::shared_ptr<Layer> \T1/lmr/m/n/10 to \T1/lmtt/m/n/10 std::sh
+ared_ptr<Conv2DLayer>\T1/lmr/m/n/10 ). 
  []
 
 
@@ -1924,10 +2006,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 540--541
  []
 
 
-Overfull \hbox (13.98715pt too wide) in paragraph at lines 542--543
-[]\T1/cmr/m/n/10 Finally, the model im-ple-ments bi-nary weight ex-port and im-
-port meth-ods us-ing \T1/cmtt/m/n/10 std::ofstream \T1/cmr/m/n/10 and \T1/cmtt/
-m/n/10 std::ifstream\T1/cmr/m/n/10 ,
+Overfull \hbox (14.0959pt too wide) in paragraph at lines 542--543
+[]\T1/lmr/m/n/10 Finally, the model im-ple-ments bi-nary weight ex-port and im-
+port meth-ods us-ing \T1/lmtt/m/n/10 std::ofstream \T1/lmr/m/n/10 and \T1/lmtt/
+m/n/10 std::ifstream\T1/lmr/m/n/10 ,
  []
 
 
@@ -1951,9 +2033,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 588--589
  []
 
 
-Overfull \hbox (0.95331pt too wide) in paragraph at lines 590--591
-\T1/cmr/m/n/10 pressed NumPy datasets. It then cre-ates a shared in-stance of t
-he \T1/cmtt/m/n/10 AdamOptimizer \T1/cmr/m/n/10 wrapped in a \T1/cmtt/m/n/10 st
+Overfull \hbox (1.17921pt too wide) in paragraph at lines 590--591
+\T1/lmr/m/n/10 pressed NumPy datasets. It then cre-ates a shared in-stance of t
+he \T1/lmtt/m/n/10 AdamOptimizer \T1/lmr/m/n/10 wrapped in a \T1/lmtt/m/n/10 st
 d::shared_ptr
  []
 
@@ -1993,7 +2075,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 643--644
  []
 
 [28]
-<Images/Chapter03/Incorrect_training.png, id=711, 1003.75pt x 602.25pt>
+<Images/Chapter03/Incorrect_training.png, id=699, 1003.75pt x 602.25pt>
 File: Images/Chapter03/Incorrect_training.png Graphic file (type png)
 <use Images/Chapter03/Incorrect_training.png>
 Package pdftex.def Info: Images/Chapter03/Incorrect_training.png  used on input
@@ -2014,7 +2096,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 694--695
  []
 
 [29]
-<Images/Chapter03/Correct_training.png, id=747, 1405.25pt x 501.875pt>
+<Images/Chapter03/Correct_training.png, id=735, 1405.25pt x 501.875pt>
 File: Images/Chapter03/Correct_training.png Graphic file (type png)
 <use Images/Chapter03/Correct_training.png>
 Package pdftex.def Info: Images/Chapter03/Correct_training.png  used on input l
@@ -2091,7 +2173,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
  []
 
-<Images/Chapter04/topology/topology_ranking.png, id=783, 860.013pt x 368.21565p
+<Images/Chapter04/topology/topology_ranking.png, id=770, 860.013pt x 368.21565p
 t>
 File: Images/Chapter04/topology/topology_ranking.png Graphic file (type png)
 <use Images/Chapter04/topology/topology_ranking.png>
@@ -2116,7 +2198,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 142--145
 
  []
 
-<Images/Chapter04/topology/topology_kernel_paired.png, id=794, 607.068pt x 353.
+<Images/Chapter04/topology/topology_kernel_paired.png, id=781, 607.068pt x 353.
 03896pt>
 File: Images/Chapter04/topology/topology_kernel_paired.png Graphic file (type p
 ng)
@@ -2127,7 +2209,7 @@ used on input line 148.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<Images/Chapter04/topology/topology_history.png, id=795, 607.068pt x 353.03896p
+<Images/Chapter04/topology/topology_history.png, id=782, 607.068pt x 353.03896p
 t>
 File: Images/Chapter04/topology/topology_history.png Graphic file (type png)
 <use Images/Chapter04/topology/topology_history.png>
@@ -2172,7 +2254,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 216--217
 
  []
 
-<Images/Chapter04/dropout/dropout_ranking.png, id=827, 498.2615pt x 294.2995pt>
+<Images/Chapter04/dropout/dropout_ranking.png, id=814, 498.2615pt x 294.2995pt>
 
 File: Images/Chapter04/dropout/dropout_ranking.png Graphic file (type png)
 <use Images/Chapter04/dropout/dropout_ranking.png>
@@ -2184,7 +2266,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 225--226
 
  []
 
-<Images/Chapter04/dropout/dropout_paired_differences.png, id=829, 498.2615pt x 
+<Images/Chapter04/dropout/dropout_paired_differences.png, id=816, 498.2615pt x 
 294.2995pt>
 File: Images/Chapter04/dropout/dropout_paired_differences.png Graphic file (typ
 e png)
@@ -2206,13 +2288,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 238--240
  []
 
 [37 <./Images/Chapter04/dropout/dropout_ranking.png>]
-<Images/Chapter04/dropout/dropout_history.png, id=840, 642.8015pt x 271.414pt>
+<Images/Chapter04/dropout/dropout_history.png, id=827, 642.8015pt x 271.414pt>
 File: Images/Chapter04/dropout/dropout_history.png Graphic file (type png)
 <use Images/Chapter04/dropout/dropout_history.png>
 Package pdftex.def Info: Images/Chapter04/dropout/dropout_history.png  used on 
 input line 243.
 (pdftex.def)             Requested size: 459.51054pt x 194.0264pt.
-<Images/Chapter04/dropout/dropout_stability.png, id=842, 642.4pt x 498.2615pt>
+<Images/Chapter04/dropout/dropout_stability.png, id=829, 642.4pt x 498.2615pt>
 File: Images/Chapter04/dropout/dropout_stability.png Graphic file (type png)
 <use Images/Chapter04/dropout/dropout_stability.png>
 Package pdftex.def Info: Images/Chapter04/dropout/dropout_stability.png  used o
@@ -2264,7 +2346,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 324--325
  []
 
 
-Overfull \hbox (35.67316pt too wide) in paragraph at lines 330--341
+Overfull \hbox (38.34535pt too wide) in paragraph at lines 330--341
  [][] 
  []
 
@@ -2281,7 +2363,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 346--347
 
  []
 
-<Images/Chapter04/optimizer/optimizer_ranking.png, id=875, 534.798pt x 339.669p
+<Images/Chapter04/optimizer/optimizer_ranking.png, id=862, 534.798pt x 339.669p
 t>
 File: Images/Chapter04/optimizer/optimizer_ranking.png Graphic file (type png)
 <use Images/Chapter04/optimizer/optimizer_ranking.png>
@@ -2294,7 +2376,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 355--358
  []
 
 [41 <./Images/Chapter04/optimizer/optimizer_ranking.png>]
-<Images/Chapter04/optimizer/optimizer_history.png, id=886, 578.16pt x 354.123pt
+<Images/Chapter04/optimizer/optimizer_history.png, id=873, 578.16pt x 354.123pt
 >
 File: Images/Chapter04/optimizer/optimizer_history.png Graphic file (type png)
 <use Images/Chapter04/optimizer/optimizer_history.png>
@@ -2315,7 +2397,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 368--369
 
  []
 
-<Images/Chapter04/optimizer/optimizer_gradient.png, id=887, 569.12625pt x 336.0
+<Images/Chapter04/optimizer/optimizer_gradient.png, id=874, 569.12625pt x 336.0
 555pt>
 File: Images/Chapter04/optimizer/optimizer_gradient.png Graphic file (type png)
 
@@ -2351,7 +2433,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 441--442
 
  []
 
-<Images/Chapter04/physics/physics_performance.png, id=909, 1076.4215pt x 348.10
+<Images/Chapter04/physics/physics_performance.png, id=896, 1076.4215pt x 348.10
 05pt>
 File: Images/Chapter04/physics/physics_performance.png Graphic file (type png)
 <use Images/Chapter04/physics/physics_performance.png>
@@ -2373,7 +2455,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 457--458
 
  []
 
-<Images/Chapter04/physics/physics_aggregate_diagnostics.png, id=921, 1074.414pt
+<Images/Chapter04/physics/physics_aggregate_diagnostics.png, id=908, 1074.414pt
  x 348.9035pt>
 File: Images/Chapter04/physics/physics_aggregate_diagnostics.png Graphic file (
 type png)
@@ -2449,7 +2531,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 620--621
 
  []
 
-<Images/Chapter04/activation/activation_ranking.png, id=963, 613.8935pt x 338.4
+<Images/Chapter04/activation/activation_ranking.png, id=950, 613.8935pt x 338.4
 645pt>
 File: Images/Chapter04/activation/activation_ranking.png Graphic file (type png
 )
@@ -2458,7 +2540,7 @@ Package pdftex.def Info: Images/Chapter04/activation/activation_ranking.png  us
 ed on input line 627.
 (pdftex.def)             Requested size: 396.63496pt x 218.68236pt.
 [48 <./Images/Chapter04/activation/activation_ranking.png>]
-<Images/Chapter04/activation/activation_history.png, id=972, 627.5445pt x 345.6
+<Images/Chapter04/activation/activation_history.png, id=959, 627.5445pt x 345.6
 915pt>
 File: Images/Chapter04/activation/activation_history.png Graphic file (type png
 )
@@ -2476,7 +2558,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 651--652
 
  []
 
-<Images/Chapter04/activation/activation_diagnostics.png, id=974, 743.1765pt x 5
+<Images/Chapter04/activation/activation_diagnostics.png, id=961, 743.1765pt x 5
 05.4885pt>
 File: Images/Chapter04/activation/activation_diagnostics.png Graphic file (type
  png)
@@ -2522,7 +2604,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 698--699
 
  []
 
-<Images/Chapter04/activation/activation_input_distributions.png, id=990, 800.59
+<Images/Chapter04/activation/activation_input_distributions.png, id=977, 800.59
 1pt x 520.7455pt>
 File: Images/Chapter04/activation/activation_input_distributions.png Graphic fi
 le (type png)
@@ -2563,19 +2645,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 724--725
  []
 
 
-Underfull \hbox (badness 3701) in paragraph at lines 776--776
-\OT1/cmr/m/n/10.95 10[]$\T1/cmr/m/n/10.95 , $\OML/cmm/m/it/10.95 ^^Q[] \OT1/cmr
+Underfull \hbox (badness 2334) in paragraph at lines 776--776
+\OT1/lmr/m/n/10.95 10[]$\T1/lmr/m/n/10.95 , $\OML/lmm/m/it/10.95 ^^Q[] \OT1/lmr
 /m/n/10.95 =
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 776--776
-[]|\T1/cmr/m/n/10.95 Warm-up
+[]|\T1/lmr/m/n/10.95 Warm-up
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 776--776
-\T1/cmr/m/n/10.95 and co-sine,
+\T1/lmr/m/n/10.95 and co-sine,
  []
 
 
@@ -2596,7 +2678,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 786--787
 
  []
 
-<Images/Chapter04/learning_rate/learning_rate_ranking.png, id=1020, 628.749pt x
+<Images/Chapter04/learning_rate/learning_rate_ranking.png, id=1007, 628.749pt x
  379.016pt>
 File: Images/Chapter04/learning_rate/learning_rate_ranking.png Graphic file (ty
 pe png)
@@ -2612,7 +2694,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 802--803
 
  []
 
-<Images/Chapter04/learning_rate/learning_rate_history.png, id=1027, 627.5445pt 
+<Images/Chapter04/learning_rate/learning_rate_history.png, id=1014, 627.5445pt 
 x 498.2615pt>
 File: Images/Chapter04/learning_rate/learning_rate_history.png Graphic file (ty
 pe png)
@@ -2628,7 +2710,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 811--812
 
  []
 
-<Images/Chapter04/learning_rate/learning_rate_schedules.png, id=1030, 627.5445p
+<Images/Chapter04/learning_rate/learning_rate_schedules.png, id=1017, 627.5445p
 t x 352.1155pt>
 File: Images/Chapter04/learning_rate/learning_rate_schedules.png Graphic file (
 type png)
@@ -2650,7 +2732,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 827--828
  []
 
 [55 <./Images/Chapter04/learning_rate/learning_rate_ranking.png>]
-<Images/Chapter04/learning_rate/learning_rate_diagnostics.png, id=1042, 750.403
+<Images/Chapter04/learning_rate/learning_rate_diagnostics.png, id=1028, 750.403
 5pt x 512.314pt>
 File: Images/Chapter04/learning_rate/learning_rate_diagnostics.png Graphic file
  (type png)
@@ -2709,7 +2791,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 869--870
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 888--888
-[]|\T1/cmr/m/n/10.95 Final pro-duc-tion
+[]|\T1/lmr/m/n/10.95 Final pro-duc-tion
  []
 
 
@@ -2735,8 +2817,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 901--902
 
  []
 
-<Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png, id=106
-6, 750.951pt x 512.1315pt>
+<Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png, id=105
+2, 750.951pt x 512.1315pt>
 File: Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png Gr
 aphic file (type png)
 <use Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png>
@@ -2752,7 +2834,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 910--911
  []
 
 <Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png, id=10
-69, 887.2785pt x 370.548pt>
+55, 887.2785pt x 370.548pt>
 File: Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png G
 raphic file (type png)
 <use Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png>
@@ -2767,14 +2849,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 919--920
 
  []
 
-
+[59]
 Underfull \hbox (badness 10000) in paragraph at lines 921--922
 
  []
 
-[59] [60 <./Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.
-png> <./Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png
->]
+[60 <./Images/Chapter04/final_training/final_trial1_trial2_mse_comparison.png> 
+<./Images/Chapter04/final_training/final_trial1_trial2_gradient_update.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 929--931
 
  []
@@ -2799,7 +2880,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 938--939
 
  []
 
-<Images/Chapter04/final_training/final_training_history.png, id=1085, 917.172pt
+<Images/Chapter04/final_training/final_training_history.png, id=1070, 917.172pt
  x 384.6735pt>
 File: Images/Chapter04/final_training/final_training_history.png Graphic file (
 type png)
@@ -2809,7 +2890,7 @@ Package pdftex.def Info: Images/Chapter04/final_training/final_training_history
 (pdftex.def)             Requested size: 459.51054pt x 192.72365pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 943--943
-[][]\T1/cmr/m/n/10.95 Figure 34[][]: []|Phys-i-cal train-ing and val-i-da-tion 
+[][]\T1/lmr/m/n/10.95 Figure 34[][]: []|Phys-i-cal train-ing and val-i-da-tion 
 MSE for the fi-nal pro-duc-tion run,
  []
 
@@ -2831,7 +2912,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 968--969
 
  []
 
-<Images/Chapter04/final_training/test_mse_by_angle.png, id=1097, 526.914pt x 35
+<Images/Chapter04/final_training/test_mse_by_angle.png, id=1081, 526.914pt x 35
 1.495pt>
 File: Images/Chapter04/final_training/test_mse_by_angle.png Graphic file (type 
 png)
@@ -2890,8 +2971,7 @@ L3 programming layer <2025-12-24>
  ***********
 
 
-LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 0.43092pt have occurred.
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
 LaTeX Warning: There were undefined references.
@@ -2903,108 +2983,48 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D9998D3B721FE7FD50F6714B0F1EF635;8555.
  ) 
 Here is how much of TeX's memory you used:
- 35230 strings out of 467871
- 681855 string characters out of 5418377
- 1421416 words of memory out of 5000000
- 63005 multiletter control sequences out of 15000+600000
- 656871 words of font info for 116 fonts, out of 8000000 for 9000
+ 35400 strings out of 467871
+ 685984 string characters out of 5418377
+ 1422644 words of memory out of 5000000
+ 63163 multiletter control sequences out of 15000+600000
+ 740003 words of font info for 125 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,24n,104p,1684b,2226s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{equation.4.61} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.4.46} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.4.60} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.4.45} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.37} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.25} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.27} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.26} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.19} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.17} has been referenced but does not exi
-st, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{equation.3.16} has been referenced but does not exi
-st, replaced by a fixed one
-
- <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx09
-00.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
-ecrm0900.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
-pi600\ectt0900.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappe
-n/ec/dpi600\ecbx1095.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/j
-knappen/ec/dpi600\ectt1095.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/lj
-four/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\aleri\AppData\Local\MiKTeX
-\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\aleri\AppData\Local\
-MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\aleri\AppData\
-Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\aleri\Ap
-pData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\al
-eri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Us
-ers\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> 
-<C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx100
-0.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\e
-crm0800.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dp
-i600\ecbx0800.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen
-/ec/dpi600\ecbx1200.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljfour/jk
-nappen/ec/dpi600\ecxc1095.pk> <C:\Users\aleri\AppData\Local\MiKTeX\fonts/pk/ljf
-our/jknappen/ec/dpi600\ecbx1440.pk><C:/Users/aleri/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/aleri/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx5.pfb><C:/Users/aleri/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/aleri/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/
-aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmm
-i5.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmmi6.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmmi7.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmmi8.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fo
-nts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/aleri/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/aleri/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/aleri/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/aleri
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/User
-s/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><
-C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
-8.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmr9.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
-msfonts/cm/cmsy10.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmsy6.pfb><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/aleri/AppData/Local/Programs/Mi
-KTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/aleri/AppData/Local/Pro
-grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/aleri/AppData/L
-ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/a
-leri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.p
-fb>
-Output written on main.pdf (66 pages, 6807376 bytes).
+<C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pf
+b><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
+b><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx5.pfb
+><C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb>
+<C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx8.pfb><
+C:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx9.pfb><C
+:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C
+:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C
+:/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi5.pfb><C:
+/Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/
+Users/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/U
+sers/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Us
+ers/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi9.pfb><C:/Use
+rs/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmib10.pfb><C:/Us
+ers/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Use
+rs/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr5.pfb><C:/Users
+/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/a
+leri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/ale
+ri/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/aleri
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/aleri/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/aleri/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/aleri/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/aleri/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/aleri/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/aleri/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy9.pfb><C:/Users/aleri/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Users/aleri/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/aleri/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/aleri/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/User
+s/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb>
+Output written on main.pdf (66 pages, 6837553 bytes).
 PDF statistics:
- 2233 PDF objects out of 2487 (max. 8388607)
- 488 named destinations out of 1000 (max. 500000)
+ 1379 PDF objects out of 1440 (max. 8388607)
+ 477 named destinations out of 1000 (max. 500000)
  547 words of extra memory for PDF output out of 10000 (max. 10000000)
 
