@@ -43,11 +43,11 @@ The repository is organized into two main computational components. The `SDF` mo
 │   ├── experiments/                  # Hyperparameter-tuning experiments
 │   │   ├── activation-function-tuning/
 │   │   ├── dropout_tuning/
-│   │   ├── layer_tuning/
 │   │   ├── learning_rate_tuning/
 │   │   ├── optimizer_comparison/
 │   │   ├── physics_weight_tuning/
 │   │   └── regularization_tuning/
+│   │   ├── topology_tuning/
 │   ├── tests/                        # Automated tests
 │   │   └── test_cross_validation.cpp
 │   └── src/

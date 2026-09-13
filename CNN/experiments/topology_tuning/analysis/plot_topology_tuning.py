@@ -27,7 +27,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 REPO = Path(__file__).resolve().parents[4]
-RESULTS = REPO / "results" / "cross_validation" / "layer_tuning"
+RESULTS = REPO / "results" / "cross_validation" / "topology_tuning"
+if not RESULTS.exists():
+    RESULTS = REPO / "results" / "cross_validation" / "layer_tuning"
 OUTDIR = REPO / "Report" / "Images" / "Chapter04" / "topology"
 
 SUMMARY = RESULTS / "summary.csv"

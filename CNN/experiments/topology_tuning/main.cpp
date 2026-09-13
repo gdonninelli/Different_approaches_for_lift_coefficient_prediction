@@ -9,7 +9,7 @@
 // Selection metric: sample-weighted physical-unit validation MSE, minimized by
 // CrossValidator. The untouched test NPZ is loaded only after selection.
 //
-// See CNN/experiments/layer_tuning/README.md and cross_validation.md.
+// See CNN/experiments/topology_tuning/README.md and cross_validation.md.
 
 #include "data/Dataset.hpp"
 #include "model/ModelFactory.hpp"
