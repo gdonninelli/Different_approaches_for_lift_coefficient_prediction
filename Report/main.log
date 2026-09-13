@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  13 SEP 2026 09:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.9.6)  13 SEP 2026 10:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2928,7 +2928,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 977--978
 
  []
 
-[62 <./Images/Chapter04/final_training/final_training_history.png>])
+
+Underfull \hbox (badness 10000) in paragraph at lines 982--983
+
+ []
+
+[62 <./Images/Chapter04/final_training/final_training_history.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 984--985
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--987
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 990--991
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 992--225
+
+ []
+
 (Chapters/05_Conclusions.tex
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
 
@@ -3022,7 +3046,7 @@ ta/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt9.pfb><C:/Users/aleri/AppDat
 a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/User
 s/aleri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on main.pdf (66 pages, 6837553 bytes).
+Output written on main.pdf (66 pages, 6837337 bytes).
 PDF statistics:
  1379 PDF objects out of 1440 (max. 8388607)
  477 named destinations out of 1000 (max. 500000)
