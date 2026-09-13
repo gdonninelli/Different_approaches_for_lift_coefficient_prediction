@@ -1,146 +1,145 @@
-# Activation-Function Tuning
+# Activation-Function Tuning Experiment
 
-## Question
+Cross-validation experiment evaluating classical and piecewise-linear activation functions applied across the convolutional trunk and dense regression head for lift coefficient ($C_L$) prediction.
 
-Which activation function gives the lowest physical-unit validation MSE for
-the fixed `conv5x5-dense-1024-512-256-128` model?
+---
 
-The experiment evaluates six candidates on the same deterministic five-fold
-split:
+## 1. Scientific Question
 
-- `TanhLayer`
-- `SigmoidLayer`
-- `ReLULayer`
-- `LeakyReLULayer(alpha=0.01)`
-- `LeakyReLULayer(alpha=0.05)`
-- `LeakyReLULayer(alpha=0.1)`
+**Which activation function provides the lowest physical-unit validation MSE while ensuring stable gradient flow and preventing saturation or dead neurons across all hidden layers?**
 
-All candidates use the same activation in the convolutional trunk and every
-dense hidden layer. The output layer remains linear.
+The activation function is applied identically after the 2D convolution and after every hidden dense layer (`Dense(1024)`, `Dense(512)`, `Dense(256)`, `Dense(128)`), while the output layer remains linear.
 
-## Fixed Configuration
+### Evaluated Search Space (6 Candidates)
 
-| Setting | Value |
-|---|---|
-| Architecture | `conv5x5-dense-1024-512-256-128` |
-| Optimizer | Adam |
-| Learning rate | `1e-5` |
-| Physics weight | `0.1` |
-| L1/L2 regularization | `0` / `0` |
-| Dropout | `0` |
-| Global batch size | `64` |
-| Epochs | `100` |
-| CV folds | `5` |
-| Seed | `42` |
+| Candidate ID | Activation Function | Mathematical Formulation | Hyperparameter |
+|:---|:---|:---:|:---:|
+| `tanh` | Hyperbolic Tangent (Tanh) | $\sigma(z) = \tanh(z)$ | None |
+| `sigmoid` | Logistic Sigmoid | $\sigma(z) = \frac{1}{1 + e^{-z}}$ | None |
+| `relu` | Rectified Linear Unit (ReLU) | $\sigma(z) = \max(0, z)$ | None |
+| `leakyrelu-alpha-0.01` | Leaky ReLU ($\alpha=0.01$) | $\sigma(z) = \max(\alpha z, z)$ | $\alpha = 0.01$ |
+| `leakyrelu-alpha-0.05` | Leaky ReLU ($\alpha=0.05$) | $\sigma(z) = \max(\alpha z, z)$ | $\mathbf{\alpha = 0.05}$ |
+| `leakyrelu-alpha-0.1` | Leaky ReLU ($\alpha=0.10$) | $\sigma(z) = \max(\alpha z, z)$ | $\alpha = 0.10$ |
 
-Selection uses the mean physical-unit validation MSE. The untouched test NPZ
-is loaded only after the best activation has been selected and is used once
-for the final refit/evaluation.
+Total evaluations: **30 fold runs** (6 candidates $\times$ 5 folds).
 
-## Build Directly With MPI
+---
 
-From the repository root on the cluster:
+## 2. Fixed Experimental Configuration
 
+| Hyperparameter | Value | Description |
+|:---|:---|:---|
+| **Architecture** | `conv5x5-dense-1024-512-256-128` | Winner from topology search |
+| **Optimizer** | Adam | Winner from optimizer search |
+| **Learning Rate ($\eta$)** | $10^{-5}$ | Constant learning rate |
+| **Loss Function** | SIMM Physics Loss | MSE Data Loss + $\lambda_{\text{SIMM}} \cdot \text{Physics Loss}$ |
+| **Physics Weight ($\lambda$)** | $0.10$ | Active for $\lvert\alpha\rvert \le 10^\circ$ |
+| **Regularization / Dropout** | None | Winner from regularization search |
+| **Global Batch Size** | $64$ | Synchronized across MPI ranks |
+| **Epoch Budget** | $100$ | Evaluated at 10-epoch checkpoints |
+| **Cross-Validation** | 5-Fold `RandomKFold` | Deterministic shuffle with seed `42` |
+| **Selection Metric** | Physical-unit Validation MSE | Sample-weighted mean across 5 folds |
+| **Training Dataset** | `dataset/cnn_dataset_train.npz` | 1,713 samples (1,370 train / 343 val per fold) |
+| **Held-out Test Dataset** | `dataset/cnn_dataset_test.npz` | 429 samples (untouched, evaluated once on winner) |
+
+## 3. Requirements and Prerequisites
+
+- **Toolchain:** C++20 compliant compiler (`g++` $\ge 11$ or `clang++` $\ge 13$) with an MPI implementation (OpenMPI $\ge 4.0$ or MPICH).
+- **Build System:** CMake $\ge 3.16$ or direct `mpicxx` compilation.
+- **Dataset Files:** `dataset/cnn_dataset_train.npz` (1,713 samples) and `dataset/cnn_dataset_test.npz` (429 samples), generated via `python3 build_dataset.py --seed 42`.
+- **Python Environment:** Python 3.8+ with `numpy` and `matplotlib` for analysis and plotting scripts.
+- **Working Directory:** All commands must be run from the **repository root**.
+
+---
+
+## 4. Compilation
+
+Build directly from the repository root:
+
+### Option A: CMake (Recommended)
+```bash
+cmake -S CNN -B build/CNN -DCMAKE_BUILD_TYPE=Release
+cmake --build build/CNN --target activation_function_tuning --parallel
+```
+
+### Option B: Direct MPI Compilation (`mpicxx`)
 ```bash
 mkdir -p build/experiments
 mpicxx -std=c++20 -O3 -ICNN/src \
-  -DCNN_SOURCE_REVISION=\"$(git rev-parse --short=12 HEAD)\" \
-  CNN/experiments/activation-function-tuning/main.cpp \
+  CNN/experiments/activation_function_tuning/main.cpp \
   CNN/src/core/*.cpp CNN/src/data/*.cpp CNN/src/layers/*.cpp \
   CNN/src/model/*.cpp CNN/src/optimizers/*.cpp \
   CNN/src/training/*.cpp CNN/src/tuning/*.cpp \
-  -o build/experiments/activation-function-tuning
+  -o build/experiments/activation_function_tuning
 ```
 
-The direct commands above build and launch the activation sweep. Account,
-partition, modules, and wall time are intentionally left as site-specific
-values. The supplied `slurm.sh` is reserved for the configured ordinary CNN
-training from `CNN/main.cpp`; use the commands above when submitting this
-activation sweep.
+---
 
-## Run
+## 5. Running the Experiment
 
-From the repository root:
-
+### 1. Quick Verification (Smoke Test)
 ```bash
-mpirun -n 16 build/experiments/activation-function-tuning \
+mpirun -n 2 ./build/CNN/experiments/activation_function_tuning --smoke
+```
+
+### 2. Full 5-Fold Cross-Validation Sweep (100 Epochs)
+```bash
+mkdir -p results/cross_validation/activation-function-tuning
+mpirun -n 16 ./build/CNN/experiments/activation_function_tuning \
   --train-path dataset/cnn_dataset_train.npz \
   --test-path dataset/cnn_dataset_test.npz \
   --results-dir results/cross_validation/activation-function-tuning \
   --diagnostic
 ```
 
-`--diagnostic` is the requested spelling; `--diagnostics` is also accepted.
-Use `--smoke` for a two-fold, two-epoch validation of the executable and data
-paths before submitting the full run.
+### Output Artifacts
+- `results/cross_validation/activation-function-tuning/fold_results.csv`: Per-candidate and per-fold training and validation MSE.
+- `results/cross_validation/activation-function-tuning/training_history.csv`: Checkpoint history every 10 epochs.
+- `results/cross_validation/activation-function-tuning/summary.txt`: Full human-readable cross-validation ranking.
+- Per-candidate diagnostics under `.../search/candidate_NNN/fold_MMM/`.
 
-## Outputs
+---
 
-The experiment writes aggregate files under the selected results directory:
+## 6. Results
 
-- `fold_results.csv`
-- `training_history.csv`
-- `summary.txt`
+Cross-validation performance across 5 folds and 100 epochs, alongside complete numerical stability diagnostics:
 
-With diagnostics enabled, the standard recorder additionally writes
-`<results-dir>/activation-function-tuning/search/` with one directory per
-candidate and fold, plus `cv_summary.csv`. Final-refit diagnostics are written
-under `.../search/final/`.
+| Rank | Activation Function | Mean Validation MSE | Fold SD | Peak Grad Norm | Peak Weight Update Ratio | Non-Finite Events | Status |
+|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **1** | **`leakyrelu-alpha-0.05`** | **0.00442742** | **0.000865257** | **20.14** | **$4.50\times 10^{-4}$** | **None** | **Selected Winner** |
+| 2 | `leakyrelu-alpha-0.01` | 0.00444772 | 0.000876077 | 20.64 | $4.47\times 10^{-4}$ | None | Stable |
+| 3 | `relu` | 0.00445429 | 0.000875881 | 20.81 | $3.31\times 10^{-4}$ | None | Stable |
+| 4 | `leakyrelu-alpha-0.1` | 0.00454457 | 0.000965707 | 20.79 | $4.42\times 10^{-4}$ | None | Stable |
+| 5 | `tanh` | 0.00546562 | 0.001045450 | 111.51 | $3.01\times 10^{-4}$ | None | Transient Gradient Spikes |
+| 6 | `sigmoid` | 0.00897140 | 0.001250090 | 18.22 | $6.15\times 10^{-4}$ | None | Severe Saturation |
 
-## Recorded Results
+### Final Untouched Test Set Evaluation
+Refitting the winning candidate (**`LeakyReLU(alpha=0.05)`**) on the full training dataset (1,713 samples) and evaluating once on the held-out test dataset (`dataset/cnn_dataset_test.npz`, 429 samples) yielded:
+- **Final Untouched Test Physical MSE:** **`0.00273892`**
 
-The completed run used source revision `8aada70b492a`, 64 MPI ranks, five
-folds, and 100 epochs. The candidate ranking below is by mean physical-unit
-validation MSE; the value after `+/-` is the fold standard deviation.
+---
 
-| Rank | Activation | Mean validation MSE | Fold stddev |
-|---:|---|---:|---:|
-| 1 | `leakyrelu-alpha-0.05` | **0.00442742** | 0.000865257 |
-| 2 | `leakyrelu-alpha-0.01` | 0.00444772 | 0.000876077 |
-| 3 | `relu` | 0.00445429 | 0.000875881 |
-| 4 | `leakyrelu-alpha-0.1` | 0.00454457 | 0.000965707 |
-| 5 | `tanh` | 0.00546562 | 0.00104545 |
-| 6 | `sigmoid` | 0.00897140 | 0.00125009 |
+## 7. Analysis and Plotting
 
-## Stability Analysis and Selection
+### Brief Scientific Analysis
+1. **Piecewise-Linear Advantage:** ReLU and LeakyReLU variants strictly outperformed smooth saturating activations (Tanh and Sigmoid). Sigmoid suffered severe gradient vanishing with validation error over twice as high ($0.008971$). Tanh exhibited large transient gradient spikes (peak norm $111.51$).
+2. **LeakyReLU Superiority over Standard ReLU:** LeakyReLU with $\alpha = 0.05$ achieved the lowest validation MSE ($0.004427$) and the lowest fold-to-fold standard deviation ($0.000865$). The non-zero gradient for negative pre-activations ($\alpha = 0.05$) prevents "dying ReLU" units during early optimization.
+3. **Healthy Update Ratios:** Parameter update ratios ($r_\theta \approx 4.5\times 10^{-4}$) stayed stable and well-bounded across all layers without exploding or vanishing.
 
-Selection considered both validation performance and training stability. The
-stability checks used the five fold diagnostics over all 100 epochs:
-
-| Activation | CV fold stddev | Mean checkpoint fold stddev | Peak gradient norm | Peak weight update ratio | Non-finite metrics |
-|---|---:|---:|---:|---:|---:|
-| `tanh` | 0.00104545 | 0.00120968 | 111.51 | 3.01e-4 | No |
-| `sigmoid` | 0.00125009 | 0.02918695 | 18.22 | 6.15e-4 | No |
-| `relu` | 0.000875881 | 0.00109799 | 20.81 | 3.31e-4 | No |
-| `leakyrelu-alpha-0.01` | 0.000876077 | 0.00104997 | 20.64 | 4.47e-4 | No |
-| `leakyrelu-alpha-0.05` | **0.000865257** | 0.00105385 | **20.14** | 4.50e-4 | No |
-| `leakyrelu-alpha-0.1` | 0.000965707 | 0.00109082 | 20.79 | 4.42e-4 | No |
-
-The correct choice is therefore `LeakyReLU(alpha=0.05)`: it has the lowest
-mean validation MSE, the smallest final fold-to-fold dispersion, and the
-lowest peak gradient among the ReLU-family candidates. Its update ratios stay
-small and comparable to the neighboring LeakyReLU settings, indicating that
-the result is not caused by an unstable optimizer trajectory. Tanh has a
-large transient gradient spike, and Sigmoid has substantially higher
-checkpoint variability caused by slow early convergence. All metrics remained
-finite, so no candidate exhibited numerical divergence.
-
-The final refit on the complete training set, evaluated once on the untouched
-test NPZ, achieved a physical-unit MSE of **0.00273892**. The test result was
-not used for selection.
-
-## Plots
-
-Generate the plots from the recorded aggregate CSVs and per-fold diagnostics:
-
+### Plot Generation
+Generate the full set of comparison and diagnostic plots:
 ```bash
-python3 CNN/experiments/activation-function-tuning/plot_results.py \
+python3 CNN/experiments/activation_function_tuning/plot_results.py \
     --results-dir results/cross_validation/activation-function-tuning
 ```
 
-PNG files are written to `CNN/experiments/activation-function-tuning/plots/`:
+Generate report figures:
+```bash
+python3 CNN/experiments/activation_function_tuning/analysis/plot_report_activation.py
+```
 
-- `plot1_val_mse_by_activation.png`: mean validation MSE with fold error bars
-- `plot2_val_mse_by_fold.png`: validation MSE for every fold and candidate
-- `plot3_val_curves_epoch.png`: validation MSE at ten-epoch checkpoints
-- `plot4_diagnostics_over_epochs.png`: gradient norms and weight update ratios
+Generated figure artifacts in `CNN/experiments/activation_function_tuning/plots/`:
+- `plot1_val_mse_by_activation.png`: Mean validation MSE with cross-fold standard deviation bars.
+- `plot2_val_mse_by_fold.png`: Validation MSE broken down for every candidate and fold.
+- `plot3_val_curves_epoch.png`: Validation MSE progression at 10-epoch checkpoints.
+- `plot4_diagnostics_over_epochs.png`: Synchronized gradient norms and parameter update ratios over epochs.

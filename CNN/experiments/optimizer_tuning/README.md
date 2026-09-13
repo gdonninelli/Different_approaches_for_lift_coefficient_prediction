@@ -1,124 +1,146 @@
-# Optimizer Comparison Experiment
+# Optimizer Tuning Experiment
 
-Cross-validation experiment comparing the performance of different first-order and adaptive optimization algorithms implemented for the CNN surrogate model, built on the typed `CrossValidator` and `ParameterGrid` infrastructure documented in [`docs/cross_validation.md`](../../../docs/cross_validation.md).
+Cross-validation experiment comparing the performance, convergence speed, and numerical stability of first-order and adaptive optimization algorithms for training the CNN surrogate model under the SIMM physics-informed loss.
 
-## Scientific Question
+---
 
-**How do different optimization algorithms perform when training the CNN surrogate model on the airfoil ice-acceleration dataset under the SIMM physics-informed loss?**
+## 1. Scientific Question
 
-Specifically, we compare five optimizers:
-1. **Vanilla Stochastic Gradient Descent (SGD)**
-2. **Stochastic Gradient Descent with Momentum (SGD+Momentum)**
-3. **Adaptive Gradient Algorithm (AdaGrad)**
-4. **Root Mean Square Propagation (RMSprop)**
-5. **Adaptive Moment Estimation (Adam)**
+**How do different gradient-based and adaptive optimization algorithms perform when optimizing the non-convex physics-regularized aerodynamic objective?**
 
-## Background and Optimizer Formulations
+The experiment evaluates five distinct optimization algorithms implemented in the framework. Every candidate and fold builds a fresh optimizer instance via `OptimizerRecipe`, guaranteeing isolated internal states with no moment leakage.
 
-All optimizers update model parameter tensors $\theta_t$ using gradients $g_t = \nabla_\theta \mathcal{L}(\theta_t)$ computed across mini-batches synchronized with MPI all-reduce across processes:
+### Evaluated Search Space (5 Candidates)
 
-| Optimizer | Update Rule | Key Hyperparameters | Characteristics |
-|---|---|---|---|
-| **SGD** | $\theta_{t+1} = \theta_t - \gamma g_t$ | $\gamma$ (learning rate) | Basic gradient descent; can oscillate in ravines or stall at saddle points. |
-| **SGD+Momentum** | $v_{t} = \mu v_{t-1} + g_t$<br>$\theta_{t+1} = \theta_t - \gamma v_t$ | $\gamma$, $\mu = 0.9$ (momentum) | Accumulates velocity in consistent directions; accelerates through flat areas and dampens oscillations. |
-| **AdaGrad** | $G_t = G_{t-1} + g_t^2$<br>$\theta_{t+1} = \theta_t - \frac{\gamma}{\sqrt{G_t + \epsilon}} g_t$ | $\gamma$, $\epsilon = 10^{-8}$ | Adapts learning rates per-parameter based on historical squared gradients; monotonic learning rate decay. |
-| **RMSprop** | $v_t = \rho v_{t-1} + (1 - \rho) g_t^2$<br>$\theta_{t+1} = \theta_t - \frac{\gamma}{\sqrt{v_t + \epsilon}} g_t$ | $\gamma$, $\rho = 0.9$ (decay rate), $\epsilon = 10^{-8}$ | Uses exponentially decaying average of squared gradients to resolve AdaGrad's premature learning rate decay. |
-| **Adam** | $m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$<br>$v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2$<br>$\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \hat{v}_t = \frac{v_t}{1 - \beta_2^t}$<br>$\theta_{t+1} = \theta_t - \frac{\gamma}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$ | $\gamma$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$ | Combines momentum (first moments) with adaptive scale (second moments) with bias correction. |
+| Candidate ID | Optimizer Algorithm | Mathematical Update Formulation | Hyperparameters | Characteristics |
+|:---|:---|:---|:---:|:---|
+| `sgd` | Vanilla SGD | $\theta_{t+1} = \theta_t - \gamma g_t$ | None | Standard first-order stochastic gradient descent |
+| `sgd_momentum` | SGD with Momentum | $v_t = \mu v_{t-1} + g_t, \quad \theta_{t+1} = \theta_t - \gamma v_t$ | $\mu = 0.9$ | Velocity accumulation along consistent gradient directions |
+| `adagrad` | AdaGrad | $G_t = G_{t-1} + g_t^2, \quad \theta_{t+1} = \theta_t - \frac{\gamma}{\sqrt{G_t + \epsilon}} g_t$ | $\epsilon = 10^{-8}$ | Cumulative sum of historical squared coordinate gradients |
+| `rmsprop` | RMSprop | $v_t = \rho v_{t-1} + (1 - \rho) g_t^2, \quad \theta_{t+1} = \theta_t - \frac{\gamma}{\sqrt{v_t + \epsilon}} g_t$ | $\rho = 0.9, \epsilon = 10^{-8}$ | Exponentially decaying moving average of squared gradients |
+| **`adam`** | **Adam** | $m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t, \; v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2, \; \theta_{t+1} = \theta_t - \frac{\gamma}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$ | $\beta_1 = 0.9, \beta_2 = 0.999, \epsilon = 10^{-8}$ | Adaptive first & second moments with bias correction |
 
-## Experimental Design
+Total evaluations: **25 fold runs** (5 candidates $\times$ 5 folds).
 
-### 1. Isolated State per Candidate and Fold
-As required by `docs/cross_validation.md`, every candidate and fold constructs a brand new optimizer instance using `OptimizerRecipe`. Optimizer internal states (velocity vectors $v_t$, accumulated squared gradients $G_t$, moving averages $m_t, v_t$, and timesteps $t$) are never shared between folds or candidates.
+---
 
-### 2. Fair Cross-Validation Setup
-- **Dataset**: `dataset/cnn_dataset_train.npz` (1713 samples)
-- **Splitter**: `RandomKFold(k=5, shuffle=true, seed=42)`
-- **Common baseline across all candidates**:
-  - Exact same winning architecture (`conv5x5-dense-1024-512-256-128`): `Conv2D(8, 5x5, stride 5)` -> `LeakyReLU(0.05)` -> `Flatten` -> `Dense(1024)` -> `LeakyReLU` -> `Dense(512)` -> `LeakyReLU` -> `Dense(256)` -> `LeakyReLU` -> `Dense(128)` -> `LeakyReLU` -> `Dense(1)`
-  - Exact same loss: Data MSE + SIMM physics residual with weight `0.25`
-  - Exact same global batch size: `64`
-  - Exact same fold seeds and training indices
-- **Selection Metric**: Sample-weighted physical-unit validation MSE ($\text{MSE}_{\text{val}}$).
-- **Untouched Test Set Evaluation**: `dataset/cnn_dataset_test.npz` is evaluated only once after the best optimizer is selected by cross-validation, by refitting the winning configuration on all training data.
+## 2. Fixed Experimental Configuration
 
-## Compilation
+| Hyperparameter | Value | Description |
+|:---|:---|:---|
+| **Architecture** | `conv5x5-dense-1024-512-256-128` | Winner from topology search |
+| **Learning Rate ($\gamma$)** | $10^{-5}$ | Uniform base learning rate across all algorithms |
+| **Loss Function** | SIMM Physics Loss | MSE Data Loss + $\lambda_{\text{SIMM}} \cdot \text{Physics Loss}$ |
+| **Physics Weight ($\lambda$)** | $0.25$ | Active for $\lvert\alpha\rvert \le 10^\circ$ |
+| **Activation Function** | LeakyReLU | Negative slope $\alpha = 0.05$ |
+| **Regularization / Dropout** | None | $L_1 = 0, L_2 = 0, p_{\text{drop}} = 0$ |
+| **Global Batch Size** | $64$ | Synchronized across MPI ranks |
+| **Epoch Budget** | $100$ | Evaluated at 10-epoch checkpoints |
+| **Cross-Validation** | 5-Fold `RandomKFold` | Deterministic shuffle with seed `42` |
+| **Selection Metric** | Physical-unit Validation MSE | Sample-weighted mean across 5 folds |
+| **Training Dataset** | `dataset/cnn_dataset_train.npz` | 1,713 samples (1,370 train / 343 val per fold) |
+| **Held-out Test Dataset** | `dataset/cnn_dataset_test.npz` | 429 samples (untouched, evaluated once on winner) |
 
-### Option A: Direct MPI Compiler (`mpicxx`)
-From the repository root:
+## 3. Requirements and Prerequisites
+
+- **Toolchain:** C++20 compliant compiler (`g++` $\ge 11$ or `clang++` $\ge 13$) with an MPI implementation (OpenMPI $\ge 4.0$ or MPICH).
+- **Build System:** CMake $\ge 3.16$ or direct `mpicxx` compilation.
+- **Dataset Files:** `dataset/cnn_dataset_train.npz` (1,713 samples) and `dataset/cnn_dataset_test.npz` (429 samples), generated via `python3 build_dataset.py --seed 42`.
+- **Python Environment:** Python 3.8+ with `numpy`, `matplotlib`, and `pandas` for analysis and plotting scripts.
+- **Working Directory:** All commands must be run from the **repository root**.
+
+---
+
+## 4. Compilation
+
+Build directly from the repository root:
+
+### Option A: CMake (Recommended)
+```bash
+cmake -S CNN -B build/CNN -DCMAKE_BUILD_TYPE=Release
+cmake --build build/CNN --target optimizer_tuning --parallel
+```
+
+### Option B: Direct MPI Compilation (`mpicxx`)
 ```bash
 mkdir -p build/experiments
-
 mpicxx -std=c++20 -O3 -ICNN/src \
-  CNN/experiments/optimizer_comparison/main.cpp \
+  CNN/experiments/optimizer_tuning/main.cpp \
   CNN/src/core/*.cpp CNN/src/data/*.cpp CNN/src/layers/*.cpp \
   CNN/src/model/*.cpp CNN/src/optimizers/*.cpp \
   CNN/src/training/*.cpp CNN/src/tuning/*.cpp \
-  -o build/experiments/optimizer_comparison
+  -o build/experiments/optimizer_tuning
 ```
 
-### Option B: CMake
+---
+
+## 5. Running the Experiment
+
+### 1. Quick Verification (Smoke Test)
 ```bash
-cmake -S CNN -B build/CNN -DCMAKE_BUILD_TYPE=Release
-cmake --build build/CNN --target optimizer_comparison --parallel
+mpirun -n 2 ./build/CNN/experiments/optimizer_tuning --smoke
 ```
 
-## Running the Experiment
-
-### 1. Quick Smoke Test (2 folds, 2 epochs)
-Verify the setup runs cleanly:
+### 2. Full 5-Fold Cross-Validation Comparison
 ```bash
-mpirun -n 2 ./build/experiments/optimizer_comparison --smoke
-```
-
-### 2. Standard 5-Fold Comparison (100 epochs per fold)
-```bash
-mpirun -n 4 ./build/experiments/optimizer_comparison \
+mkdir -p results/cross_validation/optimizer_comparison
+mpirun -n 16 ./build/CNN/experiments/optimizer_tuning \
   --mode compare \
   --folds 5 \
   --epochs 100 \
   --batch-size 64 \
   --seed 42 \
+  --diagnostics \
   --results-dir results/cross_validation/optimizer_comparison
 ```
 
-## Generated Outputs
+### Output Artifacts
+- `results/cross_validation/optimizer_comparison/fold_results.csv`: Per-candidate and per-fold metrics.
+- `results/cross_validation/optimizer_comparison/training_history.csv`: History at 10-epoch checkpoints per fold.
+- `results/cross_validation/optimizer_comparison/summary.txt`: Human-readable summary of cross-validation ranking.
 
-The experiment writes results to the specified output directory:
-- `fold_results.csv`: Per-candidate and per-fold training MSE, validation MSE, and SIMM objective.
-- `training_history.csv`: History at each 10-epoch validation checkpoint per fold.
-- `summary.txt`: Human-readable summary of cross-validation performance and final untouched test MSE.
+---
 
-## Results
+## 6. Results
 
-The recorded comparison used 5 folds, 100 epochs per fold, global batch size 64,
-learning rate $10^{-5}$, and seed 42. The ranking below uses the sample-weighted physical-unit validation
-MSE reported in [`run/cv_summary.csv`](../../../results/cross_validation/optimizer_comparison/run/cv_summary.csv).
-The fold ranges are included to show the variability between validation splits.
+Cross-validation summary across 5 folds and 100 epochs at base learning rate $\gamma = 10^{-5}$:
 
-| Rank | Optimizer | Mean validation MSE +/- SD | Fold range |
-|---:|---|---:|---:|
-| **1** | **Adam (lr = 1e-5)** | **0.004427 +/- 0.000887** | 0.002879 - 0.005044 |
-| 2 | RMSprop (lr = 1e-5) | 0.005216 +/- 0.000653 | 0.004518 - 0.006173 |
-| 3 | AdaGrad (lr = 1e-5) | 0.006185 +/- 0.001238 | 0.004239 - 0.007439 |
-| 4 | SGD + Momentum (lr = 1e-5, m = 0.9) | 0.007151 +/- 0.001412 | 0.004791 - 0.008473 |
-| 5 | SGD (lr = 1e-5) | 0.017927 +/- 0.006229 | 0.013063 - 0.028647 |
+| Rank | Optimizer | Mean Validation MSE $\pm$ SD | Fold Range ($\text{MSE}_{\text{val}}$) | Relative Difference vs Adam | Status |
+|:---:|:---|:---:|:---:|:---:|:---:|
+| **1** | **Adam** | **$0.004427 \pm 0.000887$** | **0.002879 – 0.005044** | **Baseline (0.0%)** | **Selected Winner** |
+| 2 | RMSprop | $0.005216 \pm 0.000653$ | 0.004518 – 0.006173 | +17.8% | Stable |
+| 3 | AdaGrad | $0.006185 \pm 0.001238$ | 0.004239 – 0.007439 | +39.7% | Premature decay |
+| 4 | SGD + Momentum | $0.007151 \pm 0.001412$ | 0.004791 – 0.008473 | +61.5% | Slow convergence |
+| 5 | Vanilla SGD | $0.017927 \pm 0.006229$ | 0.013063 – 0.028647 | +304.9% | Severe stalling |
 
-Adam was selected for the final refit. It achieved the lowest mean validation
-error with strong fold consistency, approximately 15.1% lower than RMSprop and
-38.1% lower than SGD with momentum. Plain SGD struggled at this learning rate,
-yielding the highest validation error and fold variance.
+**Adam is selected as the standard optimizer for all subsequent tuning experiments.**
 
-After selecting Adam using cross-validation, the model was refit on all training
-data and evaluated once on the untouched test set. The resulting physical-unit
-test MSE was **0.00365482**. The complete recorded summary is available in
-[`summary.txt`](../../../results/cross_validation/optimizer_comparison/summary.txt),
-with comparison plots in
-[`plots/`](../../../results/cross_validation/optimizer_comparison/plots/).
+### Final Untouched Test Set Evaluation
+Refitting the winning **Adam** optimizer on the full training dataset (1,713 samples) and evaluating once on the held-out test dataset (`dataset/cnn_dataset_test.npz`, 429 samples) yielded:
+- **Test Physical MSE:** **`0.003655`**
 
-## Analysis and Plotting
+---
 
-To analyze the resulting CSVs and plot boxplots and learning curves:
+## 7. Analysis and Plotting
+
+### Brief Scientific Analysis
+1. **Superiority of Adaptive Moments:** Adam achieved the lowest validation error ($0.004427$), outperforming RMSprop by 15.1% and SGD+Momentum by 38.1%. The combination of momentum and coordinate-wise adaptive scaling handles the ill-conditioned curvature of deep physics-informed networks effectively.
+2. **AdaGrad Learning Rate Decay:** AdaGrad's monotonic accumulation of squared gradients ($G_t$) caused the effective step size to shrink prematurely, stalling optimization in later epochs.
+3. **Failure of Vanilla SGD at Small Learning Rates:** Non-adaptive SGD struggled severely at $\gamma = 10^{-5}$, producing four-fold higher error ($0.017927$) and extreme cross-fold variance due to ravines and flat plateaus in parameter space.
+
+### Analysis and Plot Generation
+Generate comparison summary and plots:
 ```bash
-python3 CNN/experiments/optimizer_comparison/analyze.py \
+python3 CNN/experiments/optimizer_tuning/analyze.py \
   --results-dir results/cross_validation/optimizer_comparison
 ```
+
+Generate report figures:
+```bash
+python3 CNN/experiments/optimizer_tuning/analysis/plot_report_figures.py
+```
+
+Generated figure artifacts in `Report/Images/Chapter04/optimizer/`:
+- `optimizer_boxplots.png`: Distribution of validation MSE across folds for all 5 optimizers.
+- `optimizer_convergence.png`: Training objective and validation error curves across epochs.
+- `optimizer_ranking.png`: Bar chart comparison of final cross-validated validation MSE.

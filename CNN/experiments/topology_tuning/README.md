@@ -56,7 +56,7 @@ The architecture consists of:
 | **Training Dataset** | `dataset/cnn_dataset_train.npz` | 1,713 samples (1,370 train / 343 val per fold) |
 | **Held-out Test Dataset** | `dataset/cnn_dataset_test.npz` | 429 samples (untouched, evaluated once on winner) |
 
-## 3. Requirements & Prerequisites
+## 3. Requirements and Prerequisites
 
 - **Toolchain:** C++20 compliant compiler (`g++` $\ge 11$ or `clang++` $\ge 13$) with an MPI implementation (OpenMPI $\ge 4.0$ or MPICH).
 - **Build System:** CMake $\ge 3.16$ or direct `mpicxx` compilation.
@@ -117,7 +117,7 @@ The experiment writes execution logs and summary tables:
 
 The grid search evaluated all 18 candidate architectures on the identical 5-fold cross-validation split (90 total fold evaluations).  
 
-The metrics used were:
+### Metrics and Diagnostic Definitions:
 - **$\Delta$ vs Baseline (Paired Difference):** The average difference in validation MSE between a candidate and the `{128, 64}` baseline evaluated on the exact same fold splits ($\text{MSE}_{\text{cand}} - \text{MSE}_{\text{base}}$). A **negative $\Delta$** means the candidate achieved a lower error (performed better) than the baseline.
 - **Folds Improved:** How many of the 5 cross-validation folds showed better performance than the baseline (e.g., **5/5** indicates consistent superiority across all data splits).
 - **Ratio to Mean Baseline ($\text{MSE}_{\text{val}} / \text{MSE}_{\text{mean-predictor}}$):** Compares the model's error against a trivial "dummy" baseline that always predicts the simple dataset average $C_L$ ($\text{MSE}_{\text{mean-predictor}} \approx 0.4974$). A ratio of **$0.0092$** ($0.92\%$) means the neural network eliminates over **$99\%$ of the variance** compared to naive guessing.
