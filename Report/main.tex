@@ -113,7 +113,7 @@
 % -> author name and surname
 \renewcommand{\author}{Giulio Enzo Donninelli, Alessia Rigoni, Vittorio Sironi and Alessandro Verrengia}
 % -> MSc course
-\newcommand{\course}{Advanced Methods for Scientific Computing}
+\newcommand{\course}{Advanced Methods for Scientific Computing and Numerical Analysis for Machine Learning}
 % -> advisor name and surname
 \newcommand{\advisor}{Prof. Luca Dedè}
 % IF AND ONLY IF you need to modify the co-supervisors you also have to modify the file Configuration_files/title_page.tex (ONLY where it is marked)
@@ -124,7 +124,7 @@
 % -> academic year
 \newcommand{\YEAR}{2025-2026}
 % -> abstract (only in English)
-\renewcommand{\abstract}{This work presents an integrated computational pipeline for rapid aerodynamic analysis, bridging high-fidelity simulations with a data-driven surrogate model. We extended the \textbf{\lifex} \cpp finite element library with a Reynolds-Averaged Navier-Stokes (RANS) solver using the Spalart-Allmaras turbulence model. This solver generated a reference dataset on the CINECA Leonardo HPC cluster, which was used to train a Convolutional Neural Network (CNN) built from scratch in \cpp. The CNN predicts lift coefficients from a Signed Distance Function (SDF) geometry representation and is trained in parallel using MPI. The model achieves a validation Mean Squared Error of 0.0104 and a 35$\times$ speedup over direct simulation, providing a robust framework for efficient aerodynamic design.}
+\renewcommand{\abstract}{This work presents an integrated computational pipeline for creating highly accurate, data-driven surrogates for rapid aerodynamic analysis. We first extend the \textbf{\lifex} \cpp finite element library with a Reynolds-Averaged Navier-Stokes (RANS) solver using the Spalart-Allmaras turbulence model. This solver is deployed on the CINECA Leonardo HPC cluster to generate a reference-quality dataset. This dataset is then used not only to train but also to systematically optimize a Convolutional Neural Network (CNN), implemented from scratch in \cpp, which predicts lift coefficients from a Signed Distance Function (SDF) representation of the airfoil. Through a comprehensive tuning campaign, we identified the optimal network topology, optimizer, and training protocol. The final, optimized model achieves an exceptional test Mean Squared Error of 0.000487 while delivering predictions with a speedup of over four orders of magnitude compared to direct simulation. This work establishes a validated methodology for creating robust and computationally efficient surrogates for complex aerodynamic design.}
 
 % -> key-words (only in English)
 \newcommand{\keywords}{}
