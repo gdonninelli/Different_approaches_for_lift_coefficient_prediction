@@ -82,7 +82,7 @@ The first tuning activity concerned the topology of the network, as it dictates 
 \end{itemize}
 The main focus is to find the right balance. A model with insufficient capacity (too few layers or neurons) may fail to capture the non-linear relationship between an airfoil's shape and its aerodynamic performance. Conversely, an overly complex model risks poor generalization, fitting noise in the training data rather than the underlying physical principles, while also increasing computational cost.\\
 
-This type of structural comparison is consistent with the surrogate model motivation introduced in Chapter~\ref{sec:03_Convolutional_Neural_Network}. The reference to the role of activation and gradient propagation in deep networks discussed by Glorot and Bengio~\cite{glorot2010understanding} is kept here only as motivation for studying signal propagation in principle, since that work considers saturating nonlinearities and initialization and does not predict a kernel size or a head width for this SDF trunk.\\
+This type of structural comparison is consistent with the surrogate model motivation introduced in Chapter~\ref{sec:03_Convolutional_Neural_Network}. The reference to the role of activation and gradient propagation in deep networks discussed by \cite{glorot2010understanding} is kept here only as motivation for studying signal propagation in principle, since that work considers saturating nonlinearities and initialization and does not predict a kernel size or a head width for this SDF trunk.\\
 
 This experiment systematically explores different architectural choices, such as the convolutional kernel size, the width and depth of the dense head, to identify a topology that optimally balances representational power with generalization performance. All other hyperparameters, such as the optimizer and loss function, were held constant to isolate the impact of the architecture itself.\\
 
@@ -141,14 +141,14 @@ The results of the 90-fold evaluation, summarized in Table \ref{tab:04_topology_
     \label{tab:04_topology_results}
 \end{table}
 
+The lowest observed validation MSE was obtained by \texttt{conv5x5-dense-1024-512-256-128}, with $0.004560\pm0.000946$. This represents a substantial improvement over the baseline \texttt{conv5x5-dense-128-64}, which achieved $0.006010\pm0.000823$, outperforming it consistently across all five cross-validation folds. The mean paired difference between the winner and the baseline is $-0.001450$, indicating an advantage of the selected topology. After being refit on the entire training dataset, this winning topology achieved an MSE of $0.002805$ on the untouched test dataset.\\
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\linewidth]{Images/Chapter04/topology/topology_ranking.png}
     \caption{Layer tuning ranking by sample-weighted mean physical validation MSE over five folds. Error bars show the fold standard deviation. The leftmost candidate is the selected \texttt{conv5x5-dense-1024-512-256-128}. The plot summarizes \texttt{summary.csv} and does not imply a fitted scaling law.}
     \label{fig:04_topology_ranking}
 \end{figure}
-
-The lowest observed validation MSE was obtained by \texttt{conv5x5-dense-1024-512-256-128}, with $0.004560\pm0.000946$. This represents a substantial improvement over the baseline \texttt{conv5x5-dense-128-64}, which achieved $0.006010\pm0.000823$, outperforming it consistently across all five cross-validation folds. The mean paired difference between the winner and the baseline is $-0.001450$, indicating an advantage of the selected topology. After being refit on the entire training dataset, this winning topology achieved an MSE of $0.002805$ on the untouched test dataset.\\
 
 The analysis shows that both network width and depth were crucial for achieving this performance, but with diminishing returns.\\
 
@@ -158,6 +158,8 @@ For this reason, the best performance is not achieved by maximizing either width
 
 The kernel comparison gives a second clear result. Across all paired comparison, the $5\times5$ convolution consistently outperformed the $3\times3$ convolution. This trend is clearly visible in the paired comparisons shown in Figure \ref{fig:04_topology_kernel_paired}. For instance, when paired with the $(512,256)$ dense head, the $5\times5$ kernel achieved a mean MSE that was lower by approximately $0.001407$ compared to the $3\times3$ kernel. This outcome is likely due to the larger receptive field of the $5\times5$ kernel. With a larger window, the model can capture broader spatial patterns and more complex geometric details from the SDF input in a single step, useful for the prediction of the lift coefficient.\\
 
+The convergence history, shown in Figure \ref{fig:04_topology_history}, further supports this conclusion. Models using the $5\times5$ kernel consistently achieved lower validation MSEs throughout the training process, indicating that they were able to learn more effectively from the data.\\
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\linewidth]{Images/Chapter04/topology/topology_kernel_paired.png}
@@ -165,7 +167,12 @@ The kernel comparison gives a second clear result. Across all paired comparison,
     \label{fig:04_topology_kernel_paired}
 \end{figure}
 
-The convergence history, shown in Figure \ref{fig:04_topology_history}, further supports this conclusion. Models using the $5\times5$ kernel consistently achieved lower validation MSEs throughout the training process, indicating that they were able to learn more effectively from the data.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{Images/Chapter04/topology/topology_history.png}
+    \caption{Fold averaged physical validation MSE at public checkpoints every ten epochs. Curves are shown for the winner \texttt{conv5x5-dense-1024-512-256-128}, the depth two candidate \texttt{conv5x5-dense-1024-512}, the baseline \texttt{conv5x5-dense-128-64}, and the $3\times3$ mate \texttt{conv3x3-dense-512-256}. The training objective is omitted because it uses different standardized units.}
+    \label{fig:04_topology_history}
+\end{figure}
 
 However, it is important to acknowledge several limitations inherent to this specific experimental setup:
 \begin{itemize}
@@ -176,19 +183,12 @@ However, it is important to acknowledge several limitations inherent to this spe
 \end{itemize}
 \vspace{2ex}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.65\linewidth]{Images/Chapter04/topology/topology_history.png}
-    \caption{Fold averaged physical validation MSE at public checkpoints every ten epochs. Curves are shown for the winner \texttt{conv5x5-dense-1024-512-256-128}, the depth two candidate \texttt{conv5x5-dense-1024-512}, the baseline \texttt{conv5x5-dense-128-64}, and the $3\times3$ mate \texttt{conv3x3-dense-512-256}. The training objective is omitted because it uses different standardized units.}
-    \label{fig:04_topology_history}
-\end{figure}
-
 The cross-validation winner is \texttt{conv5x5-dense-1024-512-256-128}, with physical validation MSE $0.004560\pm0.000946$ and untouched test MSE $0.002805$ after refitting on the complete training set. 
 
 \subsection{Dropout tuning}
 \label{sec:04_dropout_tuning}
 
-Dropout is a regularization technique designed to prevent overfitting in large networks by randomly deactivating neurons during training, which discourages complex co-adaptations between them \cite{srivastava2014dropout}. Typically, it is most effective when there is a clear gap between training and validation performance. The preceding regularization experiment, however, showed only a small training to validation gap relative to the fold variability. The dropout experiment therefore tests a specific question: can stochastic masking improve validation accuracy when the available evidence does not indicate a large deterministic overfitting gap?\\
+Dropout is a regularization technique designed to prevent overfitting in large networks by randomly deactivating neurons during training, which discourages complex co-adaptations between them, as shown by \cite{srivastava2014dropout}. Typically, it is most effective when there is a clear gap between training and validation performance. The preceding regularization experiment, however, showed only a small training to validation gap relative to the fold variability. The dropout experiment therefore tests a specific question: can stochastic masking improve validation accuracy when the available evidence does not indicate a large deterministic overfitting gap?\\
 
 During training, a random subset of activations in a layer is set to zero. The remaining are scaled up by the reciprocal of the survival probability to maintain the expected magnitude of the layer's output. This process, which effectively trains a large ensemble of thinned subnetworks, can be expressed mathematically as:
 \begin{equation}
@@ -263,16 +263,14 @@ A closer look at the training dynamics, presented in Figure \ref{fig:04_dropout_
 
 Next, as seen in the right panel, the validation error for the baseline $p=0$ model consistently remains the lowest throughout the 100 epochs (from $0.0071253$ at epoch 10 to $0.0058346$ at epoch 100). Conversely, increasing the dropout rate raises the final error value, with the $p=0.5$ candidate converging to a solution approximately twice as poor as the baseline (the MSE during validation ranges from $0.0227140$ at epoch 10 to $0.0117650$ at epoch 100). The curves contain small fold-averaged fluctuations, particularly for the nonzero rates, but none shows a late unbounded increase.\\
 
-
-
-To understand why dropout degraded performance, we analyzed the detailed training diagnostics, summarized in Figure \ref{fig:04_dropout_stability}. These diagnostics confirm that the poorer performance was not caused by numerical instability but by the disruptive effect of dropout on the optimization process.
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\linewidth]{Images/Chapter04/dropout/dropout_stability.png}
     \caption{Diagnostics for the recorded dropout sweep. The aggregate gradient norm, actual update ratio, and post-activation variance panels show means with minimum to maximum bands over five folds at epochs 1 and 100; the horizontal axis is dropout rate and the first two vertical axes are logarithmic. The final panel shows the largest recorded \texttt{maximum\_norm} with \texttt{parameter\_scope=all} over all folds and epochs for each dropout rate. Diagnostic rows are aggregated and individual layers are not distinguished.}
     \label{fig:04_dropout_stability}
 \end{figure}
+
+To understand why dropout degraded performance, we analyzed the detailed training diagnostics, summarized in Figure \ref{fig:04_dropout_stability}. These diagnostics confirm that the poorer performance was not caused by numerical instability but by the disruptive effect of dropout on the optimization process.\\
 
 We can see that no run was numerically unstable. Looking at the bottom right plot, while stronger dropout rates led to larger initial gradient transients (peaking around $47.444652$ for $p=0.5$, compared to $37.841272$ for $p=0.0$), these were controlled, early-epoch events. All gradients remained finite and decreased substantially as training progressed, confirming that the high validation error was not the result of a failed or divergent run.\\
 
@@ -289,7 +287,7 @@ Therefore, the cross-validation winner is unequivocally \texttt{dropout rate = 0
 \subsection{Optimizer tuning}
 \label{sec:04_optimizer_tuning}
 
-The optimizer determines how the gradient produced by the SIMM loss is converted into a change of the trainable parameters. For this CNN architecture, this choice is particularly critical: the convolutional feature extractor and the dense regression head differ substantially in parameter dimensions and gradient dynamics. Consequently, a fixed learning rate may lead to different effective progress depending on whether the method retains a direction from previous batches or scales each coordinate using past squared gradients. We decided to test different methods, including vanilla SGD, SGD with momentum, AdaGrad\footnote{That formalizes cumulative coordinate adaptation \cite{duchi2011adaptive}.}, RMSprop, and Adam\footnote{That combines first and second moment estimates with bias correction \cite{kingma2015adam}.}, to evaluate their impact on the physical validation error within the same finite training budget. The result is a comparison at one learning rate and is not a claim that an optimizer is universally preferable.\\
+The optimizer determines how the gradient produced by the SIMM loss is converted into a change of the trainable parameters. For this CNN architecture, this choice is particularly critical: the convolutional feature extractor and the dense regression head differ substantially in parameter dimensions and gradient dynamics. Consequently, a fixed learning rate may lead to different effective progress depending on whether the method retains a direction from previous batches or scales each coordinate using past squared gradients. We decided to test different methods, including vanilla SGD, SGD with momentum, AdaGrad\footnote{That formalizes cumulative coordinate adaptation, as explained by \cite{duchi2011adaptive}.}, RMSprop, and Adam\footnote{That combines first and second moment estimates with bias correction, as seen by \cite{kingma2015adam}.}, to evaluate their impact on the physical validation error within the same finite training budget. The result is a comparison at one learning rate and is not a claim that an optimizer is universally preferable.\\
 
 Before any parameter updates are made, we first apply gradient clipping to prevent numerical instability. In distributed execution, backpropagated gradients are first averaged across all MPI processes via collective reduction (\texttt{MPI\_Allreduce}) to ensure mathematical equivalence regardless of the number of ranks. During early epochs, gradients can become excessively large, especially across wide dense layers. To mitigate this, every individual component of the aggregated gradient vector is constrained to a fixed range. In our implementation, we apply coordinate-wise (component-wise) clipping to each gradient entry $g_{t,j}$ within the interval $[-1,1]$:
 \begin{equation}
@@ -337,13 +335,15 @@ The five optimizers evaluated in this experiment are defined as follows:
     \end{aligned}
     \end{equation*}
 \end{itemize}
-In all five algorithms, the baseline learning rate is set to $\eta=10^{-5}$ without an attached decay scheduler. In our \cpp framework, each candidate optimizer is encapsulated as an \texttt{OptimizerRecipe} (e.g., \texttt{Recipes::adam}, \texttt{Recipes::rmsprop}). When \texttt{CrossValidator} evaluates a fold, a fresh optimizer instance is constructed. For stateful optimizers, parameter state vectors ($m_t, v_t, s_t, G_t$) are zero-initialized and bound to weight arrays via an internal pointer hash map (\texttt{std::unordered\_map<float*, State>}), ensuring strict fold isolation with $\mathcal{O}(1)$ lookup complexity and zero cross-fold state leakage. Although Adam triples the parameter memory requirement (storing two additional 32-bit floats per parameter, approximately $96\,\mathrm{MB}$ for our $\approx 8.065\times 10^6$ parameter network), this overhead is easily accommodated by system memory.\\
+In all five algorithms, the baseline learning rate is set to $\eta=10^{-5}$ without an attached decay scheduler.\\
+
+In our \cpp framework, each candidate optimizer is encapsulated as an \texttt{OptimizerRecipe} (e.g., \texttt{Recipes::adam}, \texttt{Recipes::rmsprop}). When \texttt{CrossValidator} evaluates a fold, a fresh optimizer instance is constructed. For stateful optimizers, parameter state vectors ($m_t, v_t, s_t, G_t$) are zero-initialized and bound to weight arrays via an internal pointer hash map (\texttt{std::unordered\_map<float*, State>}), ensuring strict fold isolation with $\mathcal{O}(1)$ lookup complexity and zero cross-fold state leakage. Although Adam triples the parameter memory requirement (storing two additional 32-bit floats per parameter, approximately $96\,\mathrm{MB}$ for our $\approx 8.065\times 10^6$ parameter network), this overhead is easily accommodated by system memory.\\
 
 The optimizer comparison was performed exactly in the same way that the dropout one was done, using the winning topology from Section \ref{sec:04_topology_tuning} and the same cross-validation protocol. All other hyperparameters were held constant: SIMM physics weight of $0.25$, batch size of 64, and a 100-epoch training budget.\\
 
-The winning optimizer was selected based on the lowest physical-unit validation MSE (Equation \eqref{eq:04_validation_mse}). The final scores reported in Table \ref{tab:04_optimizer_results} are the sample-weighted averages across the five folds, ensuring that folds with slightly different numbers of validation samples are handled correctly.\\
+The winning optimizer was selected based on the lowest physical-unit validation MSE (Equation \eqref{eq:04_validation_mse}). The final scores reported in Table \ref{tab:04_optimizer_results} are the sample-weighted averages across the five folds, ensuring that folds with slightly different numbers of validation samples are handled correctly. The results, as shown in Figure \ref{fig:04_optimizer_ranking}, demonstrate a clear performance hierarchy among the tested optimizers.\\
 
-The results, summarized in Table \ref{tab:04_optimizer_results} and visualized in Figure \ref{fig:04_optimizer_ranking}, demonstrate a clear performance hierarchy among the tested optimizers.
+Adam was the cross-validation winner with $0.004426734\pm0.000793966$ physical validation MSE. It was the lowest-scoring candidate in every one of the five cross-validation folds. This represents a significant $15\%$ error reduction compared to its closest competitor, RMSprop (MSE of $0.005216$), and a $38\%$ reduction compared to SGD with momentum. The other optimizers ranked as expected, with AdaGrad and momentum-based SGD delivering intermediate performance. Vanilla SGD, without any adaptive or momentum mechanisms, struggled significantly at this low learning rate, finishing with a validation error nearly four times higher than Adam's ($0.017924$). While all runs completed successfully without diverging, the performance of plain SGD was substantially less accurate and consistent across the folds.\\
 
 \begin{table}[htbp]
     \centering
@@ -374,8 +374,6 @@ The results, summarized in Table \ref{tab:04_optimizer_results} and visualized i
     \label{tab:04_optimizer_results}
 \end{table}
 
-Adam was the cross-validation winner with $0.004426734\pm0.000793966$ physical validation MSE. It was the lowest-scoring candidate in every one of the five cross-validation folds. This represents a significant $15\%$ error reduction compared to its closest competitor, RMSprop (MSE of $0.005216$), and a $38\%$ reduction compared to SGD with momentum. The other optimizers ranked as expected, with AdaGrad and momentum-based SGD delivering intermediate performance. Vanilla SGD, without any adaptive or momentum mechanisms, struggled significantly at this low learning rate, finishing with a validation error nearly four times higher than Adam's ($0.017924$). While all runs completed successfully without diverging, the performance of plain SGD was substantially less accurate and consistent across the folds.\\
-
 The physical training MSE recorded after the final fold epoch was also lower for the better validation candidates, but it must be interpreted separately from the SIMM objective: the methods that achieved better validation scores also reached a lower physical training MSE within the fixed 100-epoch training budget.\\
 
 \begin{figure}[H]
@@ -393,15 +391,16 @@ The superiority of the adaptive coordinate methods is evident from the very begi
     \item[-] RMSprop resolves AdaGrad's diminishing step size by replacing the monotonic sum with an exponentially decaying average ($\rho=0.9$). However, it lacks first-moment momentum and initialization bias correction. Without momentum to filter high-frequency gradient jitter, RMSprop exhibits notable instability late in training, with its error spiking noticeably around epoch 90 before recovering;
     \item[-] Plain SGD and SGD with momentum scale parameter updates directly by the unnormalized gradient magnitude ($\lVert\Delta\theta\rVert\approx\eta\lVert\tilde{g}\rVert$). As backpropagated gradients naturally decay near flatter loss regions, the effective step size becomes vanishingly small ($\approx 10^{-7}$--$10^{-8}$ for $\eta=10^{-5}$), preventing SGD from covering sufficient distance across the loss landscape within 100 epochs. In contrast, Adam's coordinate normalization by $\sqrt{\hat{v}_{t,j}}$ maintains active effective steps of scale $\eta$ across all coordinates regardless of gradient magnitude decay.
 \end{itemize}
-
-Overall, the convergence plot visually confirms the final rankings. It demonstrates that Adam's victory is due not only to a lower final error but also to its combination of fast, efficient, and stable convergence throughout the entire training process.\\
+\vspace{2ex}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.90\linewidth]{Images/Chapter04/optimizer/optimizer_history.png}
+    \includegraphics[width=0.80\linewidth]{Images/Chapter04/optimizer/optimizer_history.png}
     \caption{Physical validation MSE at the ten-epoch history checkpoints for the five optimizer candidates. Lines and shaded regions are the sample-weighted means and weighted population standard deviations over the five folds. The vertical axis is logarithmic; the SIMM training objective and the test set are not shown.}
     \label{fig:04_optimizer_history}
 \end{figure}
+
+Overall, the convergence plot visually confirms the final rankings. It demonstrates that Adam's victory is due not only to a lower final error but also to its combination of fast, efficient, and stable convergence throughout the entire training process.\\
 
 The diagnostic plots for the winning Adam optimizer reveal why it was so much more effective and stable than the alternatives. The key architectural challenge is visualized in Figure \ref{fig:04_optimizer_gradient_magnitude}, which plots the gradient magnitudes for each trainable layer at different points in training.\\
 
@@ -490,17 +489,7 @@ To investigate this further, we tested whether the physics term provided a local
 
 The validation history is consistent with the final ranking. The fold-averaged validation MSE for $\lambda=0$ decreased from approximately $0.007025$ at epoch 10 to $0.005602$ at epoch 100, whereas the corresponding values for $\lambda=2$ were $0.008356$ and $0.007407$. Every candidate completed 100 epochs with finite values, converging to a stable solution. The training objective started and ended higher as $\lambda$ increased, from approximately $0.599$ to $0.0104$ for $\lambda=0$ and from $1.393$ to $0.0168$ for $\lambda=2$ when averaged over folds. These are standardized SIMM objectives, so their difference from the physical validation MSE is not a generalization gap.\\
 
-%The diagnostic files provide a numerical stability check without replacing the validation criterion. All numeric fields in the 35 fold directories are finite, the effective learning rate is constant, and the learning-rate step files contain no schedule entries. When the rows with \texttt{parameter\_scope=all} are combined through $G=\sqrt{\sum_\ell \mathrm{rms\_norm}_\ell^2}$, the epoch-one mean increases from about $18.76$ at $\lambda=0$ to $45.36$ at $\lambda=2$ as the prior is strengthened, while the corresponding epoch-100 values are $0.842$ and $1.071$. The maximum recorded step norm increases from $56.87$ to $149.44$, but the largest late-epoch value for $\lambda=2$ is only $4.20$. This is an early transient and not a late exploding-gradient trend. The weights-only actual update ratio also decreases over training, from about $1.69\times10^{-4}$ to $2.43\times10^{-5}$ for $\lambda=0$. Weight denominators did not produce near-zero events in this scope. Bias-scope ratios were not used because their small denominators can create very large ratios without comparable absolute parameter movement.
-
 The diagnostic plots in Figure \ref{fig:04_physics_diagnostics} show that the optimizer successfully managed the training process for all candidates. As seen in the left panel, strengthening the physics prior led to a more pronounced initial gradient transient. At epoch 1, the aggregate RMS gradient norm for the $\lambda=2$ model (mean of $45.36$) was more than double that of the purely data-driven model ($\lambda=0$, mean of $18.76$). However, this was a controlled, early-epoch event. The optimizer rapidly stabilized all runs, and by epoch 100, the aggregate gradient norms had settled to a much smaller and more comparable level ($0.842$ for $\lambda=0$ vs. $1.071$ for $\lambda=2$). This pattern confirms that the training was numerically stable and did not suffer from late-stage exploding gradients.\\
-
-%The post-activation variance remains finite and changes only modestly in the global aggregate. Averaged over the recorded activation rows and folds, it changes from approximately $0.1092$ to $0.1113$ for $\lambda=0$ and from $0.1092$ to $0.1114$ for $\lambda=2$. These values do not establish that the physics term causes signal attenuation or amplification. Figure~\ref{fig:04_physics_diagnostics} reports the gradient aggregate, actual weights-only update ratio, and post-activation variance without grouping the curves by model layer. The plot is consequently a check of fold and training-time behaviour, not a layer-wise claim.
-
-The diagnostics also reveal that the physics term had a minimal effect on the network's internal dynamics:
-\begin{itemize}
-    \item[-] the middle panel shows that the "actual update ratio" for the model weights follows a very similar trajectory for all values of $\lambda$, decreasing steadily as the models converge. For the baseline model, this ratio decreased from an initial value of approximately $1.69\times 10^{-4}$ to $2.43\times 10^{-5}$ by the final epoch, indicating that the parameter updates became smaller and more refined over time;
-    \item[-] the right panel demonstrates that the post-activation variance was almost completely unaffected by the physics term. For both $\lambda=0$ and $\lambda=2$, the variance remained around $0.1092$ after an initial transient. This is a crucial finding, as it rules out "vanishing" or "exploding" activations as a cause for the degraded performance.
-\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -509,6 +498,12 @@ The diagnostics also reveal that the physics term had a minimal effect on the ne
     \label{fig:04_physics_diagnostics}
 \end{figure}
 
+The diagnostics also reveal that the physics term had a minimal effect on the network's internal dynamics:
+\begin{itemize}
+    \item[-] the middle panel shows that the "actual update ratio" for the model weights follows a very similar trajectory for all values of $\lambda$, decreasing steadily as the models converge. For the baseline model, this ratio decreased from an initial value of approximately $1.69\times 10^{-4}$ to $2.43\times 10^{-5}$ by the final epoch, indicating that the parameter updates became smaller and more refined over time;
+    \item[-] the right panel demonstrates that the post-activation variance was almost completely unaffected by the physics term. For both $\lambda=0$ and $\lambda=2$, the variance remained around $0.1092$ after an initial transient. This is a crucial finding, as it rules out "vanishing" or "exploding" activations as a cause for the degraded performance.
+\end{itemize}
+\vspace{2ex}
 
 The cross-validation experiment identifies the purely data-driven model with $\lambda=0$ as the unconstrained winner, achieving the lowest validation MSE of $0.005600634\pm0.001099091$. The diagnostic analysis confirms that the physics-informed loss term did not cause numerical instability or signal attenuation, but rather introduced a slight optimization compromise against the high-fidelity CFD ground truth.\\
 
@@ -517,7 +512,7 @@ Nevertheless, the final production model adopts a physics weight of $\lambda=0.1
 \subsection{Weight regularization}
 \label{sec:04_regularization_tuning}
 
-Weight regularization was tested because the dense head contains millions of trainable weights, so reducing unnecessary parameter magnitude could in principle improve validation performance. As we can see in \cite{tibshirani1996lasso,hoerl1970ridge}, L1 regularization is associated with sparsity and L2 regularization with continuous shrinkage. The central question was whether these penalties could provide a benefit, or if they would instead hinder optimization or introduce unnecessary bias, particularly if the unregularized model was not significantly overfitting.\\
+Weight regularization was tested because the dense head contains millions of trainable weights, so reducing unnecessary parameter magnitude could in principle improve validation performance. As we can see in \cite{tibshirani1996lasso} and \cite{hoerl1970ridge}, L1 regularization is associated with sparsity and L2 regularization with continuous shrinkage. The central question was whether these penalties could provide a benefit, or if they would instead hinder optimization or introduce unnecessary bias, particularly if the unregularized model was not significantly overfitting.\\
 
 For every convolutional and dense weight tensor $W_\ell$, the implementation defines the two penalties as:
 \begin{equation}
@@ -586,14 +581,12 @@ At the same time, the validation minus training gap decreased, but the training 
 
 The documented cross-validation winner is therefore $\lambda_1=0$ and $\lambda_2=0$, with reported mean physical validation MSE $0.004419\pm0.000794$. The current production source also sets both penalties to zero, so the direction of this choice agrees with \texttt{CNN/main.cpp}. 
 
-%The production run nevertheless differs in head width, learning rate, physics weight, batch size, and epoch or early-stopping policy, and no regularization-specific test estimate exists. To conclude, the retained evidence supports not adding L1 or L2 at Adam learning rate $10^{-5}$ and 100 epochs. A new diagnostics-enabled run would be required to attach stronger numerical stability claims or to test whether the answer changes after the production learning rate and training budget are used.
-
 \subsection{Activation-function tuning}
 \label{sec:04_activation_tuning}
 
 The activation function determines the nonlinear transformation applied after an affine layer and therefore affects both the signal passed to the next layer and the gradient returned during backpropagation. This choice is particularly relevant for the selected topology, which contains one activation after the convolution and four more in the dense head.\\
 
-This experiment compares several common activation functions to determine which is most effective for our specific architecture and aerodynamic prediction task. The purpose was not to assume that one family is universally better, but to measure which transformation gives the lowest physical validation error under the fixed architecture and training budget. Saturating nonlinearities can reduce the derivative when their input has large magnitude, whereas a rectifier retains a unit derivative on its positive branch; these are established mechanisms for changes in signal and gradient propagation \cite{glorot2010understanding}.\\
+This experiment compares several common activation functions to determine which is most effective for our specific architecture and aerodynamic prediction task. The purpose was not to assume that one family is universally better, but to measure which transformation gives the lowest physical validation error under the fixed architecture and training budget. Saturating nonlinearities can reduce the derivative when their input has large magnitude, whereas a rectifier retains a unit derivative on its positive branch; these are established mechanisms for changes in signal and gradient propagation, as stated by \cite{glorot2010understanding}.\\
 
 From the rectifier family, we tested the standard ReLU, which deactivates for negative inputs, and several variants of LeakyReLU, which allow a small non-zero gradient to pass through, preventing the "dying ReLU" problem:
 \begin{equation}
@@ -673,8 +666,6 @@ The validation histories, presented in Figure \ref{fig:04_activation_history}, p
 \end{itemize}
 This convergence behavior strongly supports the hypothesis that the saturating functions are suffering from vanishing gradients.\\
 
-%The checkpoint histories explain how the final separation developed. The fold-weighted validation MSE for the selected candidate decreased from 0.00655666 at epoch 10 to 0.00505364 at epoch 50 and 0.00442742 at epoch 100. The corresponding values for Tanh were 0.00801736, 0.00635208, and 0.00546562. Sigmoid was markedly slower at the beginning, decreasing from 0.410526 at epoch 10 to 0.0132361 at epoch 50 and 0.00897140 at epoch 100. Its training SIMM objective also fell from 0.888182 to 0.0272476 and then 0.0178482, whereas the selected candidate went from 0.0130666 to 0.0103440 and then 0.00891624. These objectives are standardized SIMM quantities and are kept separate from the physical validation curve. The candidate-level validation means were lowest at the final recorded checkpoint, and none of the histories showed a late unbounded increase. Figure~\ref{fig:04_activation_history} shows the fold-weighted physical validation histories on a logarithmic vertical axis.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{Images/Chapter04/activation/activation_history.png}
@@ -685,8 +676,6 @@ This convergence behavior strongly supports the hypothesis that the saturating f
 The recorded diagnostics provide a numerical stability check, but they do not change the selection rule. For gradient flow, we use rows with \texttt{parameter\_scope=all} and the stored \texttt{maximum\_norm} for peak checks. As we can see in the top panels of Figure \ref{fig:04_activation_diagnostics}, the largest value for the selected candidate was $20.1379$ at epoch 1, with similar peaks for ReLU and other LeakyReLU variants. Tanh was the numerical outlier with a peak of $111.508$: this early-epoch instability likely hindered its ability to find a good solution.\\
 
 Sigmoid had a lower peak of $18.2200$, but this does not imply better optimization because its early validation curve was much worse. Indeed, the right panel confirms this instability, showing that Sigmoid resulted in the largest and most chaotic parametr updates, with a peak update ratio of $6.15050\times10^{-4}$. In contrast, the entire ReLU family, including the selected one, exhibited much smaller and more controlled updates, peaking aroung $4.5\times10^{-4}$.\\
-
-%For parameter motion, we use \texttt{parameter\_scope=weights} and the actual \texttt{mean\_ratio} in Equation~\eqref{eq:04_update_ratio}. The selected candidate reached a maximum weight update ratio of $4.50124\times10^{-4}$ at epoch 1, zero-based fold 3, layer 4. The associated mean pre-update norm was 42.3385 and the mean update norm was 0.0190575, with no near-zero denominator event. The neighbouring LeakyReLU candidates had comparable maxima, $4.47063\times10^{-4}$ for $\alpha=0.01$ and $4.42262\times10^{-4}$ for $\alpha=0.1$, while the largest value over the grid was $6.15050\times10^{-4}$ for Sigmoid. Each run also contains six epoch-1 events in the bias-only rows because the denominator is protected by $10^{-12}$ while the initially zero biases have a very small norm. The corresponding weight and combined-layer rows have no such events. We therefore do not interpret the large bias-only ratios as unstable parameter movement. The small weight ratios, together with the absence of non-finite diagnostics and late gradient growth, support the conclusion that the selected score was not produced by an anomalously large update.
 
 In contrast, the bottom two panels show the detailed diagnostics for the winning LeakyReLU candidate. The gradients are well-behaved across the network’s depth. After an initial transient at epoch 1, the gradients at epoch 100 are small and stable, indicating smooth convergence without evidence of exploding gradients. The post-activation variance decreases toward the deepest hidden layers, but this reduction should not be interpreted by itself as signal degradation. Since the network ultimately performs scalar regression, the deeper layers progressively compress the high-dimensional representation into features that are directly useful for predicting $C_L$. Crucially, the variance remains clearly non-zero and stabilizes during training, providing no evidence of representational collapse.\\
 
@@ -712,8 +701,6 @@ The variance decreases through the dense head, but it does not collapse to zero 
 
 Conversely, the diagnostics provide clear evidence that the bounded functions failed due to neuron saturation. For Tanh, post-activation values were recorded as high as $0.9994$, extremely close to the function's limit where the derivative is nearly zero. The issue was even more pronounced for Sigmoid, where pre-activation values late in training reached as high as $10.67$, deep into the saturation region. This behavior is perfectly consistent with the vanishing gradient hypothesis and directly explains the slow, ineffective convergence observed in the main results.\\
 
-%The bounded candidates show the clearest saturation-related evidence. Across the Tanh diagnostics, post-activation values reached $-0.999355$ and $0.999393$, so some values were close to the limits where its derivative is small; this candidate also had the large early gradient maximum described above. The only activation values outside the fixed histogram interval $[-10,10]$ occurred for Sigmoid, at zero-based fold 4, layer 5, from epochs 78 to 100. At epoch 100 that layer had pre-activation minimum $-10.9256$, maximum $10.6715$, and variance 7.78885, while the post-activation range over the complete Sigmoid grid was approximately $[1.8\times10^{-5},0.999977]$. This behaviour is consistent with saturation and with the slow early convergence of Sigmoid, but the diagnostics do not prove a causal explanation for the validation ranking. Histogram edge counts were treated only as evidence of values reaching the configured limits, because out-of-range values are clamped into the edge bins. Figure~\ref{fig:04_activation_diagnostics} combines the peak checks with the selected-candidate depth profiles; the gradient and update panels aggregate maxima over folds, layers, and epochs, while the lower panels identify their fold and population-moment aggregation.
-
 The vanishing-gradient risk is most directly assessed from the distribution of the pre-activation value $z$, rather than from the post-activation value alone. If $a_j=f_j(z_j)$, the chain rule inserts one derivative factor at every nonlinear layer. Ignoring the separate linear weight transformations, the activation contribution along a path through $k$ nonlinearities is:
 \begin{equation}
     \frac{\partial\mathcal{L}}{\partial z_j}
@@ -726,11 +713,7 @@ When the actual values $z_j$ fall in a plateau, $G_{\mathrm{act}}$ becomes small
 
 The scale of this effect is substantial. For Sigmoid, the derivative at an input of 5 is already tiny ($|f'(5)|\simeq6.65\times10^{-3}$). To illustrate the multiplicative impact, if a gradient passed through just five such saturated neurons, it would be attenuated by a factor of approximately $10^{-11}$. For Tanh, the effect is even more extreme. Our diagnostic data confirms this was happening, with pre-activation values for Sigmoid reaching as high as 10.67 late in training, well into the saturation region. This mechanism provides a definitive explanation for the slow and ineffective convergence of these functions.\\
 
-%The scale of this effect is substantial for the bounded functions. For Sigmoid, $|f'(5)|\simeq6.65\times10^{-3}$ and $|f'(10)|\simeq4.54\times10^{-5}$. For Tanh, the corresponding values are approximately $1.82\times10^{-4}$ and $8.24\times10^{-9}$. If five consecutive hidden nonlinearities were simultaneously evaluated at $|z|=5$, the activation-only factors would already be approximately $(6.65\times10^{-3})^5\simeq1.3\times10^{-11}$ for Sigmoid and $(1.82\times10^{-4})^5\simeq2.0\times10^{-19}$ for Tanh. These products are mechanism illustrations, not measured end-to-end gradients: the actual network also contains weight matrices, and different layers need not lie in the same plateau. They nevertheless show why a widespread distribution can create a vanishing-gradient bottleneck through depth.
-
 The rectifiers have a different but equally important failure mode. ReLU has an exact zero derivative for $z\leq0$, so a unit whose inputs remain on the negative branch contributes no local gradient through that activation. LeakyReLU replaces this strict plateau with a constant negative-branch slope $\alpha$. This avoids an exactly dead path, but it does not eliminate attenuation: $k$ consecutive negative-branch traversals contribute $\alpha^k$, so the tested $\alpha=0.05$ can still multiply the signal by $0.05^k$, while $\alpha=0.01$ attenuates it more strongly and $\alpha=0.1$ less strongly. Thus, "non-saturating" should not be interpreted as "immune to vanishing gradients"; the relevant question is how much of the observed pre-activation distribution lies in each branch and how those branches are arranged across depth.\\
-
-This theoretical risk of vanishing gradients is confirmed by the empirical data. Figure \ref{fig:04_activation_input_distributions} visualizes the distribution of the actual pre-activation values ($z$) at the first dense layer, providing a clear picture of why the different activation functions performed so differently.\\
 
 \begin{figure}[H]
     \centering
@@ -739,12 +722,11 @@ This theoretical risk of vanishing gradients is confirmed by the empirical data.
     \label{fig:04_activation_input_distributions}
 \end{figure}
 
+This theoretical risk of vanishing gradients is confirmed by the empirical data. Figure \ref{fig:04_activation_input_distributions} visualizes the distribution of the actual pre-activation values ($z$) at the first dense layer, providing a clear picture of why the different activation functions performed so differently.\\
+
 The plot for Sigmoid is the most revealing. By epoch 100, the distribution of its pre-activation values has broadened significantly. Approximately $4.0\%$ of its inputs now fall into the low-derivative "saturation" region (shaded in orange), where the gradient is less than $1\%$ of its maximum. This provides direct, visual proof that a substantial portion of the neurons are receiving near-zero gradients, which explains the function's extremely slow convergence. While Tanh does not show a significant mass in the saturation region in this specific layer, other diagnostics confirmed that saturation was occurring elsewhere in the network.\\
 
 In contrast, the plots for the ReLU family show that roughly half of their inputs fall into the negative branch (also shaded). For standard ReLU, this means that $50.2\%$ of its neurons are "off" and passing a zero gradient. For the winning Leaky ReLU ($\alpha=0.05$), approximately $49.8\%$ of its inputs are in the negative branch, but they are passing a small, non-zero gradient. This visualization illustrates the key trade-off. While nearly half the neurons are in a low-gradient state for the ReLU family, this state is not catastrophic. The non-saturating positive branch allows strong gradients to flow, and the "leaky" negative branch prevents the complete death of neurons. This is a far healthier dynamic than the severe, widespread gradient attenuation caused by saturation in the bounded functions.\\
-
-
-%Figure~\ref{fig:04_activation_input_distributions} makes this distributional argument explicit using the actual recorded values. It shows the empirical pre-activation histograms at layer 5, the first dense nonlinearity adjacent to the layer where the largest early gradient peaks were observed, pooled over all five folds at epochs 1 and 100. The black curve is the exact absolute derivative of the corresponding activation, plotted on the right axis, and the shaded area marks either $|f'(z)|\leq0.01$ for Tanh and Sigmoid or the negative branch for the rectifiers. At epoch 100, approximately $4.0$ of the Sigmoid layer-5 inputs lie in the displayed low-derivative tails, whereas approximately half of the inputs lie on the zero-slope ReLU branch or on the constant low-slope LeakyReLU branch; the selected $\alpha=0.05$ run has approximately $49.8$ negative inputs at this layer. The Tanh layer-5 distribution has no visible mass beyond the $0.01$ derivative threshold at epoch 100, which does not contradict the rare near-limit values found elsewhere in the complete diagnostic grid. The percentages are approximate histogram masses, not per-unit gradient measurements, and the fixed edge bins include values outside $[-10,10]$. The figure therefore demonstrates the available mechanism and its plausibility, while the recorded layer-aggregate gradient norms remain necessary to determine whether it produced harmful end-to-end gradient loss in this experiment.
 
 The final refit of the selected activation used all 1713 training samples and retained the large search topology. Its training SIMM objective decreased from $0.286768$ at epoch 1 to $0.00865917$ at epoch 100. The final MSE on the 429-sample test set was $0.00273892$. This is a post-selection estimate for the refitted activation-search model and must not be presented as the test performance of the ordinary production model.\\
 
@@ -755,7 +737,7 @@ The cross-validation winner is therefore \texttt{LeakyReLU} with $\alpha=0.05$, 
 
 After choosing the topology, optimizer, loss settings and activation, we studied the learning rate because it controls the scale and duration of the parameter updates. In Adam, the learning rate multiplies the bias-corrected adaptive direction; it is therefore not removed by the coordinate-wise denominator, even though that denominator adapts to the history of each parameter. A rate that is too small may lead to slow convergence, falling to reach an optimal solution within the fixed epoch budget. Conversely, a rate that is too large can cause the optimization to become unstable and diverge.\\
 
-Beyond the learning rate's magnitude, its schedule, that represents how it changes over time, is also crucial. In addition to a constant rate, we tested step decay, cosine decay\footnote{That has been studied as part of the SGDR family \citep{loshchilov2017sgdr}} and warmp-up, that was introduced to address early optimization difficulties in large-minibatch stochastic-gradient training \citep{goyal2017accurate}. Those references motivate the schedule families tested here, but they do not predict the behaviour of this Adam run: the present experiment uses no warm restarts, a different optimizer and a different data set.\\
+Beyond the learning rate's magnitude, its schedule, that represents how it changes over time, is also crucial. In addition to a constant rate, we tested step decay, cosine decay\footnote{That has been studied as part of the SGDR family \citep{loshchilov2017sgdr}} and warm-up, that was introduced to address early optimization difficulties in large-minibatch stochastic-gradient training \citep{goyal2017accurate}. Those references motivate the schedule families tested here, but they do not predict the behaviour of this Adam run: the present experiment uses no warm restarts, a different optimizer and a different data set.\\
 
 The goal was to identify the combination of learning rate and schedule that leads to the fastest and most stable convergence for our specific aerodynamic modeling task.\\
 
@@ -826,9 +808,7 @@ The grid search evaluated eleven candidates, which are summarized in Table \ref{
 
 The results of the learning rate sweep, shown also in Figure \ref{fig:04_learning_rate_ranking}, reveal a clear separation between the low-rate candidates and the high-rate candidates that reach $10^{-1}$.\\
 
-The best performance was achieved by the constant learning rate of $10^{-3}$, which secured a mean validation MSE of $0.003609\pm0.001335$. This medium learning rate was consistently effective, winning four of the five cross-validation folds and delivering an $18\%$ error rdeduction compared to the constant $10^{-5}$ baseline. The nearest alternative is \texttt{step\_s15\_1e-3}, whose mean is $0.004005474214$; its lower dispersion does not compensate for the higher aggregate validation error under the stated selection rule.\\
-
-In contrast, all candidates that used a high learning rate of $10^{-1}$ failed catastrophically. As shown by the red markers in Figure \ref{fig:04_learning_rate_ranking}, their validation errors were orders of magnitude higher, ranging from $10^{8}$ to $10^{17}$. This indicates that the optimization process diverged, likely due to the excessive step size in the parameter updates. The warm-up schedule, which initially starts at a low rate and ramps up to $10^{-1}$, also failed, suggesting that even a brief exposure to the high learning rate was sufficient to destabilize training.\\
+The best performance was achieved by the constant learning rate of $10^{-3}$, which secured a mean validation MSE of $0.003609\pm0.001335$. This medium learning rate was consistently effective, winning four of the five cross-validation folds and delivering an $18\%$ error reduction compared to the constant $10^{-5}$ baseline. The nearest alternative is \texttt{step\_s15\_1e-3}, whose mean is $0.004005474214$; its lower dispersion does not compensate for the higher aggregate validation error under the stated selection rule.\\
 
 \begin{figure}[H]
     \centering
@@ -837,13 +817,15 @@ In contrast, all candidates that used a high learning rate of $10^{-1}$ failed c
     \label{fig:04_learning_rate_ranking}
 \end{figure}
 
-The convergence histories in Figure \ref{fig:04_learning_rate_history} provide a view of the training process and visually confirm the final rankings. The plot is splitted in two panels, distinguishing the behaviour of the stable and unstable learning rate:
+In contrast, all candidates that used a high learning rate of $10^{-1}$ failed catastrophically. As shown by the red markers in Figure \ref{fig:04_learning_rate_ranking}, their validation errors were orders of magnitude higher, ranging from $10^{8}$ to $10^{17}$. This indicates that the optimization process diverged, likely due to an excessive step size in the parameter updates. Even the warm-up schedule, which initially starts at a safe low rate and ramps up to $10^{-1}$, suffered the same fate, demonstrating that even a brief exposure to this aggressive rate permanently destabilized training.\\
+
+The convergence histories in Figure \ref{fig:04_learning_rate_history} provide a dynamic view of the training process and visually confirm the final rankings. The plot is split into two panels, distinguishing the behaviour of the stable and unstable learning rates:
 \begin{itemize}
-    \item[-] the top panel shows that all candidates with learning rates of $10^{-5}$ and $10^{-3}$ converge smoothly, with the constant $10^{-3}$ candidate achieving the lowest validation error. This last one also demonstrated converged much more slowly, indicating that it was too small to make optimal progress within the 100-epoch budget;
-    \item[-] the bottom panel shows that the validation error for all the candidates that reach $10^{-1}$ immediately explodes to an extremely high value and remains many orders of magnitude above the stable group for the entire duration of training. Even for schedules that eventually decay the learning rate (like cosine and step decay), the initial instability was so severe that the models could never recover.
+    \item[-] the top panel shows that all candidates with learning rates of $10^{-5}$ and $10^{-3}$ converge smoothly, with the constant $10^{-3}$ candidate achieving the lowest validation error. The $10^{-5}$ candidates, by contrast, converged much more slowly, indicating that their step sizes were too small to make optimal progress within the 100-epoch budget;
+    \item[-] the bottom panel shows that the validation error for all the candidates that reach $10^{-1}$ immediately explodes to extreme values and remains many orders of magnitude above the stable group for the entire duration of training. Even for schedules that eventually decay the learning rate (like cosine and step decay), the initial instability was so severe that the models could never recover.
 \end{itemize}
 \vspace{2ex}
-This analysis reinforces the conclusion that a learning rate of $10^{-3}$ represents a well-chosen learning rate, offering a balance between rapid convergence and numerical stability.\\
+This analysis reinforces the conclusion that a learning rate of $10^{-3}$ represents a well-chosen spot, offering a balance between rapid convergence and numerical stability.\\
 
 \begin{figure}[H]
     \centering
@@ -852,23 +834,37 @@ This analysis reinforces the conclusion that a learning rate of $10^{-3}$ repres
     \label{fig:04_learning_rate_history}
 \end{figure}
 
-The convergence histories in Figure \ref{fig:04_learning_rate_history} show that all candidates using a learning rate of $10^{-1}$ failed immediately. The plot of the effective learning rates in Figure \ref{fig:04_learning_rate_schedules} provides additional insight into the dynamics of these candidates. The constant candidate maintains a steady rate of $10^{-3}$, while the step decay schedules reduce the learning rate at predetermined epochs, yet they still start at a high value that leads to instability. The most telling case is the warm-up schedule. Although it was designed to prevent early instability, it ramps up to the peak of $10^{-1}$ by epoch 6. This brief exposure to the overly aggressive learning rate was sufficient to permanently destabilize the optimization process. This confirms that the issue was not the schedule, but the magnitude of the learning rate itself.\\
+The divergence at $\eta = 10^{-1}$ stems from a fundamental mismatch between Adam's update dynamics and the network's weight scale:
+\begin{itemize}
+    \item[-] under Kaiming initialization, weights in the wide first dense layer ($D_{\mathrm{in}}=7202$) have a standard deviation of $\sigma = \sqrt{2/7202}\approx 0.0166$. Since Adam's coordinate update $\Delta \theta_j = -\eta \frac{\hat{m}_j}{\sqrt{\hat{v}_j}+\varepsilon}$ produces a step of magnitude $\approx \eta$ along active directions, setting $\eta = 0.1$ forces each parameter update to be approximately six times larger than the entire initial parameter scale in a single step. This immediately destroys the initial structural features, causing pre-activations and downstream predictions to blow up exponentially;
+    \item[-] although component-wise gradient clipping ($\tilde{g}_{t,j}=\operatorname{clip}(g_{t,j},-1,1)$) prevents gradient norms from reaching infinity, Adam is scale-invariant. When gradients consistently saturate at the clipping threshold $\pm 1$, the ratio $\hat{m}/\sqrt{\hat{v}}$ remains $\approx \pm 1$, leaving the effective update size directly determined by $\eta=0.1$;
+    \item[-] in schedules such as \texttt{warmup\_cosine\_1e-1}, the network trains stably during the first few epochs at low rates. However, as soon as $\eta$ hits $0.1$ at epoch 6, the parameters enter a high-loss, chaotic plateau. The moving moments $m_t$ and $v_t$ become corrupted by massive gradient noise, making it impossible for the optimizer to recover even when the cosine decay cools $\eta$ back down to $10^{-5}$ in later epochs.
+\end{itemize}
+\vspace{2ex}
+Figure \ref{fig:04_learning_rate_schedules} tracks the effective learning rate profiles across completed epochs, highlighting how the transient peak at epoch 6 in the warm-up branch permanently derails optimization.\\
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.90\linewidth]{Images/Chapter04/learning_rate/learning_rate_schedules.png}
     \caption{Effective learning rates from \texttt{epoch\_metrics.csv} for zero-based fold 0, plotted against completed epoch. The scheduler settings are deterministic and identical across folds. The logarithmic vertical axis makes the constant, step, cosine, and warm-up branches comparable.}
     \label{fig:04_learning_rate_schedules}
-\end{figure}
+    \end{figure}
 
-The high-rate candidates should be described as numerically unstable rather than as failed jobs. All 55 candidate-fold fits completed with finite diagnostic values and were included in the official ranking, but the five candidates that reach $10^{-1}$ have validation means from $5.577\times10^8$ to $2.131\times10^{17}$. The detailed diagnostics, presented in Figure \ref{fig:04_learning_rate_diagnostics}, provide a illustration of this.\\
+The high-rate candidates should be described as numerically unstable rather than as failed jobs. All 55 candidate-fold fits completed with finite diagnostic values and were included in the official ranking, but the five candidates that reach $10^{-1}$ have validation means from $5.577\times10^8$ to $2.131\times10^{17}$. The detailed diagnostics, presented in Figure \ref{fig:04_learning_rate_diagnostics}, provide an illustration of this.\\
 
-In the top left panel, the bar chart represented the "worst-case scenario" for gradients in each run. For every candidate, it searches through all 100 epochs, all five folds and all layers of the network to find the single largest gradient value. We can see a separation between the stable and unstable candidates:
+In the top left panel, the bar chart represents the "worst-case scenario" for gradients in each run. For every candidate, it searches through all 100 epochs, all five folds and all layers of the network to find the single largest gradient value. We can see a clear separation between the stable and unstable candidates:
 \begin{itemize}
-    \item[-] for the stable rates ($10^{-5}$) and ($10^{-3}$), the peak gradient norms are controlled, with the winning candidate that has a peak gradient of approximately $183$;
-    \item[-] for the unstable rates ($10^{-1}$), the peak gradient norms are so high that it causes the gradients to grow uncontrollably, leading to a complete failure of the learning process. 
+    \item[-] for the stable rates ($10^{-5}$ and $10^{-3}$), the peak gradient norms are controlled, with the winning candidate maintaining a peak gradient of approximately $183$;
+    \item[-] for the unstable rates ($10^{-1}$), the peak gradient norms grow uncontrollably, leading to a complete breakdown of the optimization trajectory.
 \end{itemize}
-Moving to the right panel, we can see the consequence of the gradients in the first plot: this plot measures the largest relative change made to the network's weight in a single optimization step\footnote{A value of $0.1$ means the weights were changed by $10\%$ of their total size in one go, and so on.}. While for the stable case we have an update controlled, ate approximately $0.017$ for the $10^{-3}$ candidate, for the unstable $10^{-1}$ candidate we have an update ratio that approaches $100\%$. This means that the optimzer is trying to change the weights by an amount equal to their entire current magnitude, destroying any knowledge the model has acquired.\\
+Moving to the right panel, we observe the direct consequence on parameter movement: this plot measures the largest relative change made to the network's weights in a single optimization step. While the stable cases show well-behaved updates (around $0.017$ for the $10^{-3}$ candidate), the unstable $10^{-1}$ candidates exhibit update ratios approaching $100\%$. This means the optimizer attempts to displace weights by an amount equal to their entire existing magnitude in a single step, wiping out any learned representation.\\
+
+The lower panels of Figure \ref{fig:04_learning_rate_diagnostics} provide a further check on the selected run.\\
+
+The first plot shows the average gradient magnitude for each trainable layer at the very beginning of training (epoch 1) and at the end of training (epoch 100). The RMS gradient is a measure of how much the weights are being updated during training. A high RMS gradient indicates that the model is learning quickly, while a low RMS gradient suggests that learning has slowed down. The plot shows that the RMS gradient decreases over time, which is expected as the model converges to a solution. Indeed, we can see that the learning process starts strongly, with a peak norm of approximately $37$ at epoch 1; by epoch 100, the gradients have naturally decreased, settling in a stable range below $1.0$. This indicates that the model has learned a solid representation of the data and is performing refined parameter adjustments.\\
+
+Regarding the post-activation variance, the lower-right panel shows the pooled population variance of the activations after the non-linear transformation at each layer. This is a measure of how much the activations vary across different inputs. In this case, we can see that at the beginning the signal variance grows as information passes deeper into the network, but at epoch 50 and epoch 100, the overall variance decreases and stabilizes. Crucially, the variance never collapses to zero and never explodes.\\
+These two plots confirm that information is flowing effectively through all layers of the deep network for the entire duration of training and that the network does not suffer from vanishing or exploding activations.\\
 
 \begin{figure}[H]
     \centering
@@ -876,13 +872,6 @@ Moving to the right panel, we can see the consequence of the gradients in the fi
     \caption{Learning-rate diagnostics from the complete five-fold run. The upper panels show the maximum over folds, layers, and epochs of \texttt{maximum\_norm} with \texttt{parameter\_scope=all} and of the actual \texttt{mean\_ratio} with \texttt{parameter\_scope=weights}. The lower-left panel shows the selected candidate's fold-averaged RMS gradient by stable model layer at epochs 1 and 100. The lower-right panel shows the selected candidate's pooled post-activation population variance at epochs 1, 50, and 100. All vertical axes are logarithmic.}
     \label{fig:04_learning_rate_diagnostics}
 \end{figure}
-
-The lower panels of Figure \ref{fig:04_learning_rate_diagnostics} provide a further check on the selected run.\\
-
-The first plot shows the average gradient magnitude for each trainable layer at the very beginning of training (epoch 1) and at the end of training (epoch 100). The RMS gradient is a measure of how much the weights are being updated during training. A high RMS gradient indicates that the model is learning quickly, while a low RMS gradient suggests that learning has slowed down. The plot shows that the RMS gradient decreases over time, which is expected as the model converges to a solution. Indeed, we can see that the learning process starts in a strong way, with a peak norm of approximately $37$ at epoch 1 but then, by epoch 100, the gradients have naturally decreased, settling in a stable range below $1.0$. This indicates that the model has learned a good representation of the data and is no longer making large updates to the weights.\\
-
-About the post-activation variance, the lower-right panel shows the pooled population variance of the activations after the non-linear transformation at each layer. This is a measure of how much the activations vary across different inputs. A high variance indicates that the model is able to capture a wide range of features, while a low variance suggests that the model is not learning effectively. In this case, we can see that at the beginning the signal variance grows as information passes deeper into the network but then, at epoch 50 and epoch 100, the overall variance decreases and stabilizes. It is important to note that the variance never collapses to zero and never explodes.\\
-This two plots confirm that information is flowing effectively through all layers of the deep network for the entire duration of the training and the network is not suffering from vanishing or exploding activations.\\
 
 The cross-validation experiment identifies the constant $10^{-3}$ learning rate as the clear winner, achieving a mean validation MSE of $0.003609\pm0.001335$. The analysis confirms that this learning rate represents a robust "sweet spot," offering rapid convergence without triggering the catastrophic numerical instability observed at higher rates like $10^{-1}$. After being refit on the full training set, this winning experimental candidate achieved a final test MSE of $0.003254$.\\
 
@@ -933,8 +922,6 @@ The impact of these iterative improvements to the training protocol is documente
     \caption{Ordinary training results from the ten run directories under \texttt{results/ordinary-training}. Restored metrics come from \texttt{final\_metrics.csv}; budgets, batch construction and stopping policies come from metadata, and completed epochs from diagnostic histories. The final two seed-42 rows retain the same checkpoint; the increased budget is not an accuracy gain.}
     \label{tab:04_final_training_trials}
 \end{table}
-
-%The first two trials compare batch construction while keeping the topology, split, initialization and optimizer settings fixed. Both \texttt{trial-1\_slurm-56688186} and \texttt{trial-2\_slurm-56688187} use seed 42, Adam at configured and effective learning rate $10^{-3}$, physics weight $0.10$, no dropout or L1 or L2 penalty, componentwise gradient clipping at 1, global batch size 64, and 64 MPI ranks. Both record the same source revision, \texttt{d9c1b4994e3c}, with the batch policy explicitly set to \texttt{range\_tail} or \texttt{balanced}.\\
 
 The first three trials demonstrate the effect of refining the batching strategy. While the initial move from a tailed to a balanced batch (\texttt{trial 2}) improved parallel efficiency, increasing the global batch size to a perfectly divisible 257 (\texttt{trial 3}) provided a more stable foundation for subsequent, longer training runs.\\
 
@@ -1020,7 +1007,7 @@ Figure~\ref{fig:04_final_test_mse_by_angle} gives the same comparison graphicall
 
 The final values should not be compared with every cross-validation value without qualification. The tuning experiments use fold-specific normalization and approximately 80 percent of the 1713 training samples in each fold, whereas ordinary training uses a 90/10 split and a different update budget. The final numbers describe the recorded large-topology production configuration with validation-based checkpoint restoration. Although each run evaluates the test set only after training, test metrics were recorded for all development trials; these artifacts do not establish that the test set was never inspected during development. We therefore report the production result as a post-training test evaluation, not as an independently untouched estimate for the entire tuning campaign.\\
 
-\subsection{Conclusions}
+\subsection{Tuning summary and conclusions}
 \label{sec:04_tuning_conclusions}
 
 The tuning campaign detailed in this chapter systematically refined the surrogate model, providing several key insights into the architecture and training protocols required for high-fidelity aerodynamic prediction.\\
