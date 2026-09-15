@@ -8,158 +8,106 @@ The pipeline is composed of two main modules:
 - **SDF Generator** — converts raw airfoil boundary coordinates into a grid-based Signed Distance Function representation.
 - **CNN Model** — a custom C++/MPI CNN framework built from scratch, performing manual forward/backward passes with distributed gradient averaging via MPI.
 
-![SDF to Coefficient Pipeline](assets/SDF.png)
-
 ---
 
 ## Repository Structure
 
-The repository is organized into two main computational components. The `SDF` module converts airfoil geometries into signed-distance-function representations, while the `CNN` module uses these representations and the flight conditions to predict aerodynamic coefficients. Additional directories contain datasets, experiments, analysis tools, documentation and the project report.
-
 ```text
 .
-├── README.md                         # Project overview and usage instructions
-├── Makefile                          # Common build and execution commands
-├── build_dataset.py                  # Dataset preparation script
-├── download_notebook.py              # Notebook/data download utility
+├── Makefile                          # Top-level build automation (CNN, SDF, experiments)
+├── build_dataset.py                  # Dataset preparation and splitting utility
+├── download_notebook.py              # Kaggle dataset download utility
 ├── training.sh                       # Training helper script
-├── PR_HISTORY.md                     # Project development history
-├── assets/                           # Figures used in the documentation
+├── PR_HISTORY.md                     # Development logs and pull request history
+├── assets/                           # Figures and diagrams for documentation
 │   ├── SDF.png
 │   ├── cnn_architecture.png
 │   └── training trend.png
-├── SDF/                              # Signed Distance Function generator
-│   ├── main.cpp
-│   ├── SDFGenerator.cpp
-│   ├── SDFGenerator.hpp
-│   ├── visualization.ipynb          # SDF visualization notebook
-│   └── data/                         # Input airfoil geometries
-├── CNN/                              # Convolutional Neural Network model
-│   ├── CMakeLists.txt                # CMake build configuration
-│   ├── main.cpp                      # Program entry point
-│   ├── analysis/                     # Training-analysis scripts
+│
+├── SDF/                              # Geometry preprocessing module
+│   ├── README.md                     # Dedicated SDF documentation and usage guide
+│   ├── main.cpp                      # Parallel SDF generator CLI
+│   ├── SDFGenerator.hpp / .cpp       # Winding number and segment projection kernels
+│   ├── visualization.ipynb           # SDF field visualization notebook
+│   └── data/                         # Airfoil boundary .dat files
+│
+├── CNN/                              # Custom C++/MPI Neural Network Framework
+│   ├── CMakeLists.txt                # Builds core library, CLI, tests, and all experiments
+│   ├── main.cpp                      # Production CLI & single-training driver
+│   ├── src/
+│   │   ├── core/                     # Tensor storage and PINN SIMM Loss
+│   │   ├── data/                     # Dataset loading (.npz) and batch construction
+│   │   ├── layers/                   # Conv2D, Dense, LeakyReLU, Flatten, Concat, Dropout
+│   │   ├── model/                    # CNNModel and ModelFactory
+│   │   ├── optimizers/               # Adam, SGD, AdaGrad, RMSprop and LRSchedulers
+│   │   ├── training/                 # Trainer (balanced batching, 20/20 early stopping, diagnostics)
+│   │   └── tuning/                   # CrossValidator (K-Fold), SearchSpace, TrialConfig
+│   │
+│   ├── experiments/                  # Specialized hyperparameter tuning drivers
+│   │   ├── topology_tuning/          # Conv kernel sizes & dense head depth/width sweeps
+│   │   ├── dropout_tuning/           # Inverted dropout rate ablation (p in [0, 0.5])
+│   │   ├── optimizer_tuning/         # Adam vs RMSprop vs AdaGrad vs SGD+Momentum vs SGD
+│   │   ├── physics_weight_tuning/    # SIMM thin-airfoil loss weight (lambda) ablation
+│   │   ├── regularization_tuning/    # L1 and L2 weight penalty grid search
+│   │   ├── activation_function_tuning/# LeakyReLU vs ReLU vs Tanh vs Sigmoid
+│   │   ├── learning_rate_tuning/     # LR magnitude & schedule (step, cosine, warmup)
+│   │   └── final_training/           # Final production 90/10 training & stopping policy
+│   │
+│   ├── analysis/                     # Diagnostics and metric visualization scripts
 │   │   ├── plot_training_diagnostics.py
 │   │   └── plot_training_physical_mse.py
-│   ├── experiments/                  # Hyperparameter-tuning experiments
-│   │   ├── activation-function-tuning/
-│   │   ├── dropout_tuning/
-│   │   ├── learning_rate_tuning/
-│   │   ├── optimizer_comparison/
-│   │   ├── physics_weight_tuning/
-│   │   └── regularization_tuning/
-│   │   ├── topology_tuning/
-│   ├── tests/                        # Automated tests
-│   │   └── test_cross_validation.cpp
-│   └── src/
-│       ├── core/                     # Tensor and loss operations
-│       │   ├── Loss.cpp / Loss.hpp
-│       │   └── Tensor.cpp / Tensor.hpp
-│       ├── data/                     # Dataset loading and preprocessing
-│       │   └── Dataset.cpp / Dataset.hpp
-│       ├── layers/                   # Neural-network layers and activations
-│       │   ├── Layer.hpp
-│       │   ├── ActivationLayer.cpp / ActivationLayer.hpp
-│       │   ├── ConcatenateLayer.cpp / ConcatenateLayer.hpp
-│       │   ├── Conv2DLayer.cpp / Conv2DLayer.hpp
-│       │   ├── DenseLayer.cpp / DenseLayer.hpp
-│       │   ├── FlattenLayer.cpp / FlattenLayer.hpp
-│       │   ├── LeakyReLULayer.cpp / LeakyReLULayer.hpp
-│       │   ├── ReLULayer.cpp / ReLULayer.hpp
-│       │   ├── SigmoidLayer.cpp / SigmoidLayer.hpp
-│       │   └── TanhLayer.cpp / TanhLayer.hpp
-│       ├── model/                    # Model definitions and construction
-│       │   ├── CNNModel.cpp / CNNModel.hpp
-│       │   └── ModelFactory.cpp / ModelFactory.hpp
-│       ├── optimizers/               # Parameter-optimization algorithms
-│       │   ├── AdamOptimizer.cpp / AdamOptimizer.hpp
-│       │   └── Optimizer.hpp
-│       ├── training/                 # Training and evaluation procedures
-│       │   └── Trainer.cpp / Trainer.hpp
-│       └── tuning/                   # Cross-validation and search spaces
-│           ├── CrossValidator.cpp / CrossValidator.hpp
-│           ├── SearchSpace.hpp
-│           └── TrialConfig.cpp / TrialConfig.hpp
-├── dataset/                          # Training and testing datasets
-├── docs/                             # Technical documentation
+│   └── tests/                        # Unit and distributed regression tests
+│       └── test_cross_validation.cpp
+│
+├── dataset/                          # NPZ dataset directory (train/test splits)
+├── results/                          # Output logs, metrics CSVs, and diagnostic artifacts
+├── docs/                             # Additional technical documentation
 │   ├── cross_validation.md
 │   └── training_diagnostics_plots.md
-└── report/                           # LaTeX source files for the project report
-  ├── main.tex
-  ├── bibliography.bib
-  ├── Chapters/
-  ├── Configuration_files/
-  └── Images/
+└── Report/                           # LaTeX source files for the project report
 ```
-
-The `SDF` directory contains the preprocessing pipeline. It reads airfoil boundary coordinates and generates fixed-size signed-distance-function matrices. The `CNN` directory contains the custom C++/MPI neural-network framework, including the model layers, training procedure, optimizer, cross-validation utilities and automated tests. The `experiments` and `analysis` directories support hyperparameter tuning and the generation of training diagnostics, while `docs` provides additional technical documentation. The `report` directory contains the LaTeX source and figures used to compile the final project report.
 
 ---
 
-## SDF Generator
+## Quickstart and Compilation
 
-The SDF Generator reads airfoil boundary coordinates from `.dat` files and computes a Signed Distance Function on a fixed-size grid. The output is saved as a text matrix.
+The repository provides a top-level `Makefile` that wraps CMake and MPI builds.
 
 ### Prerequisites
+- **C++ Compiler**: Supporting C++20 (for CNN) and C++17 (for SDF).
+- **MPI Library**: OpenMPI, MPICH, or Intel MPI (`mpic++`, `mpirun`).
+- **Build Tools**: CMake $\ge 3.16$, `make`.
+- **Python 3**: With `numpy` and `matplotlib` (for datasets and diagnostics plotting).
 
-- C++ compiler supporting C++17
-- MPI library for parallel processing
-
-### Data Format
-
-Input files are `.dat` files containing whitespace-separated `x` and `z` coordinates per line.
-
-### Compilation
-
+### 1. Build Everything via Makefile
+From the repository root:
 ```bash
-cd SDF
-mpic++ main.cpp SDFGenerator.cpp -o sdfgen -std=c++17
+# Build the CNN executable, all 8 experiment binaries, unit tests, and the SDF generator
+make all
+
+# Or build specific targets:
+make cnn              # Configures and compiles CNN + all experiments into build/CNN/
+make sdf              # Compiles the SDF generator into build/sdf/sdfgen
+make test             # Runs CTest suite (serial and 2-rank MPI)
+make clean            # Removes all build directories
+make help             # Displays all available targets
 ```
 
-### How to Run
-
-1. Create a `data` directory in the same location as the compiled `sdfgen` executable.
-2. Place your airfoil `.dat` files (e.g., `n0012.dat`) inside the `data` directory.
-3. Execute with `mpirun`:
-
+### 2. Build via CMake Directly
 ```bash
-mpirun -np 4 ./sdfgen
+cmake -S CNN -B build/CNN -DCMAKE_BUILD_TYPE=Release
+cmake --build build/CNN --parallel
+ctest --test-dir build/CNN --output-on-failure
 ```
-
-### Output
-
-For each input `.dat` file (e.g., `airfoil.dat`), a corresponding SDF matrix file is generated as `airfoil_matrix.txt`. This file contains SDF grid values in space-separated matrix format: positive values are outside the airfoil, negative values are inside.
+*Note: This automatically builds `cnn_executable`, `cnn_tests`, and each standalone experiment binary into `build/CNN/experiments/<experiment_name>`.*
 
 ---
 
-## CNN Model
+## Dataset Setup
 
-The CNN model is a custom C++ Convolutional Neural Network framework built from scratch. It performs manual forward/backward passes, distributed gradient averaging using MPI, and trains a regression model to predict aerodynamic coefficients from SDF matrices and scalar features (Reynolds number, Angle of Attack).
+The CNN models train on `.npz` archives containing $150 \times 150$ SDF matrices, scalar pairs $(\mathrm{Re}, \alpha)$, and corresponding CFD lift coefficients $C_L$.
 
-The architecture consists of:
-
-- **2D Convolution** (1→8 channels, kernel 5x5, stride 5)
-- **LeakyReLU** activation (ReLU, Tanh and Sigmoid are also available via the shared `ActivationLayer` base class)
-- **Flatten** layer
-- **Concatenate** layer (merging conv features with Reynolds and AoA scalars)
-- **Dense** layers (128 → 64 → 1 in the baseline)
-
-The architecture is now constructed from typed layer recipes with automatic shape inference. `CrossValidator` can evaluate typed candidate configurations for kernels, channels, activations, dense topology, optimizer settings, and developer-provided components without adding parameter-specific methods. See [docs/cross_validation.md](docs/cross_validation.md).
-
-The loss function is a physics-informed **SIMM loss** combining MSE on predictions with a physics term that enforces the relationship between predicted coefficients and the angle of attack for small angles.
-
-![CNN Architecture](assets/cnn_architecture.png)
-
-### Prerequisites
-
-- C++ compiler supporting C++20
-- MPI library for parallel processing
-- Python 3 and NumPy (`pip install numpy`) for decoding `.npz` dataset files natively
-
-### Data Format
-
-Input files are `.npz` files containing SDF matrices, scalar features ordered as `[Reynolds, AoA in degrees]`, and target labels. Place dataset files (`cnn_dataset_train.npz`, `cnn_dataset_test.npz`) in a `dataset/` directory at the repository root.
-
-Download the dataset from Kaggle:
+Download the pre-generated dataset from Kaggle:
 [SDF Symmetric Airfoil High Reynolds Number](https://www.kaggle.com/datasets/giulioenzodonninelli/sdf-symmetric-airfoil-high-reynolds-number)
 
 ```bash
@@ -167,196 +115,114 @@ mkdir -p dataset
 kaggle datasets download -d giulioenzodonninelli/sdf-symmetric-airfoil-high-reynolds-number -p dataset --unzip
 ```
 
-### Compilation
-
+Alternatively, to regenerate the dataset from raw airfoil coordinate files using the SDF generator:
 ```bash
-cd CNN
-mpicxx -std=c++20 -O3 -Isrc main.cpp src/core/*.cpp src/data/*.cpp src/layers/*.cpp src/model/*.cpp src/optimizers/*.cpp src/training/*.cpp src/tuning/*.cpp -o cnn_executable
+make dataset
 ```
 
-Alternatively, from the repository root, use CMake and CTest:
+---
 
+## Modules and Documentation
+
+### 1. Geometry Preprocessing: SDF Generator
+The SDF generator converts 2D boundary polygons from `.dat` files into $150 \times 150$ Signed Distance Field matrices using an exact parallel winding-number and ray-casting algorithm.
+- **Detailed Documentation**: [SDF Module Guide (SDF/README.md)](SDF/README.md)
+- **Run Standalone**:
+  ```bash
+  cd SDF
+  mpirun -np 4 ../build/sdf/sdfgen
+  ```
+
+---
+
+### 2. Hyperparameter Tuning Experiments
+All systematic ablation sweeps are isolated in dedicated subprojects under `CNN/experiments/`. Each subproject contains its own driver, parameter grid, and documentation.
+
+| Experiment | Focus and Key Questions | Documentation and Guide |
+| :--- | :--- | :---: |
+| **Topology Tuning** | Kernel size ($5\times5$ vs $3\times3$) & Dense head width/depth | [topology_tuning/README.md](CNN/experiments/topology_tuning/README.md) |
+| **Dropout Tuning** | Impact of inverted dropout ($p \in \{0, 0.1, 0.2, 0.3, 0.5\}$) on generalization | [dropout_tuning/README.md](CNN/experiments/dropout_tuning/README.md) |
+| **Optimizer Tuning**| Adam vs. RMSprop vs. AdaGrad vs. SGD+Momentum vs. Plain SGD | [optimizer_tuning/README.md](CNN/experiments/optimizer_tuning/README.md) |
+| **Physics Weight** | SIMM thin-airfoil loss penalty weight ($\lambda \in [0, 2]$) | [physics_weight_tuning/README.md](CNN/experiments/physics_weight_tuning/README.md) |
+| **Weight Regularization**| $L_1$ Lasso sparsity and $L_2$ Ridge shrinkage penalties | [regularization_tuning/README.md](CNN/experiments/regularization_tuning/README.md) |
+| **Activation Functions**| LeakyReLU (slopes $\alpha \in \{0.01, 0.05, 0.1\}$), ReLU, Tanh, Sigmoid | [activation_function_tuning/README.md](CNN/experiments/activation_function_tuning/README.md) |
+| **Learning Rate & Schedule**| Constant, Step Decay, Cosine Annealing, and Warmup schedules | [learning_rate_tuning/README.md](CNN/experiments/learning_rate_tuning/README.md) |
+| **Final Production** | Balanced batching, "20/20" early stopping policy, and final model evaluation | [final_training/README.md](CNN/experiments/final_training/README.md) |
+
+#### Running an Individual Experiment:
+After building with `make cnn`, execute any experiment binary directly with `mpirun`:
 ```bash
-cmake -S CNN -B build/CNN -DCMAKE_BUILD_TYPE=Release
-cmake --build build/CNN --parallel
-ctest --test-dir build/CNN --output-on-failure
+# Example: Run the optimizer comparison across 4 MPI ranks
+mpirun -n 4 ./build/CNN/experiments/optimizer_tuning --results-dir results/optimizer_tuning
+
+# Example: Run the learning rate schedule sweep
+mpirun -n 4 ./build/CNN/experiments/learning_rate_tuning --results-dir results/learning_rate_tuning
 ```
 
-Or use the top-level Makefile, which wraps the same commands and also builds
-every experiment under `CNN/experiments/*/` into `build/CNN/experiments/`:
+---
 
+## Running the Main Production CNN Model
+
+From the repository root, run the primary executable with customizable CLI options:
+
+### 5-Fold Cross-Validation
 ```bash
-make cnn         # configure + build (executable, tests, experiments)
-make test        # ctest, serial and 2-rank MPI
-make run NP=4 ARGS="--epochs 100 --dropout 0.2"
-make help        # full target list (sdf, dataset, clean, ...)
+mpirun -n 4 ./build/CNN/cnn_executable --cross-validate --folds 5 --epochs 100 --batch-size 64
 ```
 
-### How to Run
-
-From the repository root, after building with `make cnn` (or the CMake commands above):
-
-```bash
-mpirun -n 4 ./build/CNN/cnn_executable
-```
-
-> ⚠️ Do not run the `./CNN/cnn_executable` binary tracked in the repository: it
-> is a stale artifact from before the command-line interface existed and
-> silently ignores every option. Always use the freshly built
-> `./build/CNN/cnn_executable` (or `make run`).
-
-The activation function can be selected from the command line (default: `leakyrelu`):
-
-```bash
-mpirun -n 4 ./build/CNN/cnn_executable --activation tanh
-mpirun -n 4 ./build/CNN/cnn_executable --activation leakyrelu --alpha 0.1
-```
-
-Valid activations are `leakyrelu`, `relu`, `tanh` and `sigmoid`; `--alpha` sets the negative slope and only affects `leakyrelu`.
-
-Inverted dropout can be enabled on the dense head with `--dropout` (default 0, i.e. disabled; valid range `[0, 1)`). Dropout is active during training only, inference always runs the deterministic network, and masks are seeded so that results do not depend on the MPI rank count:
-
-```bash
-mpirun -n 4 ./build/CNN/cnn_executable --dropout 0.2
-```
-
-Training parameters are available from the command line:
-
-```bash
-mpirun -n 4 ./build/CNN/cnn_executable --epochs 200 --batch-size 257 --learning-rate 1e-3
-```
-
-Run deterministic random K-fold evaluation for the configured model:
-
-```bash
-mpirun -n 4 ./build/CNN/cnn_executable --cross-validate --folds 5 --epochs 100 --batch-size 256 --seed 42
-```
-
-The global batch size is independent of MPI rank count. Training distributes
-remainder samples across balanced global batches; for the canonical 1542-sample
-holdout split, batch size 257 produces six equal batches. Fold or holdout
-normalization is fitted from fitting samples only, the test NPZ remains
-untouched until final evaluation, and scoring uses physical-unit MSE.
-Developers can pass a typed `ParameterGrid` to `CrossValidator::tune()` when
-comparing configurations.
-
-### Output
-
-Ordinary/final training prints one compact line per epoch by default,
-including physical training and validation MSE. It validates every epoch and
-stops when validation MSE exceeds training MSE by more than 15%, restoring the
-best validation epoch. Cross-validation remains concise and records history
-checkpoints every 10 epochs by default, while its physical validation metric is
-also evaluated every epoch for diagnostics. It then reports the final fold
-scores, aggregate mean and deviation, and final untouched-test MSE. The test
-NPZ is not loaded until final evaluation.
-
-### Training Diagnostics
-
-Diagnostics are enabled by default and do not change model updates, weighted
-MPI gradient synchronization, fold normalization, or physical-MSE candidate
-selection. Disable them with `--no-diagnostics` or enable them explicitly with
-a configurable output location:
-
+### Production Training
 ```bash
 mpirun -n 4 ./build/CNN/cnn_executable \
+  --epochs 200 \
+  --batch-size 257 \
+  --learning-rate 1e-3 \
+  --activation leakyrelu \
+  --alpha 0.05 \
   --diagnostics \
   --results-dir results \
-  --experiment baseline \
-  --run-name seed_42 \
-  --epochs 100 \
-  --validation-interval 1 \
-  --histogram-bins 64
+  --experiment production \
+  --run-name seed_42
 ```
 
-Relevant options are `--diagnostics`, `--no-diagnostics`, `--results-dir`, `--experiment`, `--run-name`, `--validation-interval`, `--histogram-bins`, `--verbose-final`, and `--quiet-final`. Diagnostics are enabled by default. CV defaults to a history checkpoint interval of 10; final training defaults to 1. Physical training and validation MSE are recorded for every epoch.
+Command line arguments summary:
+- `--epochs N`: Total training epochs.
+- `--batch-size B`: Global batch size (divided evenly across MPI ranks).
+- `--learning-rate LR`: Base learning rate.
+- `--activation ACT`: Activation function (`leakyrelu`, `relu`, `tanh`, `sigmoid`).
+- `--alpha VAL`: LeakyReLU negative slope (default: 0.05).
+- `--dropout P`: Dropout probability on dense head (default: 0.0).
+- `--diagnostics`: Enables comprehensive per-epoch metric logging.
+- `--cross-validate`: Runs $K$-fold cross-validation instead of single training.
 
-Each run writes:
+---
 
-```text
-results/<experiment>/<run>/
-  metadata.json
-  epoch_metrics.csv
-  gradient_norms.csv
-  parameter_update_ratios.csv
-  activation_statistics.csv
-  activation_histograms.csv
-  learning_rate_steps.csv           # populated for scheduled optimizers
-  final_metrics.csv                 # selected epoch and train/validation/test MSE
-  test_metrics.csv                  # overall and |AoA| stratified test MSE
-  cv_summary.csv                    # CV sessions
-  candidate_000/fold_000/...       # per-candidate/fold artifacts
-  final/...                         # final fit after CV
-  plots/
-```
+## Diagnostics and Analysis Plotting
 
-Candidate and fold directory names are numeric and zero-based. User-facing candidate names and selected parameters remain in metadata. Experiment and run path components are sanitized; their original values remain in `metadata.json`.
+When diagnostics are enabled, the training engine exports structured telemetry into `results/<experiment>/<run>/`:
+- `epoch_metrics.csv`: SIMM loss, physical training MSE, physical validation MSE, and effective learning rate per epoch.
+- `gradient_norms.csv`: Synchronized RMS, max, and layer-wise gradient norms before clipping.
+- `parameter_update_ratios.csv`: Actual parameter movement relative to weight magnitude ($r_\theta$).
+- `activation_statistics.csv`: Pre- and post-activation mean, variance, min, max per layer.
+- `activation_histograms.csv`: Bounded 64-bin activation distributions over $[-10, 10]$.
+- `final_metrics.csv` & `test_metrics.csv`: Restored checkpoint errors and $|\alpha| \le 10^\circ$ regime splits.
 
-Metrics and recording policy:
-
-- `epoch_metrics.csv` stores epoch, sample-weighted SIMM training objective, physical-unit training MSE, physical-unit validation MSE, globally processed samples, global optimizer steps/batches, and configured/effective learning rates. Both physical MSE fields are evaluated after the epoch's optimizer updates.
-- `gradient_norms.csv` measures synchronized global gradients before element-wise clipping and Adam. `all` combines weights and biases for each trainable layer; separate parameter scopes are also emitted. Mean, RMS, maximum, and last L2 norm aggregate every global optimizer step in the epoch. Depth plots use RMS.
-- `parameter_update_ratios.csv` measures the actual Adam delta around the real optimizer call: `||after-before||_2 / max(||before||_2, 1e-12)`. It therefore includes clipping, Adam moments, coupled weight decay, and every optimizer behavior. Pre-update norm, update norm, ratio aggregates, and near-zero denominator counts are stored.
-- `activation_statistics.csv` stores exact streaming count, mean, population variance, minimum, and maximum for the tensor entering and returned by each `ActivationLayer`. Rows explicitly use `pre_activation` and `post_activation`; Flatten and Concatenate are not treated as activations.
-- `activation_histograms.csv` stores fixed, bounded histograms over `[-10, 10]`. Values outside that range are counted in the edge bins. Bin edges are identical across epochs, histogram counts cover the full population, and no raw activation tensors are retained.
-- `metadata.json` stores mode, names, candidate/fold identity, selected parameters, seeds, model order, optimizer/Adam settings, clipping, batch/epoch settings, early-stopping policy, dataset paths, MPI size, histogram policy, and the build-time Git revision when available.
-- `final_metrics.csv` stores the selected epoch, its training and validation physical MSE, and the single final untouched-test physical MSE.
-- `test_metrics.csv` stores overall physical test MSE and sample-weighted physical MSE for `abs(AoA) <= 10` degrees and `abs(AoA) > 10` degrees.
-- `learning_rate_steps.csv` stores exact per-step effective rates when an optimizer reports that it uses a schedule. Current Adam has a constant rate, so epoch-level configured/effective values are sufficient and this file contains only its header.
-
-Activation values are collected from the existing training forward pass only. Gradient and update metrics are computed after every synchronized optimizer step and retained only as epoch aggregates. Activation moments and histograms are accumulated during the epoch and persisted once per epoch.
-
-MPI activation counts, sums, squared sums, minima, maxima, and histogram counts use matching `MPI_Allreduce` operations at epoch boundaries. Gradient diagnostics inspect the already synchronized weighted global gradient. Since all ranks apply the same optimizer update, rank zero measures the true update on its replicated parameters and is the only rank that writes files or verbose diagnostics. Serial and two-rank tests use a `1e-5` training-equivalence tolerance; diagnostic counts and histogram populations are expected to match exactly.
-
-Generate plots without a display server:
-
+Generate diagnostic plots without a display server:
 ```bash
 python3 CNN/analysis/plot_training_diagnostics.py \
-  --input results/<experiment>/<run> \
-  --output-dir results/<experiment>/<run>/plots
+  --input results/production/seed_42 \
+  --output-dir results/production/seed_42/plots
 ```
 
-See [docs/training_diagnostics_plots.md](docs/training_diagnostics_plots.md) for an explanation of every generated plot, axis, metric, and common interpretation warning.
-
-Use repeatable `--candidate`, `--fold`, and `--epoch` selectors as needed. The script uses only NumPy, Matplotlib, and Python's standard library, writes under the selected run, uses logarithmic scaling safely for zero gradient/update values, and keeps incompatible candidate topologies in separate CV comparison plots.
-
-![Training and Validation Loss](assets/training%20trend.png)
+See [docs/training_diagnostics_plots.md](docs/training_diagnostics_plots.md) for detailed descriptions of each diagnostic figure.
 
 ---
 
 ## CINECA Leonardo Cluster Deployment
 
-This section describes how to download, compile, and run the CNN model on the CINECA Leonardo cluster.
+Instructions for deploying and executing on the CINECA Leonardo supercomputer:
 
-### 1. Downloading & Syncing
-
-**Option A: Clone directly on the cluster (recommended)**
-
-```bash
-cd ~
-git clone https://github.com/AleVerri-03/Ice_acceleration_model_on_airplane_wing.git
-cd Ice_acceleration_model_on_airplane_wing
-```
-
-**Option B: Sync local changes via rsync (from local terminal)**
-
-```bash
-rsync -avz ./CNN <username>@login.leonardo.cineca.it:~/
-```
-
-### 2. Dataset Setup
-
-Symlink the dataset directory on Leonardo to avoid duplicating large files:
-
-```bash
-cd /leonardo/home/userexternal/<username>/Ice_acceleration_model_on_airplane_wing/CNN
-ln -s ../dataset ./dataset
-```
-
-### 3. Environment Setup & Compilation
-
-Load the required modules and compile on the **login node**:
-
+### 1. Environment Setup & Compilation
+Load the required modules on the **login node**:
 ```bash
 module purge
 module load python/3.11.7
@@ -364,13 +230,11 @@ module load gcc/11.3.0
 module load intel-oneapi-compilers
 module load intel-oneapi-mpi
 
-mpicxx -cxx=g++ -std=c++20 -O3 -static-libstdc++ -Isrc main.cpp src/core/*.cpp src/data/*.cpp src/layers/*.cpp src/model/*.cpp src/optimizers/*.cpp src/training/*.cpp src/tuning/*.cpp -o cnn_mpi_executable
+make cnn
 ```
 
-### 4. Submitting Slurm Jobs
-
-Create a job script `run_cnn.sh`:
-
+### 2. Slurm Job Submission
+Create and submit a Slurm script `run_cnn.sh`:
 ```bash
 #!/bin/bash
 #SBATCH --job-name=cnn_training
@@ -383,7 +247,7 @@ Create a job script `run_cnn.sh`:
 #SBATCH --output=cnn_%j.out
 #SBATCH --error=cnn_%j.err
 
-cd /leonardo/home/userexternal/<username>/Ice_acceleration_model_on_airplane_wing/CNN
+cd $SLURM_SUBMIT_DIR
 
 module purge
 module load python/3.11.7
@@ -391,21 +255,12 @@ module load gcc/11.3.0
 module load intel-oneapi-compilers
 module load intel-oneapi-mpi
 
-srun ./cnn_mpi_executable
+srun ./build/CNN/cnn_executable --batch-size 257 --epochs 800 --learning-rate 1e-3 --diagnostics
 ```
 
 Submit and monitor:
-
 ```bash
-sbatch run_cnn.sh        # Submit
-squeue -u <username>     # Check status
-tail -f cnn_*.out        # Live output
-cat cnn_*.err            # Check errors
-scancel <JOB_ID>         # Cancel job
+sbatch run_cnn.sh        # Submit job
+squeue -u <username>     # Check queue status
+tail -f cnn_*.out        # Follow execution log
 ```
-
-### 5. Budget & Storage
-
-- **Check budget:** `saldo -u <username> -b --dcgp`
-- **Cost formula:** `Nodes × Cores × Hours` (e.g., 1 node × 64 cores × 1h = 64 core-hours)
-- **Storage:** `$HOME` has strict quotas; move large files to `$SCRATCH` if needed.

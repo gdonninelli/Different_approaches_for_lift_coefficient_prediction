@@ -24,7 +24,22 @@ The experimental procedure enforces the following key principles, in order to en
 
 First of all, the normalization statistics (such as mean and standard deviation) are calculated exclusively from the training data. These same statistics are then used to scale the validation data. We also added a minor preprocessing step to convert the angle of attack from degrees to radians, which is necessary for the physics-informed loss function. Next, every trial is completely independent. For each candidate model and each fold, a new instance of the network and optimizer is created from scratch, in order to not carry over any learned parameters, optimizer moments or any other state from previous runs. Finally, the distributed training framework is designed to be consistent. The global batch size is fixed for all experiments, and increasing the number of MPI processes simply divides this global batch into smaller sub-batches for each worker. This ensures that the results and metrics are independent of the number of parallel ranks used.\\
 
-With this experimental framework established, we evaluate each candidate using a primary selection metric, supplemented by a series of diagnostic quantities to analyze model behavior.\\
+To execute the extensive hyperparameter sweeps in an automated, scalable and reproducible manner, we engineered a modular, object-oriented \cpp framework. The core of this framework is a "recipe-and-blueprint" design pattern, which decouples the abstract specification of a model from its physical runtime instantiation.\\
+
+This process beings with \texttt{LayerRecipe} instances, which define each layer not as an object, but as a set of instructions. Each recipe encapsulates two core functionals:
+\begin{itemize}
+    \item[-] a shape inference mapping to dynamically compute output tensor dimensions;
+    \item[-] a deferred builder to allocate and initialize the layer's parameters from a deterministic seed.
+\end{itemize}
+A \texttt{ModelBlueprint} then assembles these recipes into a complete network structure, logically separated into a convolutional feature extraction trunk and a fully-connected regression head.\\
+
+To systematically generate the wide range of candidates for our sweeps, a parametric factory function, \\\texttt{make\_blueprint}, constructs these blueprints on the fly. It accepts a full set of architectural parameters (such as kernel sizes, dense head widths and dropout rates) and chains together the appropriate recipes to produce a complete and custom \texttt{ModelBlueprint}.\\
+
+A complete experimental candidate is then defined by a \texttt{TrialConfig} structure. This object bundles the \texttt{ModelBlueprint} with an \texttt{OptimizerRecipe} (e.g., Adam, SGD), a learning rate scheduler and all other loss and training settings. A \texttt{SearchSpace} utility then generates a full list of these \texttt{TrialConfig} objects, defining the entire grid for a given tuning experiment.\\
+
+Orchestration is handled by the \texttt{CrossValidator} object. For each candidate \texttt{TrialConfig}, it executes the complete K-fold scheme. Crucially, for every fold, it uses the blueprint and recipes to instantiate a completely new, isolated model and optimizer. This deferred, just-in-time instantiation guarantees strict isolation and ensures zero state carryover between folds or candidates. Finally, the training loop itself is managed by the \texttt{Trainer}, which enforces our balanced batching and "20/20" early stopping rules, while a concurrent \texttt{TrainingDiagnostics} module captures the detailed stability metrics analyzed throughout this chapter.\\
+
+With this experimental framework and software infrastructure established, we evaluate each candidate using a primary selection metric, supplemented by a series of diagnostic quantities to analyze model behavior.\\
 
 The primary selection quantity is the physical-unit mean squared error on the validation samples. If $\hat{C}_{L,i}$ is the predicted coefficient and $C_{L,i}$ is the CFD value, the physical MSE of fold $k$ is computed as:
 \begin{equation}
@@ -324,7 +339,7 @@ The five optimizers evaluated in this experiment are defined as follows:
 \end{itemize}
 In all five equations $\eta=10^{-5}$: the learning rate is constant because no scheduler is attached to the \texttt{TrialConfig}; it is not an unrecorded learning-rate schedule.\\
 
-The optimizer comparison was performed exactly in the same way that the dropout one was done, using the winning topology from Section \ref{sec:04_topology_tuning} and the same cross-validation protocol. The only difference is that the optimizer method was varied across the five candidates. The learning rate was fixed at $10^{-5}$ and all other hyperparameters were held constant, including the SIMM physics weight of $0.25$, batch size of 64, and a 100-epoch training budget.\\
+The optimizer comparison was performed exactly in the same way that the dropout one was done, using the winning topology from Section \ref{sec:04_topology_tuning} and the same cross-validation protocol. In the code, each candidate optimizer is specified through an \texttt{OptimizerRecipe} generated by helper functions (such as \texttt{Recipes::adam} or \texttt{Recipes::sgd\_momentum}). When \texttt{CrossValidator} evaluates each fold, this recipe dynamically instantiates a zero-initialized optimizer instance, ensuring that internal state variables are completely reset without state leakage across folds. The learning rate was fixed at $10^{-5}$ and all other hyperparameters were held constant, including the SIMM physics weight of $0.25$, batch size of 64 and a 100-epoch training budget.\\
 
 The winning optimizer was selected based on the lowest physical-unit validation MSE (Equation \eqref{eq:04_validation_mse}). The final scores reported in Table \ref{tab:04_optimizer_results} are the sample-weighted averages across the five folds, ensuring that folds with slightly different numbers of validation samples are handled correctly.\\
 
@@ -433,7 +448,7 @@ The validation score is converted back to physical units by multiplying the stan
 
 To determine the optimal strength of the physical term, we performed a sweep over seven different values for the physics weight $\lambda\in\{0,0.05,0.1,0.25,0.5,1,2\}$. The baseline case, $\lambda=0.0$, corresponds to a purely data-driven model without any physics-informed loss.\\
 
-As in the other tuning, all other hyperparameters were held constant, including the winning topology from Section \ref{sec:04_topology_tuning}, the Adam optimizer with a learning rate of $10^{-5}$, a batch size of 64, and a 100-epoch training budget. The cross-validation protocol was identical to the previous experiments, ensuring that the only variable was the physics weight $\lambda$.\\
+As in the other tuning, all other hyperparameters were held constant, including the winning topology from Section \ref{sec:04_topology_tuning}, the Adam optimizer with a learning rate of $10^{-5}$, a batch size of 64, and a 100-epoch training budget. In the codebase, the physics loss strength $\lambda$ is configured through the \texttt{LossConfig} structure and \texttt{Trainer} computes the masked analytical thin-airfoil penalty on the standardized predictions at each forward pass. The cross-validation protocol was identical to the previous experiments, ensuring that the only variable was the physics weight $\lambda$.\\
 
 The results of the sweep, summarized in Table \ref{tab:04_physics_results}, lead to a clear conclusion: the physics-informed loss term did not improve the model's predictive accuracy.
 
@@ -489,11 +504,9 @@ The diagnostics also reveal that the physics term had a minimal effect on the ne
 \end{figure}
 
 
-The cross-validation experiment identifies the purely data-driven model with $\lambda=0$ as the clear winner, achieving the lowest validation MSE of $0.005600634\pm0.001099091$.\\
+The cross-validation experiment identifies the purely data-driven model with $\lambda=0$ as the unconstrained winner, achieving the lowest validation MSE of $0.005600634\pm0.001099091$. The diagnostic analysis confirms that the physics-informed loss term did not cause numerical instability or signal attenuation, but rather introduced a slight optimization compromise against the high-fidelity CFD ground truth.\\
 
-The comprehensive diagnostic analysis confirms this outcome. The physics-informed loss term did not cause numerical instability or disrupt the network's internal signal propagation. Instead, it introduced a conflicting optimization objective that consistently pulled the model's predictions away from the high-fidelity CFD ground truth. This detrimental effect on accuracy, observed even in the low-angle regime, provides strong evidence for disabling the physics term for this specific application.
-
-% BISOGNA AGGIUNGERE IL MOTIVO PER CUI ALLA FINE ABBIAMO SCELTO DI USARE UN VALORE DI 0.1 PER IL TERMINE DI PHYSICAL WEIGHTS E NON PIù QUELLO PARI A 0
+Nevertheless, the final production model adopts a physics weight of $\lambda=0.10$. This decision is motivated by the project requirement of developing a Physics-Informed Neural Network surrogate model, which necessitates embedding theoretical domain knowledge ($\lambda > 0$). Under this operational constraint, $\lambda=0.10$ emerges as the optimal admissible choice: its validation error increase relative to the unconstrained baseline is merely $+0.000028$, a magnitude more than an order of magnitude smaller than the cross-validation fold standard deviation ($\approx 0.0011$), rendering its empirical impact statistically indistinguishable from zero. Furthermore, retaining this mild physical weight provides valuable structural grounding to classical Thin-Airfoil Theory ($C_L \approx 2\pi\alpha$) in the linear pre-stall regime ($|\alpha|\leq 10^\circ$), while completely avoiding the severe gradient inflation and loss landscape distortion observed at larger values such as $\lambda=2.0$. Consequently, $\lambda=0.10$ represents the most robust and sound compromise between physical consistency and empirical predictive accuracy.
 
 \subsection{Weight regularization}
 \label{sec:04_regularization_tuning}
@@ -507,7 +520,7 @@ For every convolutional and dense weight tensor $W_\ell$, the implementation def
     R_{\mathrm{L2}}=\lambda_2\sum_{\ell}\sum_{w\in W_\ell}w^2.
     \label{eq:04_regularization}
 \end{equation}
-The regularization is applied to the weights only, without consider the biases. The corresponding gradient term, $\lambda_1\,\operatorname{sign}(w)+2\lambda_2 w$, was added to the main loss gradient after MPI synchronization but before gradient clipping and the Adam update step. This implementation is distinct from the weight decay mechanism built into some optimizers.\\
+The regularization is applied to the weights only, without considering the biases. The coefficients $\lambda_1$ and $\lambda_2$ are passed via \texttt{LossConfig}, allowing \texttt{Trainer} to compute the regularization gradients directly on the weights after distributed MPI synchronization and prior to gradient clipping. The corresponding gradient term, $\lambda_1\,\operatorname{sign}(w)+2\lambda_2 w$, was added to the main loss gradient before the Adam update step. This implementation is distinct from the weight decay mechanism built into some optimizers.\\
 
 To isolate the effects of regularization, we performed two independent, one-dimensional sweeps for the L1 and L2 coefficients ($\lambda_1$ and $\lambda_2$), starting from a baseline of zero for both:
 \begin{itemize}
@@ -769,6 +782,8 @@ Let $e\in\{0,\ldots,E-1\}$ denote the zero-based epoch index and let $E$ be the 
     where $W$ is the number of warm-up epochs. In the recorded grid, $E=100$, $W=5$, $\eta_{\mathrm{start}}=\eta_{\min}=10^{-5}$, and $\eta_{\mathrm{peak}}=10^{-1}$. Thus, the warm-up branch returns $10^{-5}$ at the first completed epoch and reaches $10^{-1}$ at completed epoch 6.
 \end{itemize}
 \vspace{2ex}
+
+In the software architecture, each of these mathematical policies is implemented as a specialized subclass of the abstract \texttt{LRScheduler} base class (\texttt{ConstantLR}, \texttt{StepLR}, \texttt{CosineAnnealingLR} and \texttt{WarmupCosineLR}) and instantiated through an \texttt{LRSchedulerRecipe}. At the beginning of each epoch, the \texttt{Trainer} queries the active scheduler to adjust the optimizer's learning rate $\eta_e$ in a deterministic manner, ensuring full reproducibility across parallel MPI workers.\\
 
 The grid search evaluated eleven candidates, which are summarized in Table \ref{tab:04_learning_rate_results}, combining the schedule types above with three different initial learning rate magnitudes: a low rate ($10^{-5}$), a medium rate ($10^{-3}$) and a high rate ($10^{-1}$). All experiments were performed using the winning activation function, LeakyReLU with $\alpha=0.05$, and the same fixed topology \texttt{conv5x5-dense-1024-512-256-128}. The other hyperparameters were kept constant, including the physics weight $0.1$, L1 and L2 weights $0$, dropout rate $0$, global batch size $64$, gradient clipping at $1$, and no early stopping. Each candidate was evaluated using the same five-fold cross-validation procedure as in the activation search, with 100 epochs per fold.
 
