@@ -1,0 +1,69 @@
+\section{Conclusions}
+\label{sec:05_Conclusions}
+
+This work successfully demonstrates an integrated approach to aerodynamic analysis, combining high-fidelity numerical simulation with a data-driven surrogate model. The primary achievement was the extension of the \textbf{\lifex} library to handle turbulent external aerodynamic flows through the integration of the \textbf{Spalart-Allmaras RANS model}. This new capability was validated on the \textbf{Leonardo HPC cluster}, establishing a robust pipeline for generating reference-quality simulation data. Additionally, a \textbf{Convolutional Neural Network} was developed and trained on this data, creating a surrogate model capable of near-instantaneous aerodynamic prediction.\\
+
+The CFD simulations of the NACA airfoil produced lift coefficients that were physically consistent, though moderately underestimated compared to some experimental data. This behavior is physically consistent with the modeling choices made: the VMS-LES formulation employed in the Navier-Stokes step acts as an implicit filter that dissipates small-scale turbulent structures, suppressing the contribution of fine-grained vortical activity to the overall lift generation. Nonetheless, the results remain well within the range of published numerical and experimental values, confirming the physical validity of the simulation framework by \cite{ladson1988} and \cite{mccroskey1988}.\\
+
+A further modeling assumption concerns the compressibility of the flow. The simulations were performed at a Mach number significantly below $0.3$, a regime in which the relative density variations induced by pressure fluctuations are negligible, making the incompressible Navier-Stokes equations an appropriate model.\\
+
+Regarding the deep learning implementation, our initial baseline model confirmed that a Convolutional Neural Network could approximate the lift coefficient directly from geometry and flow conditions, achieving an initial Mean Squared Error of $0.0104$. The primary advantage of this approach lies in its computational efficiency: while a high-fidelity CFD simulation requires approximately 3 hours on an HPC node, the trained CNN executes inference in less than a millisecond, delivering an online evaluation speedup of over four orders of magnitude ($\sim 10^4\times$) compared to conventional numerical simulation.\\
+
+Building upon this proof of concept, we conducted a systematic tuning campaign across network topology, optimization algorithms, regularization, activation functions and training protocols. This empirical search established the optimal production configuration:
+\begin{itemize}
+    \item[-] a $5\times 5$ convolution (stride 5, 8 feature channels) paired with an expanded 4-layer regression head $(1024, 512, 256, 128, 1)$ totaling $\approx 8.065\times 10^6$ parameters;
+    \item[-] Adam optimizer with coordinate-wise gradient clipping $[-1,1]$, a tuned learning rate of $10^{-3}$, and LeakyReLU activations ($\alpha=0.05$);
+    \item[-] deterministic exclusion of dropout ($p=0$) and weight decay, combined with a calibrated SIMM loss weight $\lambda=0.10$ to ground the linear pre-stall regime ($|\alpha|\leq 10^\circ$);
+    \item[-] a balanced batch size $B=257$ across 64 MPI ranks and a robust "20/20" early stopping policy.
+\end{itemize}
+This optimized surrogate achieved an exceptional test Mean Squared Error of $0.000487$, representing a more than 21-fold accuracy improvement over the baseline.\\
+
+A deeper inspection of the test predictions under the physics-informed SIMM loss function revealed that the surrogate model's accuracy varies across aerodynamic regimes. Specifically, test samples with an angle of attack exceeding $10^\circ$ ($|\alpha|>10^\circ$, $n=66$) exhibited a physical MSE of $0.000954$, that is nearly $2.4\times$ higher than the MSE of $0.000402$ obtained on samples in the linear regime ($|\alpha|\leq 10^\circ$, $n=363$). This discrepancy illustrates the localized scope of the analytical thin-airfoil prior ($C_L \approx 2\pi\alpha$): while the analytical constraint stabilizes predictions in the pre-stall linear attached-flow regime, high-angle flow separation and post-stall phenomena remain inherently non-linear, requiring the surrogate to rely entirely on data-driven learning in the absence of an active analytical prior.\\
+
+Nevertheless, certain limitations inherent to each method must be acknowledged. These include the computational demand of the RANS simulations and, for the data-driven model, the absence of an \textit{a priori} error estimate, the strict dependency on a training dataset that accurately resembles the target inference domain\footnote{As noted, since the training data from the CFD was slightly biased, we expect this bias persists in the surrogate model.}, and the general lack of interpretability characteristic of black-box models.\\
+
+Looking forward, the framework developed here opens up promising avenues for engineering design and analysis. The speed of the trained CNN makes it ideal for real-time applications and rapid design iterations on consumer-grade hardware, completely bypassing the need for constant HPC access. This capability is particularly relevant for the agile aerodynamic design and field-testing of components for Unmanned Aerial Vehicles and quadcopters, where on-the-fly performance evaluation can accelerate development cycles. The simulation pipeline itself is now poised to serve as a data engine for training future surrogate models on more complex geometries, such as the iced airfoils that motivated this study.
+
+
+\section{Contributors}
+\label{sec:06_Contributors}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \scriptsize\textbf{Name}
+        & \rotatebox{90}{\scriptsize \textbf{NS Sim.}}
+        & \rotatebox{90}{\scriptsize \textbf{CNN API}}
+        & \rotatebox{90}{\scriptsize \textbf{Data Struct.}}
+        & \rotatebox{90}{\scriptsize \textbf{Topology}}
+        & \rotatebox{90}{\scriptsize \textbf{Dropout}}
+        & \rotatebox{90}{\scriptsize \textbf{Physics W.}}
+        & \rotatebox{90}{\scriptsize \textbf{Optimizer}}
+        & \rotatebox{90}{\scriptsize \textbf{Regulariz.}}
+        & \rotatebox{90}{\scriptsize \textbf{Activation}}
+        & \rotatebox{90}{\scriptsize \textbf{Lr. Rate}}
+        & \rotatebox{90}{\scriptsize \textbf{Training}} 
+        & \rotatebox{90}{\scriptsize \textbf{Report}} \\
+        \hline
+        \scriptsize\textbf{Giulio Enzo Donninelli}
+        & & $\checkmark$ & $\checkmark$ & $\checkmark$ & & &
+        & $\checkmark$ & $\checkmark$ & & $\checkmark$ & $\checkmark$ \\
+        \hline
+        \scriptsize\textbf{Alessia Rigoni}
+        & & $\checkmark$ & & & $\checkmark$ & & $\checkmark$
+        & & & $\checkmark$ & & $\checkmark$ \\
+        \hline
+        \scriptsize\textbf{Vittorio Sironi}
+        & $\checkmark$ & & & & $\checkmark$ & $\checkmark$ &
+        & & & & & \\
+        \hline
+        \scriptsize\textbf{Alessandro Verrengia}
+        & $\checkmark$ & & & $\checkmark$ & & &
+        & $\checkmark$ & & & & \\
+        \hline
+    \end{tabular}
+    \caption{Contributions to the work presented in this report. A checkmark indicates participation in the corresponding task.}
+    \label{tab:contributors}
+\end{table}

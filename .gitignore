@@ -8,10 +8,31 @@ dataset/*.npz
 SDF/data/*_matrix.txt
 SDF/data/*_alpha_*.dat
 
-# LaTeX auxiliary files
-*.tex
 
 # Git backup and system files
 .git_backup/
 .DS_Store
 TODO_ANALYSIS.md
+
+# LaTeX compilation intermediates (keep .tex, .bib, figures, and final PDF)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.synctex
+*.nav
+*.snm
+*.vrb
+*.dvi
+*.ps
+*.bcf
+*.run.xml
+texput.log
+Report/build.log
