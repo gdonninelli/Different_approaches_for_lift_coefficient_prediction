@@ -26,7 +26,7 @@ First of all, the normalization statistics (such as mean and standard deviation)
 
 To execute the extensive hyperparameter sweeps in an automated, scalable and reproducible manner, we engineered a modular, object-oriented \cpp framework. The core of this framework is a "recipe-and-blueprint" design pattern, which decouples the abstract specification of a model from its physical runtime instantiation.\\
 
-This process beings with \texttt{LayerRecipe} instances, which define each layer not as an object, but as a set of instructions. Each recipe encapsulates two core functionals:
+This process begins with \texttt{LayerRecipe} instances, which define each layer not as an object, but as a set of instructions. Each recipe encapsulates two core functionals:
 \begin{itemize}
     \item[-] a shape inference mapping to dynamically compute output tensor dimensions;
     \item[-] a deferred builder to allocate and initialize the layer's parameters from a deterministic seed.
@@ -152,7 +152,7 @@ The lowest observed validation MSE was obtained by \texttt{conv5x5-dense-1024-51
 
 The analysis shows that both network width and depth were crucial for achieving this performance, but with diminishing returns.\\
 
-Deeper networks consistently proved more effectivee at learning the complex relationship between airfoil geometry and lift coefficient. We can see that at entry width $(512,256)$, increasing the head from two to four hidden layers reduced the mean error from $0.005052$ to $0.004872$, while at entry width $(1024,512)$ the corresponding increase in depth reduced it from $0.004851$ to $0.004560$. Increasing width also helped at fixed depth, but the gains became smaller and then reversed. At a fixed depth of two layers, the MSE decreased steadily as the head widened from $(64,32)$ (with an MSE of $0.006425$) to $(1024,512)$ (with an MSE of $0.004851$). However, this trend then reversed. Increasing the width further to $(1536,768)$ caused the error to rise again to $0.005307$, and further to $(2048,1024)$ with an MSE of $0.005673$. This indicates that the model was becoming too large and was beginning to lose its generalization capability.\\
+Deeper networks consistently proved more effective at learning the complex relationship between airfoil geometry and lift coefficient. We can see that at entry width $(512,256)$, increasing the head from two to four hidden layers reduced the mean error from $0.005052$ to $0.004872$, while at entry width $(1024,512)$ the corresponding increase in depth reduced it from $0.004851$ to $0.004560$. Increasing width also helped at fixed depth, but the gains became smaller and then reversed. At a fixed depth of two layers, the MSE decreased steadily as the head widened from $(64,32)$ (with an MSE of $0.006425$) to $(1024,512)$ (with an MSE of $0.004851$). However, this trend then reversed. Increasing the width further to $(1536,768)$ caused the error to rise again to $0.005307$, and further to $(2048,1024)$ with an MSE of $0.005673$. This indicates that the model was becoming too large and was beginning to lose its generalization capability.\\
 
 For this reason, the best performance is not achieved by maximizing either width or depth in isolation, but by finding an effective interaction between the two.\\
 
@@ -659,7 +659,7 @@ The separation from the bounded alternatives was larger. Tanh reached $0.0054656
     \label{fig:04_activation_ranking}
 \end{figure}
 
-The validation histories, presented in Figure \ref{fig:04_activation_history}, provide a view of the training process. The ReLU family candidates demonstrate fast and stable convergence, smoothly decreasing the validation error throughout the 100-epoch budget. In contrast, the saturing functions have a poorer convergence dynamics:
+The validation histories, presented in Figure \ref{fig:04_activation_history}, provide a view of the training process. The ReLU family candidates demonstrate fast and stable convergence, smoothly decreasing the validation error throughout the 100-epoch budget. In contrast, the saturating functions have a poorer convergence dynamics:
 \begin{itemize}
     \item[-] Tanh converges to a solution that is consistently worse than any of the ReLU family functions;
     \item[-] Sigmoid performs by far the worst. It starts with a validation error more than an order of magnitude higher than the others. While it does improve over time, its convergence is extremely slow, and it never comes close to matching the performance of the non-saturating functions.
@@ -675,7 +675,7 @@ This convergence behavior strongly supports the hypothesis that the saturating f
 
 The recorded diagnostics provide a numerical stability check, but they do not change the selection rule. For gradient flow, we use rows with \texttt{parameter\_scope=all} and the stored \texttt{maximum\_norm} for peak checks. As we can see in the top panels of Figure \ref{fig:04_activation_diagnostics}, the largest value for the selected candidate was $20.1379$ at epoch 1, with similar peaks for ReLU and other LeakyReLU variants. Tanh was the numerical outlier with a peak of $111.508$: this early-epoch instability likely hindered its ability to find a good solution.\\
 
-Sigmoid had a lower peak of $18.2200$, but this does not imply better optimization because its early validation curve was much worse. Indeed, the right panel confirms this instability, showing that Sigmoid resulted in the largest and most chaotic parametr updates, with a peak update ratio of $6.15050\times10^{-4}$. In contrast, the entire ReLU family, including the selected one, exhibited much smaller and more controlled updates, peaking aroung $4.5\times10^{-4}$.\\
+Sigmoid had a lower peak of $18.2200$, but this does not imply better optimization because its early validation curve was much worse. Indeed, the right panel confirms this instability, showing that Sigmoid resulted in the largest and most chaotic parameter updates, with a peak update ratio of $6.15050\times10^{-4}$. In contrast, the entire ReLU family, including the selected one, exhibited much smaller and more controlled updates, peaking around $4.5\times10^{-4}$.\\
 
 In contrast, the bottom two panels show the detailed diagnostics for the winning LeakyReLU candidate. The gradients are well-behaved across the network’s depth. After an initial transient at epoch 1, the gradients at epoch 100 are small and stable, indicating smooth convergence without evidence of exploding gradients. The post-activation variance decreases toward the deepest hidden layers, but this reduction should not be interpreted by itself as signal degradation. Since the network ultimately performs scalar regression, the deeper layers progressively compress the high-dimensional representation into features that are directly useful for predicting $C_L$. Crucially, the variance remains clearly non-zero and stabilizes during training, providing no evidence of representational collapse.\\
 
@@ -735,9 +735,9 @@ The cross-validation winner is therefore \texttt{LeakyReLU} with $\alpha=0.05$, 
 \subsection{Learning-rate and schedule tuning}
 \label{sec:04_learning_rate_tuning}
 
-After choosing the topology, optimizer, loss settings and activation, we studied the learning rate because it controls the scale and duration of the parameter updates. In Adam, the learning rate multiplies the bias-corrected adaptive direction; it is therefore not removed by the coordinate-wise denominator, even though that denominator adapts to the history of each parameter. A rate that is too small may lead to slow convergence, falling to reach an optimal solution within the fixed epoch budget. Conversely, a rate that is too large can cause the optimization to become unstable and diverge.\\
+After choosing the topology, optimizer, loss settings and activation, we studied the learning rate because it controls the scale and duration of the parameter updates. In Adam, the learning rate multiplies the bias-corrected adaptive direction; it is therefore not removed by the coordinate-wise denominator, even though that denominator adapts to the history of each parameter. A rate that is too small may lead to slow convergence, failing to reach an optimal solution within the fixed epoch budget. Conversely, a rate that is too large can cause the optimization to become unstable and diverge.\\
 
-Beyond the learning rate's magnitude, its schedule, that represents how it changes over time, is also crucial. In addition to a constant rate, we tested step decay, cosine decay\footnote{That has been studied as part of the SGDR family \citep{loshchilov2017sgdr}} and warm-up, that was introduced to address early optimization difficulties in large-minibatch stochastic-gradient training \citep{goyal2017accurate}. Those references motivate the schedule families tested here, but they do not predict the behaviour of this Adam run: the present experiment uses no warm restarts, a different optimizer and a different data set.\\
+Beyond the learning rate's magnitude, its schedule, that represents how it changes over time, is also crucial. In addition to a constant rate, we tested step decay, cosine decay\footnote{This schedule has been studied as part of the SGDR family \citep{loshchilov2017sgdr}} and warm-up, that was introduced to address early optimization difficulties in large-minibatch stochastic-gradient training \citep{goyal2017accurate}. Those references motivate the schedule families tested here, but they do not predict the behaviour of this Adam run: the present experiment uses no warm restarts, a different optimizer and a different data set.\\
 
 The goal was to identify the combination of learning rate and schedule that leads to the fastest and most stable convergence for our specific aerodynamic modeling task.\\
 
@@ -751,7 +751,7 @@ Let $e\in\{0,\ldots,E-1\}$ denote the zero-based epoch index and let $E$ be the 
     \begin{equation*}
     \eta_e=\eta_0\gamma^{\lfloor e/S\rfloor}
     \end{equation*}
-    The step schedules change at zero-based indices $e=30,60,90$ for $S=30$, and at $e=15,30,45,60,75,90$ for $S=15$, which correspond to completed epochs 31, 61, 91 and 16, 31, 46, 61, 76, 91, respectively.
+    The step schedules change at zero-based indices $e=30,60,90$ for $S=30$, and at $e=15,30,45,60,75,90$ for $S=15$, which correspond to completed epochs 31, 61, 91 and 16, 31, 46, 61, 76, 91, respectively;
     \item[-] in the cosine decay, the learning rate smoothly anneals from a maximum value $\eta_{\max}$ to a minimum value $\eta_{\min}$ following a cosine curve:
     \begin{equation*}
     \eta_e=\eta_{\min}+\frac{1}{2}(\eta_{\max}-\eta_{\min})
@@ -767,7 +767,7 @@ Let $e\in\{0,\ldots,E-1\}$ denote the zero-based epoch index and let $E$ be the 
         \left[1+\cos\left(\dfrac{e-W}{E-W-1}\pi\right)\right], & W\leq e<E,
     \end{cases}
     \end{equation*}
-    where $W$ is the number of warm-up epochs. In the recorded grid, $E=100$, $W=5$, $\eta_{\mathrm{start}}=\eta_{\min}=10^{-5}$, and $\eta_{\mathrm{peak}}=10^{-1}$. Thus, the warm-up branch returns $10^{-5}$ at the first completed epoch and reaches $10^{-1}$ at completed epoch 6.
+    where $W$ is the number of warm-up epochs. In the recorded grid, $E=100$, $W=5$, $\eta_{\mathrm{start}}=\eta_{\min}=10^{-5}$, and $\eta_{\mathrm{peak}}=10^{-1}$. Thus, the warm-up branch returns $10^{-5}$ at the first completed epoch and reaches $10^{-1}$ after 5 completed epochs (at the start of epoch 6).
 \end{itemize}
 \vspace{2ex}
 
@@ -821,16 +821,16 @@ In contrast, all candidates that used a high learning rate of $10^{-1}$ failed c
 
 The convergence histories in Figure \ref{fig:04_learning_rate_history} provide a dynamic view of the training process and visually confirm the final rankings. The plot is split into two panels, distinguishing the behaviour of the stable and unstable learning rates:
 \begin{itemize}
-    \item[-] the top panel shows that all candidates with learning rates of $10^{-5}$ and $10^{-3}$ converge smoothly, with the constant $10^{-3}$ candidate achieving the lowest validation error. The $10^{-5}$ candidates, by contrast, converged much more slowly, indicating that their step sizes were too small to make optimal progress within the 100-epoch budget;
+    \item[-] the top panel shows that all candidates with initial learning rates of $10^{-5}$ and $10^{-3}$ remain well-behaved with the $10^{-3}$ reaching the lowest overall validation errors. Among them, the constant $10^{-3}$ candidate achieves the lowest final validation error at epoch 100, despite noticeable mid-training fluctuations (e.g., around epochs 50 and 80). In contrast, the stepped $10^{-3}$ schedules exhibit smoother, monotonic trajectories, while the $10^{-5}$ candidates converge much more slowly and plateau early, confirming that their step size is insufficient for the $100$-epoch budget;
     \item[-] the bottom panel shows that the validation error for all the candidates that reach $10^{-1}$ immediately explodes to extreme values and remains many orders of magnitude above the stable group for the entire duration of training. Even for schedules that eventually decay the learning rate (like cosine and step decay), the initial instability was so severe that the models could never recover.
 \end{itemize}
 \vspace{2ex}
-This analysis reinforces the conclusion that a learning rate of $10^{-3}$ represents a well-chosen spot, offering a balance between rapid convergence and numerical stability.\\
+This analysis reinforces the conclusion that a learning rate of $10^{-3}$ represents an optimal trade-off, offering a balance between rapid convergence and numerical stability.\\
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.90\linewidth]{Images/Chapter04/learning_rate/learning_rate_history.png}
-    \caption{Sample-weighted validation histories at the ten-epoch checkpoints recorded for cross-validation. The upper panel contains the six candidates whose rates remain in the low-error scale, while the lower panel contains the five candidates that reach $10^{-1}$. Both vertical axes are logarithmic and show physical-unit MSE.}
+    \caption{Sample-weighted validation histories at the ten-epoch checkpoints recorded for cross-validation. The upper panel contains the six candidates whose rates remain in the low-error scale, while the lower panel contains the five candidates that reach $10^{-1}$. The upper panel uses a linear vertical axis, whereas the lower panel uses a logarithmic scale to accomodate the large divergence in physical-unit MSE.}
     \label{fig:04_learning_rate_history}
 \end{figure}
 
@@ -873,7 +873,7 @@ These two plots confirm that information is flowing effectively through all laye
     \label{fig:04_learning_rate_diagnostics}
 \end{figure}
 
-The cross-validation experiment identifies the constant $10^{-3}$ learning rate as the clear winner, achieving a mean validation MSE of $0.003609\pm0.001335$. The analysis confirms that this learning rate represents a robust "sweet spot," offering rapid convergence without triggering the catastrophic numerical instability observed at higher rates like $10^{-1}$. After being refit on the full training set, this winning experimental candidate achieved a final test MSE of $0.003254$.\\
+The cross-validation experiment identifies the constant $10^{-3}$ learning rate as the clear winner, achieving a mean validation MSE of $0.003609\pm0.001335$. The analysis confirms that this learning rate represents a robust "sweet spot", offering rapid convergence without triggering the catastrophic numerical instability observed at higher rates like $10^{-1}$. After being refit on the full training set, this winning experimental candidate achieved a final test MSE of $0.003254$.\\
 
 \subsection{Final production training}
 \label{sec:04_final_training}
@@ -895,11 +895,11 @@ To solve this, we implemented a balanced batching strategy. Instead of creating 
     \quad j=0,\ldots,K-1,
     \label{eq:04_final_batch_partition}
 \end{equation} 
-where $n$ is the total number of training sample. Equation~\eqref{eq:04_final_batch_partition} gives 17 batches of 62 and 8 batches of 61 for the balanced 64-sample experiment, while $B=257$ produces six exact batches of 257. The former change removed the small tail without changing the 25 optimizer steps per epoch; the latter also reduced the number of updates per epoch to six. This distinction is important because the global batch size is not multiplied by the MPI rank count, and because the gradient synchronization in \texttt{CNN/src/model/CNNModel.cpp} weights each local gradient by its local sample count before dividing by the global count.\\
+where $n$ is the total number of training samples. Equation~\eqref{eq:04_final_batch_partition} gives 17 batches of 62 and 8 batches of 61 for the balanced 64-sample experiment, while $B=257$ produces six exact batches of 257. The former change removed the small tail without changing the 25 optimizer steps per epoch; the latter also reduced the number of updates per epoch to six. This distinction is important because the global batch size is not multiplied by the MPI rank count, and because the gradient synchronization in \texttt{CNN/src/model/CNNModel.cpp} weights each local gradient by its local sample count before dividing by the global count.\\
 
 Early stopping is crucial for selecting the best model and preventing overfitting. However, our initial policy, which stopped training at the first sign of overfitting, proved to be too sensitive to normal training noise and often terminated runs prematurely. To address this, we implemented a more robust "20/20" policy. This new rule only stops training after the validation error has failed to improve for 20 consecutive epochs. This ensures that the model has truly converged and is not just experiencing a temporary fluctuation, leading to a much more reliable and stable model selection process.\\
 
-The impact of these iterative improvements to the training protocol is documented Table \ref{tab:04_final_training_trials}. The table chronologically presents the results of several training trials, clearly showing how the refinement of the batching and early stopping policies led to progressively better and more stable outcomes. All errors in the Table are physical-unit MSE values, where "budget" is the maximum configured epoch count, "completed" is the length of the diagnostic history and "selected" identifies the restored validation-minimum checkpoint.\\
+The impact of these iterative improvements to the training protocol is documented in Table \ref{tab:04_final_training_trials}. The table chronologically presents the results of several training trials, clearly showing how the refinement of the batching and early stopping policies led to progressively better and more stable outcomes. All errors in the Table are physical-unit MSE values, where "budget" is the maximum configured epoch count, "completed" is the length of the diagnostic history and "selected" identifies the restored validation-minimum checkpoint.\\
 
 \begin{table}[h!]
     \centering

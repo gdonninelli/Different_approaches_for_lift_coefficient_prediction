@@ -43,7 +43,7 @@ Total evaluations: **25 fold runs** (5 candidates $\times$ 5 folds).
 | **Selection Metric** | Physical-unit Validation MSE | Sample-weighted mean across 5 folds |
 | **Decision Rule** | Paired Difference vs $p=0$ | Improved in $\ge 4/5$ folds and $|\Delta| > \text{std}(\Delta)$ |
 | **Dataset** | `dataset/cnn_dataset_train.npz` | 1,713 samples (1,370 train / 343 val per fold) |
-| ** Held-out Test Dataset** | `dataset/cnn_dataset_test.npz` | 429 samples (untouched, evaluated once on winner)
+| **Held-out Test Dataset** | `dataset/cnn_dataset_test.npz` | 429 samples (untouched, evaluated once on winner)
 
 ## 3. Requirements and Prerequisites
 

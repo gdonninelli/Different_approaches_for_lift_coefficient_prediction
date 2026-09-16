@@ -102,7 +102,7 @@ mpirun -n 4 ./build/CNN/experiments/physics_weight_tuning sweep 100
 
 ## 6. Results
 
-Cross-validation performance across 5 folds and 100 epochs, alongside peak traning diagnostics for numerical stability assessment.
+Cross-validation performance across 5 folds and 100 epochs, alongside peak training diagnostics for numerical stability assessment.
 
 ### Metrics & Diagnostic Definitions:
 - **Paired $\Delta$ vs $\lambda=0$:** Mean per-fold validation MSE difference relative to the unregularized ($\lambda=0$) baseline ($\text{MSE}_{\lambda} - \text{MSE}_{0}$). A positive $\Delta$ indicates that physics regularization degraded empirical validation MSE.
