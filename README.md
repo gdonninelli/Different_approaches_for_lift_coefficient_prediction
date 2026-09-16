@@ -1,4 +1,4 @@
-# Ice Acceleration Model on Airplane Wing
+# Different approaches for lift coefficient prediction
 
 This project reproduces the CNN-based approach from the AMSC and NAML Project paper for predicting aerodynamic coefficients on airfoil profiles. The core idea is to replace traditional CFD simulations with a data-driven surrogate model: given the airfoil geometry (encoded as a Signed Distance Function) and flight conditions (Reynolds number and Angle of Attack), the model predicts the resulting aerodynamic forces.
 
