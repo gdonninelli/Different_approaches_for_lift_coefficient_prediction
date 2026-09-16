@@ -14,7 +14,7 @@ The production training integrates:
 3. **Winning Optimizer & Schedule:** Adam with constant learning rate $\eta = 10^{-3}$.
 4. **Regularization Policy:** $L_1 = 0$, $L_2 = 0$, $p_{\text{drop}} = 0$, with physics weight $\lambda_{\text{SIMM}} = 0.10$ for pre-stall physical consistency.
 5. **Exact Balanced Batching:** 6 exact batches of size $257$ ($1542 = 6 \times 257$), eliminating the unbalanced mini-batch tail of size 6 observed at $B=64$.
-6. **Robust "20/20" Early Stopping:** Minimum 20 epochs and a patience of 20 consecutive epochs where $\text{MSE}_{\text{val}} > 1.15 \times \text{MSE}_{\text{train}}$, automatically restoring the best validation checkpoint.
+6. **Robust "20/20" Early Stopping:** Minimum 20 epochs and a patience of 20 consecutive epochs where validation fails to reach a new minimum and $\text{MSE}_{\text{val}} > (1 + \rho) \times \text{MSE}_{\text{train}}$ with $\rho = 0.15$, automatically restoring the best validation checkpoint.
 
 ---
 
