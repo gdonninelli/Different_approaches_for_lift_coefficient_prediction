@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# The report is LaTeX documentation, not source code: keep it (and its
+# bibliography/aux formats) out of GitHub's language statistics.
+Report/** linguist-documentation
